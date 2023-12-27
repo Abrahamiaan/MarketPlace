@@ -1,5 +1,6 @@
 plugins {
     id("com.android.application")
+    id("com.google.gms.google-services")
 }
 
 android {
@@ -47,4 +48,14 @@ dependencies {
 
     // UI Helper Dependencies
     implementation ("com.etebarian:meow-bottom-navigation:1.2.0")
+    implementation ("com.github.salehyarahmadi:AndExAlertDialog:v1.0.1")
+    implementation ("com.civitasv.iosLike:dialog:0.1.3")
+
+
+    // Firebase Dependencies
+    implementation("com.google.firebase:firebase-auth:22.2.0")
+    implementation("com.google.android.gms:play-services-auth:19.2.0")
+    implementation ("com.google.firebase:firebase-analytics:20.0.0")
+    implementation("com.google.firebase:firebase-database:20.3.0")
+    implementation ("com.google.firebase:firebase-firestore:24.6.0")
 }
