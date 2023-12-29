@@ -26,12 +26,7 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.GoogleAuthProvider;
-import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
-
-import java.util.HashMap;
-import java.util.Map;
-
 import ir.androidexception.andexalertdialog.AndExAlertDialog;
 
 
@@ -44,7 +39,6 @@ public class LoginActivity extends AppCompatActivity {
     TextView toRegister;
     FirebaseAuth mAuth;
     GoogleSignInClient mGoogleSignInClient;
-    FirebaseFirestore db;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -128,6 +122,7 @@ public class LoginActivity extends AppCompatActivity {
                 .addOnCompleteListener(this, task -> {
                     if (task.isSuccessful()) {
                         FirebaseUser user = mAuth.getCurrentUser();
+                        assert user != null;
                         System.out.println(user.getEmail());
                     } else {
                         Log.w("GOOGLE: ", "signInWithCredential:failure", task.getException());
