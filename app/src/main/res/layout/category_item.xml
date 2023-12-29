@@ -12,7 +12,6 @@
         android:layout_height="75dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/rose1"
         android:importantForAccessibility="no" />
 
     <TextView
