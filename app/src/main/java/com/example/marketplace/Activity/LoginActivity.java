@@ -16,6 +16,7 @@ import com.example.marketplace.R;
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.android.gms.auth.api.signin.GoogleSignInClient;
+import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.google.android.gms.common.api.ApiException;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -58,6 +59,11 @@ public class LoginActivity extends AppCompatActivity {
         toRegister = findViewById(R.id.toRegister);
 
         mAuth = FirebaseAuth.getInstance();
+        GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+                .requestIdToken(getString(R.string.web_client_id))
+                .requestEmail()
+                .build();
+        mGoogleSignInClient = GoogleSignIn.getClient(this, gso);
 
         login.setOnClickListener(v -> {
             String email = tvEmail.getText().toString();
@@ -73,6 +79,9 @@ public class LoginActivity extends AppCompatActivity {
         
         withGoogle.setOnClickListener(v-> {
             SingInWithGoogle();
+            Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+            startActivity(intent);
+            finish();
         });
     }
 
@@ -96,7 +105,6 @@ public class LoginActivity extends AppCompatActivity {
                     }
                 });
     }
-
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -120,8 +128,7 @@ public class LoginActivity extends AppCompatActivity {
                 .addOnCompleteListener(this, task -> {
                     if (task.isSuccessful()) {
                         FirebaseUser user = mAuth.getCurrentUser();
-                        assert user != null;
-                        saveUserDataInFirestore(user);
+                        System.out.println(user.getEmail());
                     } else {
                         Log.w("GOOGLE: ", "signInWithCredential:failure", task.getException());
                     }
@@ -132,25 +139,7 @@ public class LoginActivity extends AppCompatActivity {
         Intent signInIntent = mGoogleSignInClient.getSignInIntent();
         startActivityForResult(signInIntent, RC_SIGN_IN);
     }
-    private void saveUserDataInFirestore(FirebaseUser user) {
-        String userId = user.getUid();
-        String displayName = user.getDisplayName();
-        String email = user.getEmail();
 
-        db = FirebaseFirestore.getInstance();
-        DocumentReference userRef = db.collection("Users").document(userId);
-
-        Map<String, Object> userData = new HashMap<>();
-        userData.put("displayName", displayName);
-        userData.put("email", email);
-
-        userRef.set(userData)
-                .addOnSuccessListener(aVoid -> Log.d("Google Firestore: ", "User data successfully written to Firestore"))
-                .addOnFailureListener(e -> Log.w("Google Firestore:" , "Error writing user data to Firestore", e));
-
-        Intent intent = new Intent(LoginActivity.this, MainActivity.class);
-        startActivity(intent);
-    }
     public void showErrorDialog(String title, String message) {
         new AndExAlertDialog.Builder(this)
                 .setTitle(title)

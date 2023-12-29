@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
@@ -24,25 +25,18 @@ public class SplashActivity extends AppCompatActivity {
 
         mAuth = FirebaseAuth.getInstance();
         appLogo = findViewById(R.id.appLogo);
-        Animation animation = AnimationUtils.loadAnimation(getApplicationContext(),R.anim.splash);
-
+        Animation animation = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.splash);
         appLogo.setAnimation(animation);
-        new Thread(() -> {
-            try {
-                Thread.sleep(2000);
-                if (mAuth.getCurrentUser() == null) {
-                    Intent intent = new Intent(getApplicationContext(), RegisterActivity.class);
-                    startActivity(intent);
-                    finish();
-                }
-                else {
-                    Intent intent = new Intent(getApplicationContext(), MainActivity.class);
-                    startActivity(intent);
-                    finish();
-                }
-            } catch (InterruptedException e) {
-                throw new RuntimeException(e);
+
+        new Handler().postDelayed(() -> {
+            if (mAuth.getCurrentUser() == null) {
+                Intent intent = new Intent(getApplicationContext(), RegisterActivity.class);
+                startActivity(intent);
+            } else {
+                Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+                startActivity(intent);
             }
-        }).start();
+            finish();
+        }, 2000);
     }
 }

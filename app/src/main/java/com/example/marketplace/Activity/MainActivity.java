@@ -62,7 +62,7 @@ public class MainActivity extends AppCompatActivity {
                 selectedFragment = new NotificationFragment();
                 break;
             case 5:
-                selectedFragment = new HomeFragment();
+                selectedFragment = new SellingFragment();
                 break;
         }
 

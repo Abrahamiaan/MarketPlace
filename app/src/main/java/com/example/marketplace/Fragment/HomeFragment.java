@@ -1,6 +1,5 @@
 package com.example.marketplace.Fragment;
 
-import android.content.res.Configuration;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -8,7 +7,6 @@ import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.appcompat.app.AppCompatDelegate;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -24,10 +22,10 @@ import java.util.List;
 
 public class HomeFragment extends Fragment {
 
-    private RecyclerView categoryRecyclerView;
-    private RecyclerView productRecyclerView;
-    private List<Category> categoryList;
-    private List<FlowerModel> flowersList;
+    RecyclerView categoryRecyclerView;
+    RecyclerView productRecyclerView;
+    List<Category> categoryList;
+    List<FlowerModel> flowersList;
 
     @Nullable
     @Override
@@ -74,21 +72,5 @@ public class HomeFragment extends Fragment {
         productRecyclerView.setLayoutManager(layoutManager);
         ProductAdapter productAdapter = new ProductAdapter(requireContext(), categoryDataList);
         productRecyclerView.setAdapter(productAdapter);
-    }
-
-    private void nightMode() {
-        int currentNightMode = getResources().getConfiguration().uiMode & Configuration.UI_MODE_NIGHT_MASK;
-
-        // Set the app's night mode based on the system's night mode
-        switch (currentNightMode) {
-            case Configuration.UI_MODE_NIGHT_NO:
-                // Use the light theme
-                AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
-                break;
-            case Configuration.UI_MODE_NIGHT_YES:
-                // Use the dark theme
-                AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
-                break;
-        }
     }
 }
