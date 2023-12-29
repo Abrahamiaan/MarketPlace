@@ -15,8 +15,8 @@ import com.google.firebase.auth.FirebaseAuth;
 
 @SuppressLint("CustomSplashScreen")
 public class SplashActivity extends AppCompatActivity {
-    private ImageView appLogo;
-    private FirebaseAuth mAuth;
+    ImageView appLogo;
+    FirebaseAuth mAuth;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
