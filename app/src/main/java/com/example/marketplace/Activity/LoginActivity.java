@@ -1,18 +1,15 @@
 package com.example.marketplace.Activity;
 
-
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
-import android.widget.Button;
-import android.widget.EditText;
-import android.widget.ImageView;
-import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.app.AppCompatDelegate;
 
 import com.example.marketplace.R;
+import com.example.marketplace.Utils.LocaleHelper;
+import com.example.marketplace.databinding.ActivityLoginBinding;
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.android.gms.auth.api.signin.GoogleSignInClient;
@@ -30,12 +27,8 @@ import ir.androidexception.andexalertdialog.AndExAlertDialog;
 
 
 public class LoginActivity extends AppCompatActivity {
+    ActivityLoginBinding binding;
     static final int RC_SIGN_IN = 9001;
-    EditText tvEmail;
-    EditText tvPassword;
-    Button login;
-    ImageView withGoogle;
-    TextView toRegister;
     FirebaseAuth mAuth;
     GoogleSignInClient mGoogleSignInClient;
 
@@ -43,13 +36,9 @@ public class LoginActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
-        setContentView(R.layout.activity_login);
-
-        tvEmail = findViewById(R.id.email);
-        tvPassword = findViewById(R.id.password);
-        login = findViewById(R.id.signInBtn);
-        withGoogle = findViewById(R.id.with_google);
-        toRegister = findViewById(R.id.toRegister);
+        LocaleHelper.setAppLanguage(this);
+        binding = ActivityLoginBinding.inflate(getLayoutInflater());
+        setContentView(binding.getRoot());
 
         mAuth = FirebaseAuth.getInstance();
         GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
@@ -58,24 +47,19 @@ public class LoginActivity extends AppCompatActivity {
                 .build();
         mGoogleSignInClient = GoogleSignIn.getClient(this, gso);
 
-        login.setOnClickListener(v -> {
-            String email = tvEmail.getText().toString();
-            String password = tvPassword.getText().toString();
+        binding.signInBtn.setOnClickListener(v -> {
+            String email = binding.email.getText().toString();
+            String password = binding.password.getText().toString();
             signIn(email, password);
         });
 
-        toRegister.setOnClickListener(v -> {
+        binding.toRegister.setOnClickListener(v -> {
             Intent intent = new Intent(LoginActivity.this, RegisterActivity.class);
             startActivity(intent);
             finish();
         });
         
-        withGoogle.setOnClickListener(v-> {
-            SingInWithGoogle();
-            Intent intent = new Intent(LoginActivity.this, MainActivity.class);
-            startActivity(intent);
-            finish();
-        });
+        binding.withGoogle.setOnClickListener(v-> SingInWithGoogle() );
     }
 
     private void signIn(String email, String password) {
@@ -88,8 +72,10 @@ public class LoginActivity extends AppCompatActivity {
                 .addOnCompleteListener(this, (OnCompleteListener<AuthResult>) task -> {
                     if (task.isSuccessful()) {
                         Log.d("login", "signInWithEmail:success");
+                        Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+                        startActivity(intent);
                     } else {
-                        Log.w("login", "signInWithEmail:failure", task.getException());
+                        Log.e("login", "signInWithEmail:failure", task.getException());
                         if (task.getException() instanceof FirebaseAuthInvalidCredentialsException) {
                             showErrorDialog("Login Failed", "Email or Password is incorrect");
                         } else {
@@ -123,6 +109,10 @@ public class LoginActivity extends AppCompatActivity {
                         FirebaseUser user = mAuth.getCurrentUser();
                         assert user != null;
                         System.out.println(user.getEmail());
+
+                        Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+                        startActivity(intent);
+                        finish();
                     } else {
                         Log.w("GOOGLE: ", "signInWithCredential:failure", task.getException());
                     }
