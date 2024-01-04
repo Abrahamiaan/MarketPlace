@@ -64,7 +64,7 @@
 
             <EditText
                 android:id="@+id/name"
-                android:layout_width="match_parent"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:drawableStart="@drawable/person_icon"
@@ -76,7 +76,6 @@
                 android:paddingStart="15dp"
                 android:paddingEnd="15dp"
                 android:textSize="15sp"
-                tools:ignore="InefficientWeight"
                 android:importantForAutofill="no" />
         </LinearLayout>
 
@@ -90,7 +89,7 @@
 
             <EditText
                 android:id="@+id/email"
-                android:layout_width="match_parent"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:background="@drawable/edittext_back"
@@ -99,8 +98,9 @@
                 android:ems="10"
                 android:hint="@string/email_address"
                 android:inputType="textEmailAddress"
-                android:paddingStart="15dp"
-                android:textSize="15sp" />
+                android:paddingHorizontal="15dp"
+                android:textSize="15sp"
+                android:importantForAutofill="no" />
         </LinearLayout>
 
         <LinearLayout
@@ -113,17 +113,20 @@
 
             <EditText
                 android:id="@+id/password"
-                android:layout_width="match_parent"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:background="@drawable/edittext_back"
                 android:drawableStart="@drawable/password_icon"
+                android:drawableEnd="@drawable/vector_hide"
+                android:drawableTint="@color/grey"
                 android:drawablePadding="10dp"
                 android:ems="10"
                 android:hint="@string/password"
                 android:inputType="textPassword"
-                android:paddingStart="15dp"
-                android:textSize="15sp" />
+                android:paddingHorizontal="15dp"
+                android:textSize="15sp"
+                tools:ignore="Autofill" />
         </LinearLayout>
 
         <LinearLayout

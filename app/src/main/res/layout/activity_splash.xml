@@ -11,6 +11,8 @@
         android:id="@+id/appLogo"
         android:layout_width="300dp"
         android:layout_height="300dp"
+        android:scaleX="1.5"
+        android:scaleY="1.5"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.472"

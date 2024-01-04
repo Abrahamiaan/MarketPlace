@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@android:color/white"
@@ -16,7 +17,6 @@
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:gravity="center"
-            android:layout_marginStart="@dimen/actionBarSize"
             android:text="@string/add_new_product"
             android:textAppearance="@style/TextAppearance.AppCompat.Subhead"
             android:textColor="@color/grey_80"
@@ -55,7 +55,7 @@
                 android:textStyle="bold"
                 android:textSize="17sp"
                 android:textAppearance="@style/TextAppearance.AppCompat.Caption"
-                android:textColor="@color/grey" />
+                android:textColor="@color/black" />
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -99,7 +99,7 @@
                 android:textStyle="bold"
                 android:textSize="17sp"
                 android:textAppearance="@style/TextAppearance.AppCompat.Caption"
-                android:textColor="@color/grey" />
+                android:textColor="@color/black" />
 
             <com.google.android.material.textfield.TextInputLayout
                 android:layout_width="match_parent"
@@ -112,7 +112,6 @@
                     android:id="@+id/product_name"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:maxLines="1"
                     android:background="@drawable/edit_text_round_bg_outline"
                     android:textColorHint="@color/grey_3" />
 
@@ -126,7 +125,7 @@
                 android:textStyle="bold"
                 android:textSize="17sp"
                 android:textAppearance="@style/TextAppearance.AppCompat.Caption"
-                android:textColor="@color/grey" />
+                android:textColor="@color/black" />
 
 
             <com.google.android.material.textfield.TextInputLayout
@@ -142,7 +141,6 @@
                     android:layout_height="match_parent"
                     android:background="@drawable/edit_text_round_bg_outline"
                     android:clickable="true"
-                    android:maxLines="1"
                     android:focusable="false"
                     android:inputType="number"
                     android:textColorHint="@color/grey_3" />
@@ -157,11 +155,11 @@
                 android:textStyle="bold"
                 android:textSize="17sp"
                 android:textAppearance="@style/TextAppearance.AppCompat.Caption"
-                android:textColor="@color/grey" />
+                android:textColor="@color/black" />
 
             <com.google.android.material.textfield.TextInputLayout
                 android:layout_width="match_parent"
-                android:layout_height="56dp"
+                android:layout_height="50dp"
                 android:layout_marginTop="10dp"
                 android:background="@color/grey_3"
                 app:hintEnabled="false">
@@ -171,8 +169,8 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:background="@drawable/edit_text_round_bg_outline"
+                    android:hint=""
                     android:inputType="number"
-                    android:maxLines="1"
                     android:textColorHint="@color/grey_3" />
             </com.google.android.material.textfield.TextInputLayout>
 
@@ -184,7 +182,7 @@
                 android:textStyle="bold"
                 android:textSize="17sp"
                 android:textAppearance="@style/TextAppearance.AppCompat.Caption"
-                android:textColor="@color/grey" />
+                android:textColor="@color/black" />
 
             <com.google.android.material.textfield.TextInputLayout
                 android:layout_width="match_parent"
@@ -205,6 +203,7 @@
 
             </com.google.android.material.textfield.TextInputLayout>
 
+
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
@@ -212,41 +211,33 @@
 
                 <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
+                    android:layout_height="wrap_content"
                     android:layout_marginTop="20dp"
-                    android:orientation="vertical">
+                    android:orientation="horizontal">
 
-                    <LinearLayout
+                    <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:orientation="horizontal">
+                        android:layout_weight="1"
+                        android:text="Colors (Optional)"
+                        android:textSize="17sp"
+                        android:textStyle="bold" />
 
-                        <TextView
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="1"
-                            android:text="@string/colors_optional"
-                            android:textSize="17sp"
-                            android:textStyle="bold" />
-
-                        <ImageView
-                            android:id="@+id/moreColors"
-                            android:layout_width="45dp"
-                            android:layout_height="match_parent"
-                            android:layout_weight="1"
-                            android:background="@color/white"
-                            android:src="@drawable/vector_more1" />
-                    </LinearLayout>
-
+                    <ImageView
+                        android:id="@+id/moreColors"
+                        android:layout_width="45dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:background="@color/white"
+                        android:src="@drawable/vector_more2" />
                 </LinearLayout>
 
                 <LinearLayout
-                    android:id="@+id/moreColorDetails"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="20dp"
-                    android:orientation="vertical"
-                    android:visibility="gone">
+
+                    android:orientation="vertical">
 
                     <androidx.recyclerview.widget.RecyclerView
                         android:id="@+id/colorRecyclerView"
@@ -267,7 +258,7 @@
                             android:background="@drawable/edit_text_round_bg_outline"
                             android:gravity="center"
                             android:paddingHorizontal="15dp"
-                            android:text="@string/add_color"
+                            android:text="Add Color"
                             android:textColor="@color/grey"
                             android:textStyle="bold" />
 
@@ -282,70 +273,6 @@
                     </LinearLayout>
                 </LinearLayout>
 
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="20dp"
-                android:orientation="horizontal">
-
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="@string/lengths_optional"
-                    android:layout_weight="1"
-                    android:textSize="17sp"
-                    android:textStyle="bold" />
-
-                <ImageView
-                    android:id="@+id/moreLengths"
-                    android:layout_width="45dp"
-                    android:layout_weight="1"
-                    android:layout_height="match_parent"
-                    android:background="@color/white"
-                    android:src="@drawable/vector_more1"/>
-            </LinearLayout>
-
-            <LinearLayout
-                android:id="@+id/moreLengthDetails"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="20dp"
-                android:orientation="vertical"
-                android:visibility="gone">
-
-                <androidx.recyclerview.widget.RecyclerView
-                    android:id="@+id/lengthRecyclerView"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent" />
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:background="@color/grey_3"
-                    android:orientation="horizontal">
-
-                    <TextView
-                        android:layout_width="0dp"
-                        android:layout_height="50dp"
-                        android:layout_weight="1"
-                        android:background="@drawable/edit_text_round_bg_outline"
-                        android:gravity="center"
-                        android:paddingHorizontal="15dp"
-                        android:text="@string/add_length"
-                        android:textColor="@color/grey"
-                        android:textStyle="bold" />
-
-                    <ImageView
-                        android:id="@+id/addLength"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center_vertical"
-                        android:background="@color/white"
-                        android:padding="5dp"
-                        app:srcCompat="@drawable/vector_add" />
-                </LinearLayout>
             </LinearLayout>
 
         </LinearLayout>

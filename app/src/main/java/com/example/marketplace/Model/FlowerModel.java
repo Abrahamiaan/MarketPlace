@@ -1,6 +1,8 @@
 package com.example.marketplace.Model;
 
-public class FlowerModel {
+import java.io.Serializable;
+
+public class FlowerModel extends ProductModel implements Serializable {
     private String title;
     private int price;
     private String photo;

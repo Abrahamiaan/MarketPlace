@@ -5,41 +5,37 @@ import androidx.appcompat.app.AppCompatDelegate;
 import androidx.fragment.app.Fragment;
 
 import android.os.Bundle;
+import android.view.View;
 
 import com.etebarian.meowbottomnavigation.MeowBottomNavigation;
 import com.example.marketplace.R;
+import com.example.marketplace.Utils.LocaleHelper;
 import com.example.marketplace.databinding.ActivityMainBinding;
 import com.example.marketplace.Fragment.*;
-import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
 
 public class MainActivity extends AppCompatActivity {
-    ActivityMainBinding binding;
-    MeowBottomNavigation bottomNavigation;
-    FirebaseAuth mAuth;
-    FirebaseUser currentUser;
+    private ActivityMainBinding binding;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
+        LocaleHelper.setAppLanguage(this);
         binding = ActivityMainBinding.inflate(getLayoutInflater());
-        System.out.println(binding);
         setContentView(binding.getRoot());
 
-        bottomNavigation = binding.navigationBar;
+        binding.navigationBar.add(new MeowBottomNavigation.Model(1, R.drawable.vector_home));
+        binding.navigationBar.add(new MeowBottomNavigation.Model(2, R.drawable.vector_profile));
+        binding.navigationBar.add(new MeowBottomNavigation.Model(3, R.drawable.vector_search));
+        binding.navigationBar.add(new MeowBottomNavigation.Model(4, R.drawable.vector_notification));
+        binding.navigationBar.add(new MeowBottomNavigation.Model(5, R.drawable.vector_sale));
 
-        bottomNavigation.add(new MeowBottomNavigation.Model(1, R.drawable.vector_home));
-        bottomNavigation.add(new MeowBottomNavigation.Model(2, R.drawable.vector_cart));
-        bottomNavigation.add(new MeowBottomNavigation.Model(3, R.drawable.vector_search));
-        bottomNavigation.add(new MeowBottomNavigation.Model(4, R.drawable.vector_notification));
-        bottomNavigation.add(new MeowBottomNavigation.Model(5, R.drawable.vector_sale));
+        binding.navigationBar.setVisibility(View.VISIBLE);
 
         switchFragment(1);
-        bottomNavigation.show(1, true);
-        mAuth  = FirebaseAuth.getInstance();
-        currentUser = mAuth.getCurrentUser();
+        binding.navigationBar.show(1, true);
 
-        bottomNavigation.setOnClickMenuListener(model -> {
+        binding.navigationBar.setOnClickMenuListener(model -> {
             switchFragment(model.getId());
             return null;
         });
@@ -53,10 +49,9 @@ public class MainActivity extends AppCompatActivity {
                 selectedFragment = new HomeFragment();
                 break;
             case 2:
-                selectedFragment = new HomeFragment();
+                selectedFragment = new ProfileFragment();
                 break;
             case 3:
-                selectedFragment = new HomeFragment();
                 break;
             case 4:
                 selectedFragment = new NotificationFragment();
@@ -68,6 +63,14 @@ public class MainActivity extends AppCompatActivity {
 
         if (selectedFragment != null) {
             getSupportFragmentManager().beginTransaction().replace(R.id.frame_layout, selectedFragment).commit();
+        }
+    }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        if (binding.navigationBar.getVisibility() == View.GONE) {
+            binding.navigationBar.setVisibility(View.VISIBLE);
         }
     }
 }

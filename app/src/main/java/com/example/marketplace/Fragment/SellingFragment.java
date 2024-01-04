@@ -1,7 +1,5 @@
 package com.example.marketplace.Fragment;
 
-import android.app.ProgressDialog;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.net.Uri;
@@ -10,67 +8,80 @@ import android.provider.MediaStore;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
+import android.widget.EditText;
 import android.widget.Toast;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.Fragment;
-
+import androidx.recyclerview.widget.LinearLayoutManager;
+import com.civitasv.ioslike.dialog.DialogHud;
+import com.example.marketplace.Adapter.ColorSizeAdapter;
 import com.example.marketplace.Model.ProductModel;
 import com.example.marketplace.R;
-import com.google.android.material.textfield.TextInputEditText;
+import com.example.marketplace.databinding.FragmentSellingBinding;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 public class SellingFragment extends Fragment {
+
+    FragmentSellingBinding binding;
     final int PICK_IMAGE_REQUEST = 1;
-    static final String[] categories = new String[]{"Rose", "Lily", "Լօtus", "Jasmine"};
-    final String PRODUCT_TABLE = "Products";
-    TextInputEditText Category_view;
-    TextInputEditText productName;
-    TextInputEditText productDetails;
-    TextInputEditText productPrice;
-    ImageView productPhoto;
-    ImageView btnDone;
+    static final String[] categories = new String[]{"Rose", "Tulip", "Lily", "Sunflower", "Plants"};
     ProductModel productModel;
+
     FirebaseFirestore db;
     Uri imagePath;
-    ProgressDialog progressDialog;
     StorageReference storageReference;
     int selectedCategory = -1;
+    ColorSizeAdapter colorAdapter;
+    List<EditText> editTextList = new ArrayList<>();
+    DialogHud dialogHud;
 
     public SellingFragment() {
-        // Required empty public constructor
+
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_selling, container, false);
+        binding = FragmentSellingBinding.inflate(inflater, container, false);
+
         db = FirebaseFirestore.getInstance();
         imagePath = null;
         productModel = new ProductModel();
         productModel.setProductId(db.collection("Products").document().getId());
 
-        btnDone = view.findViewById(R.id.btn_done);
-        productPrice = view.findViewById(R.id.product_price);
-        productDetails = view.findViewById(R.id.product_details);
-        productName = view.findViewById(R.id.product_name);
-        productPhoto = view.findViewById(R.id.product_photo);
+        binding.CategoryView.setOnClickListener(v1 -> selectCategory());
+        binding.productPhoto.setOnClickListener(v2 -> chooseImage());
+        binding.btnDone.setOnClickListener(v3 -> submitProduct());
+        binding.moreColors.setOnClickListener(v4 -> {
+            if (binding.moreColorDetails.getVisibility() == View.VISIBLE) {
+                binding.moreColorDetails.setVisibility(View.GONE);
+            } else {
+                binding.moreColorDetails.setVisibility(View.VISIBLE);
+            }
+        });
 
-        progressDialog = new ProgressDialog(requireContext());
-        Category_view = view.findViewById(R.id.Category_view);
 
-        Category_view.setOnClickListener(v1 -> selectCategory());
+        List<EditText> colorItems = new ArrayList<>();
+        binding.colorRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity().getApplicationContext()));
+        colorAdapter = new ColorSizeAdapter(colorItems);
+        binding.colorRecyclerView.setAdapter(colorAdapter);
 
-        productPhoto.setOnClickListener(v2 -> chooseImage());
+        binding.addItem.setOnClickListener(v -> {
+            EditText newEditText = new EditText(requireContext());
+            colorAdapter.addItem(newEditText);
+            editTextList.add(newEditText);
+        });
 
-        btnDone.setOnClickListener(v3 -> submitProduct());
-
-        return view;
+        return binding.getRoot();
     }
 
     private void chooseImage() {
@@ -84,7 +95,7 @@ public class SellingFragment extends Fragment {
         AlertDialog.Builder builder = new AlertDialog.Builder(requireContext());
         builder.setTitle("Select category");
         builder.setSingleChoiceItems(categories, selectedCategory, (dialogInterface, i) -> {
-            Category_view.setText(categories[i]);
+            binding.CategoryView.setText(categories[i]);
             selectedCategory = i;
         });
 
@@ -100,7 +111,7 @@ public class SellingFragment extends Fragment {
             imagePath = data.getData();
             try {
                 Bitmap bitmap = MediaStore.Images.Media.getBitmap(requireActivity().getContentResolver(), imagePath);
-                productPhoto.setImageBitmap(bitmap);
+                binding.productPhoto.setImageBitmap(bitmap);
             } catch (IOException e) {
                 e.printStackTrace();
             }
@@ -109,64 +120,70 @@ public class SellingFragment extends Fragment {
 
     private void uploadToFirestore() {
         db.collection("Products").document(productModel.getProductId()).set(productModel)
-                .addOnSuccessListener(aVoid -> {
-                    progressDialog.hide();
-                    progressDialog.dismiss();
-                    Toast.makeText(requireContext(), "Uploaded successfully!", Toast.LENGTH_SHORT).show();
-                })
+                .addOnSuccessListener(aVoid -> dialogHud.dismiss())
                 .addOnFailureListener(e -> {
-                    progressDialog.hide();
-                    Toast.makeText(requireContext(), "Failed to upload product: " + e.getMessage(), Toast.LENGTH_LONG).show();
+                    Toast.makeText(requireContext(), getString(R.string.failed_to_upload_product) + e.getMessage(), Toast.LENGTH_LONG).show();
+                    dialogHud.dismiss();
                 });
     }
 
     private void submitProduct() {
-        productModel.setTitle(productName.getText().toString());
+        productModel.setTitle(binding.productName.getText().toString());
+
+        dialogHud = new DialogHud(requireContext())
+                .setMode(DialogHud.Mode.LOADING)
+                .setLabel(R.string.uploading)
+                .setLabelDetail(R.string.please_wait)
+                .setCancelable(false);
+
         if (productModel.getTitle().isEmpty()) {
-            Toast.makeText(requireContext(), "Product name can't be empty.", Toast.LENGTH_SHORT).show();
+            Toast.makeText(requireContext(), getString(R.string.product_name_can_t_be_empty), Toast.LENGTH_SHORT).show();
             return;
         }
 
-        productModel.setCategory(Category_view.getText().toString());
+        productModel.setCategory(binding.CategoryView.getText().toString());
         if (productModel.getCategory().isEmpty()) {
-            Toast.makeText(requireContext(), "You must select product category.", Toast.LENGTH_SHORT).show();
+            Toast.makeText(requireContext(), getString(R.string.you_must_select_product_category), Toast.LENGTH_SHORT).show();
             selectCategory();
             return;
         }
 
-        if (productPrice.getText().toString().isEmpty()) {
-            Toast.makeText(requireContext(), "Product price can't be empty.", Toast.LENGTH_SHORT).show();
+        if (binding.productPrice.getText().toString().isEmpty()) {
+            Toast.makeText(requireContext(), R.string.product_price_can_t_be_empty, Toast.LENGTH_SHORT).show();
             return;
         }
 
         try {
-            productModel.setPrice(Integer.parseInt(productPrice.getText().toString()));
+            productModel.setPrice(Integer.parseInt(binding.productPrice.getText().toString()));
         } catch (Exception e) {
-            Toast.makeText(requireContext(), "Invalid price format.", Toast.LENGTH_SHORT).show();
+            Toast.makeText(requireContext(), R.string.invalid_price_format, Toast.LENGTH_SHORT).show();
             return;
         }
 
         if (productModel.getPrice() < 0) {
-            Toast.makeText(requireContext(), "Product price can't be less than zero.", Toast.LENGTH_SHORT).show();
+            Toast.makeText(requireContext(), R.string.product_price_can_t_be_less_than_zero, Toast.LENGTH_SHORT).show();
             return;
         }
 
-        productModel.setDetails(productDetails.getText().toString());
+        productModel.setDetails(binding.productDetails.getText().toString());
 
         if (imagePath == null) {
-            Toast.makeText(requireContext(), "You must select product photo.", Toast.LENGTH_SHORT).show();
+            Toast.makeText(requireContext(), R.string.you_must_select_product_photo, Toast.LENGTH_SHORT).show();
             return;
         }
 
-        progressDialog = new ProgressDialog(requireContext());
-        progressDialog.setTitle("Uploading...");
-        progressDialog.show();
+        productModel.setColors(colorAdapter.getColorItems());
+        FirebaseAuth mAuth = FirebaseAuth.getInstance();
+        FirebaseUser currentUser =  mAuth.getCurrentUser();
+        if ( currentUser != null) {
+            productModel.setSeller(currentUser.getDisplayName());
+        }
+
         storageReference = FirebaseStorage.getInstance().getReference();
+        dialogHud.show();
 
         storageReference.child("products/" + productModel.getProductId()).putFile(imagePath)
-                .addOnSuccessListener(taskSnapshot -> {
-                    Toast.makeText(requireContext(), "Uploaded Successfully!", Toast.LENGTH_SHORT).show();
-
+                .addOnSuccessListener(taskSnapshot ->
                     storageReference.child("products/" + productModel.getProductId()).getDownloadUrl()
                             .addOnSuccessListener(uri -> {
                                 productModel.setPhoto(uri.toString());
@@ -175,11 +192,11 @@ public class SellingFragment extends Fragment {
                             .addOnFailureListener(e -> {
                                 productModel.setPhoto("https://images.unsplash.com/photo-1491553895911-0055eca6402d?ixlib=rb-1.2.1&ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&auto=format&fit=crop&w=2000&q=80");
                                 uploadToFirestore();
-                            });
-                })
+                            })
+                )
                 .addOnFailureListener(e -> {
-                    progressDialog.hide();
-                    Toast.makeText(requireContext(), "Failed to upload photo: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+                    dialogHud.dismiss();
+                    Toast.makeText(requireContext(), getString(R.string.failed_to_upload_photo) + e.getMessage(), Toast.LENGTH_SHORT).show();
                 });
     }
 }
