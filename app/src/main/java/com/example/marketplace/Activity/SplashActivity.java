@@ -1,6 +1,7 @@
 package com.example.marketplace.Activity;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.app.AppCompatDelegate;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
@@ -13,7 +14,8 @@ import android.widget.ImageView;
 import com.example.marketplace.R;
 import com.google.firebase.auth.FirebaseAuth;
 
-@SuppressLint("CustomSplashScreen")
+import java.util.Locale;
+
 public class SplashActivity extends AppCompatActivity {
     ImageView appLogo;
     FirebaseAuth mAuth;
@@ -21,6 +23,7 @@ public class SplashActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
         setContentView(R.layout.activity_splash);
 
         mAuth = FirebaseAuth.getInstance();

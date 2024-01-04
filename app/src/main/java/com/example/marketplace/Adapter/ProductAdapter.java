@@ -1,6 +1,9 @@
 package com.example.marketplace.Adapter;
 
 import android.content.Context;
+import android.content.Intent;
+import android.graphics.drawable.Drawable;
+import android.media.Image;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -8,17 +11,21 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.target.CustomTarget;
+import com.bumptech.glide.request.transition.Transition;
+import com.example.marketplace.Activity.DetailActivity;
 import com.example.marketplace.Model.FlowerModel;
 import com.example.marketplace.R;
 
 import java.util.List;
 
 public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductViewHolder> {
-    private Context context;
-    private List<FlowerModel> flowersList;
+    Context context;
+    List<FlowerModel> flowersList;
 
     public ProductAdapter(Context context, List<FlowerModel> flowersList) {
         this.context = context;
@@ -38,11 +45,35 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductV
 
         Glide.with(context)
                 .load(currentFlower.getPhoto())
-                .into(holder.image);
+                .into(new CustomTarget<Drawable>() {
+                    @Override
+                    public void onResourceReady(@NonNull Drawable resource, @Nullable Transition<? super Drawable> transition) {
+                        holder.image.setBackground(resource);
+                    }
 
-        holder.title.setText(currentFlower.getTitle());
-        int price = currentFlower.getPrice();
-        holder.price.setText(price + " AMD");
+                    @Override
+                    public void onLoadCleared(@Nullable Drawable placeholder) {
+
+                    }
+                });
+
+        String originalTitle = currentFlower.getTitle();
+        String displayedTitle;
+
+        if (originalTitle.length() > 15) {
+            displayedTitle = originalTitle.substring(0, 15) + "...";
+        } else {
+            displayedTitle = originalTitle;
+        }
+
+        holder.title.setText(displayedTitle);
+        holder.price.setText(String.format("%s AMD", currentFlower.getPrice()));
+
+        holder.itemView.setOnClickListener(v -> {
+            Intent intent = new Intent(holder.itemView.getContext(), DetailActivity.class);
+            intent.putExtra("object", currentFlower);
+            context.startActivity(intent);
+        });
     }
 
     @Override

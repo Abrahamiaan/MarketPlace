@@ -1,0 +1,69 @@
+<resources>
+    <string name="explore_popular_categories">Исследуйте популярные категории</string>
+    <string name="pick_of_the_day">Выбор дня</string>
+    <string name="search">Поиск</string>
+    <string name="see_more">Показать еще</string>
+
+    <string name="create_account">
+		<font fgcolor='#000000'>Создать</font>
+        <font fgcolor='#E02181'> аккаунт</font>
+	</string>
+    <string name="sign_up">Зарегистрироваться</string>
+    <string name="register"> Зарегистрироваться</string>
+    <string name="already_have_an_account">Уже есть аккаунт?\t\t</string>
+
+    <string name="welcome_back">
+		<font fgcolor='#000000'>Добро пожаловать</font>
+        <font fgcolor='#E02181'> назад</font>
+	</string>
+    <string name="login">"Вход "</string>
+    <string name="does_not_have_an_account">Нет аккаунта?\t\t</string>
+    <string name="email_address">Адрес электронной почты</string>
+    <string name="password">Пароль</string>
+    <string name="sign_in">Войти</string>
+    <string name="name">Имя</string>
+
+    <string name="add_new_product">Добавить новый продукт</string>
+    <string name="product_photo">Фото продукта</string>
+    <string name="add_product_photo">Добавить фото продукта</string>
+    <string name="product_name">Название продукта</string>
+    <string name="product_description">Описание продукта</string>
+    <string name="category">Категория</string>
+
+    <string name="product_details">Детали продукта</string>
+    <string name="example_descript" translatable="false">Красная роза, символ страстной любви, пленяет своим бархатистым лепестками и богатым багряным оттенком. Грациозный цветок раскрывается слоями, раскрывая вечную элегантность. Ее опьяняющий аромат вызывает романтику, в то время как шипы говорят о деликатном балансе любви. Символ красоты и желания, красная роза воплощает суть искренних эмоций в одном взгляде.</string>
+    <string name="length">Длина</string>
+    <string name="color">Цвет</string>
+    <string name="price">Цена</string>
+    <string name="add_to_cart">Добавить в корзину</string>
+    <string name="colors_optional">Цвета (по желанию)</string>
+    <string name="add_color">Добавить цвет</string>
+    <string name="lengths_optional">Длины (по желанию)</string>
+    <string name="add_length">Добавить длину</string>
+
+    <string name="settings">Настройки</string>
+    <string name="select_language">Выберите язык</string>
+    <string name="language">Язык</string>
+    <string name="help">Помощь</string>
+    <string name="log_out">Выйти</string>
+    <string name="notifications">Уведомления</string>
+    <string name="edit_personal_details">Редактировать личные данные</string>
+
+    <string name="are_you_sure_you_want_to_log_out">Вы уверены, что хотите выйти?</string>
+    <string name="oops">Выход</string>
+    <string name="please_wait">Пожалуйста подождите..</string>
+    <string name="uploading">Загрузка..</string>
+
+    <string name="product_name_can_t_be_empty">Имя продукта не может быть пустым.</string>
+    <string name="you_must_select_product_category">Вы должны выбрать категорию продукта.</string>
+    <string name="product_price_can_t_be_empty">Цена продукта не может быть пустой.</string>
+    <string name="invalid_price_format">Неверный формат цены.</string>
+    <string name="product_price_can_t_be_less_than_zero">Цена продукта не может быть меньше нуля.</string>
+    <string name="you_must_select_product_photo">Вы должны выбрать фотографию продукта.</string>
+    <string name="failed_to_upload_photo">"Не удалось загрузить фото: "</string>
+    <string name="failed_to_upload_product">"Не удалось загрузить продукт: "</string>
+    <string name="payments">Платежи</string>
+    <string name="favorites">Избранное</string>
+    <string name="cancel">Отмена</string>
+    <string name="general">Общие</string>
+</resources>

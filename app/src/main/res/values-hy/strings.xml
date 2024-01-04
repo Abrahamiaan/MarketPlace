@@ -1,0 +1,66 @@
+<resources>
+    <string name="explore_popular_categories">Տոպ Բաժիններ</string>
+    <string name="pick_of_the_day">Օրվա ընտրվածը</string>
+    <string name="search">Որոնել</string>
+    <string name="see_more">Բոլորը</string>
+
+    <string name="create_account">
+        <font fgcolor='#000000'>Ստեղծել</font>
+        <font fgcolor='#E02181'> հաշիվ</font>
+    </string>
+    <string name="sign_up">Գրանցվել</string>
+    <string name="register"> Գրանցվել</string>
+    <string name="already_have_an_account">Արդեն ունեք հաշի՞վ \t</string>
+
+    <string name="welcome_back">
+        <font fgcolor='#000000'>Բարի</font>
+        <font fgcolor='#E02181'> Վերադարձ</font>
+    </string>
+    <string name="login">Մուտք</string>
+    <string name="does_not_have_an_account">Դեռ գրանված չե՞ք \t</string>
+    <string name="email_address">Էլ․ հասցե</string>
+    <string name="password">Գաղտնաբառ</string>
+    <string name="sign_in">Մուտք</string>
+    <string name="name">Անուն</string>
+
+    <string name="add_new_product">Ավելացնել Նոր Ապրանք</string>
+    <string name="product_photo">Ապրանքի լուսանկար</string>
+    <string name="add_product_photo">Ավելացնել ապրանքի լուսանկար</string>
+    <string name="product_name">Ապրանքի անուն</string>
+    <string name="product_description">Ապրանքի նկարագրություն</string>
+    <string name="category">Կատեգորիա</string>
+
+    <string name="product_details">Ապրանքի մանրամասներ</string>
+    <string name="length">Երկարություն</string>
+    <string name="color">Գույն</string>
+    <string name="price">Գին</string>
+        <string name="add_to_cart">Ավելացնել Զամբյուղ</string>
+    <string name="select_language">Ընտրեք Լեզուն</string>
+    <string name="colors_optional">Գույներ (Ըստ ցանկության)</string>
+    <string name="add_color">Նոր Գույն</string>
+    <string name="lengths_optional">Չափ (Ըստ Ցանկության)</string>
+    <string name="add_length">Նոր Չափ</string>
+    <string name="language">Լեզու</string>
+    <string name="help">Օգնություն</string>
+    <string name="log_out">Դուրս գալ</string>
+    <string name="notifications">Ծանուցումներ</string>
+    <string name="edit_personal_details">Փոխել անձնական տվյալները</string>
+    <string name="are_you_sure_you_want_to_log_out">Վստա՞հ եք որ ուզում եք դուրս գալ</string>
+    <string name="oops">Հաստատեք Ելքը</string>
+    <string name="settings">Կարգավորումներ</string>
+    <string name="please_wait">Խնդրում ենք սպասել..</string>
+    <string name="uploading">Բեռնում..</string>
+    <string name="product_name_can_t_be_empty">Անունը չի կարող լինել դատարկ</string>
+    <string name="you_must_select_product_category">Դուք պետք է ընտրեք ապրանքի կատեգորիան</string>
+    <string name="product_price_can_t_be_empty">Ապրանքի գինը չի կարող դատարկ լինել</string>
+    <string name="invalid_price_format">Գինը ունի սխալ ֆորմատ</string>
+    <string name="product_price_can_t_be_less_than_zero">Ապրանքի գինը չի կարող լինել դատար։</string>
+    <string name="you_must_select_product_photo">Դուք պետք է ընտրեք ապրանքի նկարը</string>
+    <string name="failed_to_upload_photo">"Չհաջողվեց վերբեռնել նկարը՝ "</string>
+    <string name="failed_to_upload_product">"Չհաջողվեց վերբեռնել ապրանքը՝ "</string>
+    <string name="payments">Վճարումներ</string>
+    <string name="favorites">Հիշված</string>
+    <string name="cancel">Ետ</string>
+    <string name="general">Ընդհանուր</string>
+</resources>
+

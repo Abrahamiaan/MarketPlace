@@ -1,20 +1,22 @@
 package com.example.marketplace.Activity;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
+import android.text.InputType;
 import android.text.TextUtils;
 import android.util.Log;
-import android.widget.Button;
-import android.widget.EditText;
-import android.widget.ImageView;
-import android.widget.TextView;
-import android.widget.Toast;
+import android.view.MotionEvent;
+
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.app.AppCompatDelegate;
 
 import com.example.marketplace.Model.User;
 import com.example.marketplace.R;
+import com.example.marketplace.Utils.LocaleHelper;
+import com.example.marketplace.databinding.ActivityRegisterBinding;
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.android.gms.auth.api.signin.GoogleSignInClient;
@@ -25,6 +27,7 @@ import com.google.firebase.auth.AuthCredential;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.GoogleAuthProvider;
+import com.google.firebase.auth.UserProfileChangeRequest;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -38,31 +41,19 @@ import java.util.Objects;
 import ir.androidexception.andexalertdialog.AndExAlertDialog;
 
 public class RegisterActivity extends AppCompatActivity {
+    private ActivityRegisterBinding binding;
     static final int RC_SIGN_IN = 9001;
-    EditText tvEmail;
-    EditText tvUsername;
-    EditText tvPassword;
-    TextView tvToLogin;
-    Button signUpBtn;
-    ImageView btnSignUpWithGoogle;
-    ImageView btnBack;
-    FirebaseAuth mAuth;
-    GoogleSignInClient mGoogleSignInClient;
-    FirebaseFirestore db;
+    private FirebaseAuth mAuth;
+    private GoogleSignInClient mGoogleSignInClient;
+    private FirebaseFirestore db;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
-        setContentView(R.layout.activity_register);
-
-        tvToLogin = findViewById(R.id.toLogin);
-        tvEmail = findViewById(R.id.email);
-        tvUsername = findViewById(R.id.name);
-        tvPassword = findViewById(R.id.password);
-        signUpBtn = findViewById(R.id.signUpBtn);
-        btnBack = findViewById(R.id.to_back_arrow);
-        btnSignUpWithGoogle = findViewById(R.id.with_google);
+        LocaleHelper.setAppLanguage(this);
+        binding = ActivityRegisterBinding.inflate(getLayoutInflater());
+        setContentView(binding.getRoot());
 
         mAuth = FirebaseAuth.getInstance();
         FirebaseDatabase.getInstance().setPersistenceEnabled(true);
@@ -72,24 +63,24 @@ public class RegisterActivity extends AppCompatActivity {
                 .build();
         mGoogleSignInClient = GoogleSignIn.getClient(this, gso);
 
-        btnSignUpWithGoogle.setOnClickListener(v -> {
+        binding.withGoogle.setOnClickListener(v -> {
             SingInWithGoogle();
         });
 
-        signUpBtn.setOnClickListener(v -> {
-            String email = tvEmail.getText().toString();
-            String password = tvPassword.getText().toString();
+        binding.signUpBtn.setOnClickListener(v -> {
+            String email = binding.email.getText().toString().trim();
+            String password = binding.password.getText().toString();
             if (validateInput()) {
                 signUp(email, password);
             }
         });
 
-        tvToLogin.setOnClickListener(v->{
+        binding.toLogin.setOnClickListener(v -> {
             Intent intent = new Intent(RegisterActivity.this, LoginActivity.class);
             startActivity(intent);
         });
 
-        btnBack.setOnClickListener(v -> onBackPressed());
+        binding.toBackArrow.setOnClickListener(v -> onBackPressed());
     }
 
     @Override
@@ -132,14 +123,31 @@ public class RegisterActivity extends AppCompatActivity {
         mAuth.createUserWithEmailAndPassword(email, password)
                 .addOnCompleteListener(this, task -> {
                     if (task.isSuccessful()) {
-                        System.out.println("Sign Up: " + "Register Successfully");
-                        String username = tvUsername.getText().toString();
-                        User user = new User(username, email);
-                        saveUserInFirestore(user);
+                        FirebaseUser firebaseUser = mAuth.getCurrentUser();
+                        if (firebaseUser != null) {
+                            String username = binding.name.getText().toString();
+                            UserProfileChangeRequest profileUpdates = new UserProfileChangeRequest.Builder()
+                                    .setDisplayName(username)
+                                    .build();
+
+                            firebaseUser.updateProfile(profileUpdates)
+                                    .addOnCompleteListener(updateProfileTask -> {
+                                        if (updateProfileTask.isSuccessful()) {
+                                            User user = new User(username, email);
+                                            saveUserInFirestore(user);
+                                            System.out.println("Sign Up: Register Successfully");
+                                        } else {
+                                            Exception updateProfileException = updateProfileTask.getException();
+                                            Log.d("Update Profile Failed", Objects.requireNonNull(updateProfileException).getMessage());
+                                        }
+                                    });
+                        }
                     }
                     else {
                         Exception exception = task.getException();
                         showErrorDialog("Register Failed", Objects.requireNonNull(exception).getMessage());
+                        Log.e("Register Failed", exception.getMessage());
+
                     }
                 });
     }
@@ -188,9 +196,9 @@ public class RegisterActivity extends AppCompatActivity {
 
     // Util Functions
     private boolean validateInput() {
-        String email = tvEmail.getText().toString();
-        String password = tvPassword.getText().toString();
-        String username = tvUsername.getText().toString();
+        String email = binding.toLogin.getText().toString();
+        String password = binding.password.getText().toString();
+        String username = binding.name.getText().toString();
 
         ArrayList<String> errorMessages = new ArrayList<>();
 

@@ -18,6 +18,7 @@ import com.example.marketplace.Adapter.ProductAdapter;
 import com.example.marketplace.Model.Category;
 import com.example.marketplace.Model.FlowerModel;
 import com.example.marketplace.R;
+import com.example.marketplace.databinding.FragmentHomeBinding;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
@@ -26,30 +27,23 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class HomeFragment extends Fragment {
-
-    RecyclerView categoryRecyclerView;
-    RecyclerView productRecyclerView;
+    FragmentHomeBinding binding;
     List<Category> categoryList;
     List<FlowerModel> flowersList;
-
     CategoryAdapter categoryAdapter;
     ProductAdapter productAdapter;
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_home, container, false);
-
-        categoryRecyclerView = view.findViewById(R.id.categoryRecycler);
-        productRecyclerView = view.findViewById(R.id.productRecycler);
+        binding = FragmentHomeBinding.inflate(inflater, container, false);
 
         initRecyclerView();
         setCategoryRecycler(categoryList);
         setProductRecycler(flowersList);
-        return view;
+        return binding.getRoot();
     }
 
-    @SuppressLint("NotifyDataSetChanged")
     private void fetchDataFromFirestore() {
         CollectionReference flowersCollection = FirebaseFirestore.getInstance().collection("Products");
 
@@ -61,10 +55,15 @@ public class HomeFragment extends Fragment {
                     long price = document.getLong("price");
                     String details = document.getString("details");
                     String photo = document.getString("photo");
+                    String seller = document.getString("seller");
 
                     int flowerPrice = (int) price;
-
-                    flowersList.add(new FlowerModel(title, flowerPrice, photo));
+                    FlowerModel flowerModel = new FlowerModel(title, flowerPrice, photo);
+                    flowerModel.setProductId(document.getId());
+                    flowerModel.setDetails(details);
+                    flowerModel.setCategory(category);
+                    flowerModel.setSeller(seller);
+                    flowersList.add(flowerModel);
                 }
                 productAdapter.notifyDataSetChanged();
             } else {
@@ -76,25 +75,26 @@ public class HomeFragment extends Fragment {
     private void initRecyclerView() {
         categoryList = new ArrayList<>();
         categoryList.add(new Category(1, R.drawable.rose, "Rose"));
-        categoryList.add(new Category(2, R.drawable.lily, "Lily"));
-        categoryList.add(new Category(3, R.drawable.lotus, "Lotus"));
-        categoryList.add(new Category(4, R.drawable.jasmine, "Jasmine"));
+        categoryList.add(new Category(2, R.drawable.tulip, "Tulip"));
+        categoryList.add(new Category(3, R.drawable.lily, "Lily"));
+        categoryList.add(new Category(4, R.drawable.sunflower, "Sunflower"));
+        categoryList.add(new Category(4, R.drawable.plant, "Plants"));
 
-        flowersList = new ArrayList<>();
+        flowersList = new ArrayList<> ();
         fetchDataFromFirestore();
     }
 
     private void setCategoryRecycler(List<Category> categoryDataList) {
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false);
-        categoryRecyclerView.setLayoutManager(layoutManager);
+        binding.categoryRecycler.setLayoutManager(layoutManager);
         categoryAdapter = new CategoryAdapter(requireContext(), categoryDataList);
-        categoryRecyclerView.setAdapter(categoryAdapter);
+        binding.categoryRecycler.setAdapter(categoryAdapter);
     }
 
-    private void setProductRecycler(List<FlowerModel> categoryDataList) {
+    private void setProductRecycler(List<FlowerModel> flowerDataList) {
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false);
-        productRecyclerView.setLayoutManager(layoutManager);
-        productAdapter = new ProductAdapter(requireContext(), categoryDataList);
-        productRecyclerView.setAdapter(productAdapter);
+        binding.productRecycler.setLayoutManager(layoutManager);
+        productAdapter = new ProductAdapter(requireContext(), flowerDataList);
+        binding.productRecycler.setAdapter(productAdapter);
     }
 }
