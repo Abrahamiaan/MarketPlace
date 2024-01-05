@@ -1,5 +1,6 @@
 package com.example.marketplace.Fragment;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.net.Uri;
@@ -9,16 +10,21 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.Toast;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
 import com.civitasv.ioslike.dialog.DialogHud;
 import com.example.marketplace.Adapter.ColorSizeAdapter;
 import com.example.marketplace.Model.ProductModel;
 import com.example.marketplace.R;
 import com.example.marketplace.databinding.FragmentSellingBinding;
+import com.google.android.material.textfield.TextInputEditText;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -120,7 +126,9 @@ public class SellingFragment extends Fragment {
 
     private void uploadToFirestore() {
         db.collection("Products").document(productModel.getProductId()).set(productModel)
-                .addOnSuccessListener(aVoid -> dialogHud.dismiss())
+                .addOnSuccessListener(aVoid -> {
+                    dialogHud.dismiss();
+                })
                 .addOnFailureListener(e -> {
                     Toast.makeText(requireContext(), getString(R.string.failed_to_upload_product) + e.getMessage(), Toast.LENGTH_LONG).show();
                     dialogHud.dismiss();
@@ -183,7 +191,7 @@ public class SellingFragment extends Fragment {
         dialogHud.show();
 
         storageReference.child("products/" + productModel.getProductId()).putFile(imagePath)
-                .addOnSuccessListener(taskSnapshot ->
+                .addOnSuccessListener(taskSnapshot -> {
                     storageReference.child("products/" + productModel.getProductId()).getDownloadUrl()
                             .addOnSuccessListener(uri -> {
                                 productModel.setPhoto(uri.toString());
@@ -192,8 +200,8 @@ public class SellingFragment extends Fragment {
                             .addOnFailureListener(e -> {
                                 productModel.setPhoto("https://images.unsplash.com/photo-1491553895911-0055eca6402d?ixlib=rb-1.2.1&ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&auto=format&fit=crop&w=2000&q=80");
                                 uploadToFirestore();
-                            })
-                )
+                            });
+                })
                 .addOnFailureListener(e -> {
                     dialogHud.dismiss();
                     Toast.makeText(requireContext(), getString(R.string.failed_to_upload_photo) + e.getMessage(), Toast.LENGTH_SHORT).show();
