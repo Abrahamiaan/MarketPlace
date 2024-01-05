@@ -66,4 +66,13 @@
     <string name="favorites">Избранное</string>
     <string name="cancel">Отмена</string>
     <string name="general">Общие</string>
+    <string name="continue_with_facebook">Продолжить с Facebookk</string>
+    <string name="continue_with_google">Продолжить с Google</string>
+    <string name="forgot_your_password">Забыли пароль ?</string>
+    <string name="forgot_password">
+		<font fgcolor='#000000'>Забыл</font>
+        <font fgcolor='#E02181'> Пароль</font>
+	</string>
+    <string name="forgot_password_info">Пожалуйста, введите адрес вашей электронной почты. Вы получите ссылку для создания нового пароля по электронной почте</string>
+    <string name="send">Отправить</string>
 </resources>

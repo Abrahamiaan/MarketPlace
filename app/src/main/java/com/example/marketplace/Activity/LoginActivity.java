@@ -59,7 +59,12 @@ public class LoginActivity extends AppCompatActivity {
             finish();
         });
         
-        binding.withGoogle.setOnClickListener(v-> SingInWithGoogle() );
+        binding.withGoogle.setOnClickListener(v-> SingInWithGoogle());
+
+        binding.toForgotPassword.setOnClickListener(v -> {
+            Intent intent = new Intent(LoginActivity.this, ForgotPasswordActivity.class);
+            startActivity(intent);
+        });
     }
 
     private void signIn(String email, String password) {
@@ -69,7 +74,7 @@ public class LoginActivity extends AppCompatActivity {
         }
 
         mAuth.signInWithEmailAndPassword(email, password)
-                .addOnCompleteListener(this, (OnCompleteListener<AuthResult>) task -> {
+                .addOnCompleteListener(this, task -> {
                     if (task.isSuccessful()) {
                         Log.d("login", "signInWithEmail:success");
                         Intent intent = new Intent(LoginActivity.this, MainActivity.class);

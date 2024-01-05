@@ -62,5 +62,14 @@
     <string name="favorites">Հիշված</string>
     <string name="cancel">Ետ</string>
     <string name="general">Ընդհանուր</string>
+    <string name="continue_with_facebook">Շարունակել Facebook-ով</string>
+    <string name="continue_with_google">Շարունակել Google-ով</string>
+    <string name="forgot_your_password">Մոռացե՞լ եք գաղտնաբառը</string>
+    <string name="forgot_password">
+		<font fgcolor='#000000'>Փոխել</font>
+        <font fgcolor='#E02181'> Գաղտնաբառը</font>
+	</string>
+    <string name="forgot_password_info">Խնդրում ենք մուտքագրել ձեր էլ․փոստի հասցեն։ Դուք կստանաք հղում-նամակ նոր գաղտնաբառ ստեղծելու համար</string>
+    <string name="send">Ուղարկել</string>
 </resources>
 

@@ -66,4 +66,13 @@
     <string name="favorites">Favorites</string>
     <string name="cancel">Cancel</string>
     <string name="general">General</string>
+    <string name="continue_with_facebook">Continue with FaceBook</string>
+    <string name="continue_with_google">Continue with google</string>
+    <string name="forgot_your_password">Forgot your password ?</string>
+    <string name="forgot_password">
+		<font fgcolor='#000000'>Forgot</font>
+        <font fgcolor='#E02181'> Password</font>
+	</string>
+    <string name="forgot_password_info">Please, enter your email address. You will receive a link to create a new password via email.</string>
+    <string name="send">Send</string>
 </resources>
