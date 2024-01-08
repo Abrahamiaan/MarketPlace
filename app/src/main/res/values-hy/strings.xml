@@ -78,7 +78,6 @@
     <string name="password_must_be_at_least_8_characters_long">Գաղտնաբառը պետք է լինի առնվազն 8 նիշ</string>
     <string name="passwords_do_not_match">Գաղտնաբառերը չեն համընկնում</string>
     <string name="notification">Ծանուցում</string>
-    <string name="no_notifications">Դեռ ծանուցումներ չկան</string>
-    <string name="invalid_email_or_password">Անվավեր Էլ. հասցե կամ գաղտնաբառ</string>
+    <string name="no_notifications">Դեռևս ծանուցում չկա</string>
+    <string name="email_or_password_is_incorrect">Էլ. հասցեն կամ գաղտնաբառը սխալ է</string>
 </resources>
-

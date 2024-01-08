@@ -106,12 +106,12 @@ public class LoginActivity extends AppCompatActivity {
         boolean isValid = true;
 
         if (password.isEmpty()) {
-            binding.textInputPassword.setError(getString(R.string.password_cannot_be_empty));
+            binding.textInputPassword.setError("Password cannot be empty");
             isValid = false;
         }
 
         if (email.isEmpty()) {
-            binding.textInputEmail.setError(getString(R.string.email_cannot_be_empty));
+            binding.textInputEmail.setError("Email cannot be empty");
             isValid= false;
         }
 
@@ -124,14 +124,7 @@ public class LoginActivity extends AppCompatActivity {
                         FirebaseUser user = mAuth.getCurrentUser();
                         if (user != null && !user.isEmailVerified()) {
                             showErrorDialog("Email not verified", "Please verify your email and try again.");
-                            user.sendEmailVerification()
-                                    .addOnCompleteListener(this, task1 -> {
-                                            if (task1.isSuccessful()) {
-                                                mAuth.signOut();
-                                            } else {
-                                                Log.e("Login: ", "Failed to send verification email. Please try again");
-                                            }
-                                    });
+                            mAuth.signOut();
                         } else {
                             Log.d("Login: ", "Sign In With Email Success");
                             Intent intent = new Intent(LoginActivity.this, MainActivity.class);
@@ -141,8 +134,8 @@ public class LoginActivity extends AppCompatActivity {
                     } else {
                         Log.e("Login: ", "Sign In With Email Failure", task.getException());
                         if (task.getException() instanceof FirebaseAuthInvalidCredentialsException) {
-                            binding.textInputPassword.setError("Email or Password is incorrect");
-                            binding.textInputEmail.setError("Email or Password is incorrect");
+                            binding.textInputPassword.setError(getString(R.string.email_or_password_is_incorrect));
+                            binding.textInputEmail.setError(getString(R.string.email_or_password_is_incorrect));
                         } else {
                             showErrorDialog("Authentication failed", "Users in this date range don't exist");
                         }
