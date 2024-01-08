@@ -37,5 +37,7 @@ public class ForgotPasswordActivity extends AppCompatActivity {
                 binding.email.setError("Email can not be empty");
             }
         });
+
+        binding.toBackArrow.setOnClickListener(v -> onBackPressed());
     }
 }

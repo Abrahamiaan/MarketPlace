@@ -71,5 +71,12 @@
 	</string>
     <string name="forgot_password_info">Խնդրում ենք մուտքագրել ձեր էլ․փոստի հասցեն։ Դուք կստանաք հղում-նամակ նոր գաղտնաբառ ստեղծելու համար</string>
     <string name="send">Ուղարկել</string>
+    <string name="confirm_password">Հաստատել</string>
+    <string name="email_cannot_be_empty">Էլ. փոստը չի կարող լինել դատարկ</string>
+    <string name="name_cannot_be_empty">Անունը չի կարող լինել դատարկ</string>
+    <string name="password_cannot_be_empty">Գաղտնաբառը չի կարող լինել դատարկ</string>
+    <string name="password_must_be_at_least_8_characters_long">Գաղտնաբառը պետք է լինի առնվազն 8 նիշ</string>
+    <string name="passwords_do_not_match">Գաղտնաբառերը չեն համընկնում</string>
+
 </resources>
 

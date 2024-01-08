@@ -75,4 +75,10 @@
 	</string>
     <string name="forgot_password_info">Пожалуйста, введите адрес вашей электронной почты. Вы получите ссылку для создания нового пароля по электронной почте</string>
     <string name="send">Отправить</string>
+    <string name="confirm_password">Подтвердите пароль</string>
+    <string name="email_cannot_be_empty">Электронная почта не может быть пустой</string>.
+    <string name="name_cannot_be_empty">Имя не может быть пустым</string>.
+    <string name="password_cannot_be_empty">Пароль не может быть пустым</string>
+    <string name="password_must_be_at_least_8_characters_long">Пароль должен состоять не менее чем из 8 символов</string>
+    <string name="passwords_do_not_match">Пароли не совпадают</string>
 </resources>

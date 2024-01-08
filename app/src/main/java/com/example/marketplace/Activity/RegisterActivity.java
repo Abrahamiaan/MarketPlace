@@ -1,19 +1,15 @@
 package com.example.marketplace.Activity;
 
-import android.annotation.SuppressLint;
 import android.content.Intent;
-import android.graphics.drawable.Drawable;
 import android.os.Bundle;
-import android.text.InputType;
+import android.text.Editable;
 import android.text.TextUtils;
+import android.text.TextWatcher;
 import android.util.Log;
-import android.view.MotionEvent;
-
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.app.AppCompatDelegate;
 
-import com.example.marketplace.Model.User;
 import com.example.marketplace.R;
 import com.example.marketplace.Utils.LocaleHelper;
 import com.example.marketplace.databinding.ActivityRegisterBinding;
@@ -32,8 +28,6 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 
-
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
@@ -56,38 +50,17 @@ public class RegisterActivity extends AppCompatActivity {
         setContentView(binding.getRoot());
 
         mAuth = FirebaseAuth.getInstance();
+        db = FirebaseFirestore.getInstance();
         FirebaseDatabase.getInstance().setPersistenceEnabled(true);
         GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
                 .requestIdToken(getString(R.string.web_client_id))
                 .requestEmail()
                 .build();
+
         mGoogleSignInClient = GoogleSignIn.getClient(this, gso);
 
-        binding.withGoogle.setOnClickListener(v -> {
-            SingInWithGoogle();
-        });
-
-        binding.signUpBtn.setOnClickListener(v -> {
-            String email = binding.email.getText().toString().trim();
-            String password = binding.password.getText().toString();
-            if (validateInput()) {
-                signUp(email, password);
-            }
-        });
-
-        binding.toLogin.setOnClickListener(v -> {
-            Intent intent = new Intent(RegisterActivity.this, LoginActivity.class);
-            startActivity(intent);
-        });
-
-        binding.toBackArrow.setOnClickListener(v -> onBackPressed());
+        setupListeners();
     }
-
-    @Override
-    public void onBackPressed() {
-        super.onBackPressed();
-    }
-
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -110,13 +83,26 @@ public class RegisterActivity extends AppCompatActivity {
         mAuth.signInWithCredential(credential)
                 .addOnCompleteListener(this, task -> {
                     if (task.isSuccessful()) {
-                        FirebaseUser user = mAuth.getCurrentUser();
-                        assert user != null;
-                        saveUserDataInFirestore(user);
+                        Intent intent = new Intent(RegisterActivity.this, MainActivity.class);
+                        startActivity(intent);
+                        finish();
                     } else {
                         Log.w("GOOGLE: ", "signInWithCredential:failure", task.getException());
                     }
                 });
+    }
+
+    public void SingInWithGoogle() {
+        mGoogleSignInClient.signOut().addOnCompleteListener(this, task -> {
+            GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+                    .requestIdToken(getString(R.string.web_client_id))
+                    .requestEmail()
+                    .build();
+
+            mGoogleSignInClient = GoogleSignIn.getClient(this, gso);
+            Intent signInIntent = mGoogleSignInClient.getSignInIntent();
+            startActivityForResult(signInIntent, RC_SIGN_IN);
+        });
     }
 
     private void signUp(String email, String password) {
@@ -125,36 +111,36 @@ public class RegisterActivity extends AppCompatActivity {
                     if (task.isSuccessful()) {
                         FirebaseUser firebaseUser = mAuth.getCurrentUser();
                         if (firebaseUser != null) {
-                            String username = binding.name.getText().toString();
-                            UserProfileChangeRequest profileUpdates = new UserProfileChangeRequest.Builder()
-                                    .setDisplayName(username)
-                                    .build();
+                            firebaseUser.sendEmailVerification()
+                                    .addOnCompleteListener(emailVerificationTask -> {
+                                        if (emailVerificationTask.isSuccessful()) {
+                                            String username = binding.name.getText().toString();
+                                            UserProfileChangeRequest profileUpdates = new UserProfileChangeRequest.Builder()
+                                                    .setDisplayName(username)
+                                                    .build();
 
-                            firebaseUser.updateProfile(profileUpdates)
-                                    .addOnCompleteListener(updateProfileTask -> {
-                                        if (updateProfileTask.isSuccessful()) {
-                                            User user = new User(username, email);
-                                            saveUserInFirestore(user);
-                                            System.out.println("Sign Up: Register Successfully");
+                                            firebaseUser.updateProfile(profileUpdates)
+                                                    .addOnCompleteListener(updateProfileTask -> {
+                                                        if (updateProfileTask.isSuccessful()) {
+                                                            saveUserDataInFirestore(firebaseUser);
+                                                            Log.d("Sign Up: ",  "Register Successfully");
+                                                        } else {
+                                                            Exception updateProfileException = updateProfileTask.getException();
+                                                            Log.e("Update Profile Failed", Objects.requireNonNull(updateProfileException).getMessage());
+                                                        }
+                                                    });
                                         } else {
-                                            Exception updateProfileException = updateProfileTask.getException();
-                                            Log.d("Update Profile Failed", Objects.requireNonNull(updateProfileException).getMessage());
+                                            Exception emailVerificationException = emailVerificationTask.getException();
+                                            Log.e("Email Verification Failed", Objects.requireNonNull(emailVerificationException).getMessage());
                                         }
                                     });
                         }
-                    }
-                    else {
+                    } else {
                         Exception exception = task.getException();
                         showErrorDialog("Register Failed", Objects.requireNonNull(exception).getMessage());
                         Log.e("Register Failed", exception.getMessage());
-
                     }
                 });
-    }
-
-    public void SingInWithGoogle() {
-        Intent signInIntent = mGoogleSignInClient.getSignInIntent();
-        startActivityForResult(signInIntent, RC_SIGN_IN);
     }
 
     private void saveUserDataInFirestore(FirebaseUser user) {
@@ -162,7 +148,6 @@ public class RegisterActivity extends AppCompatActivity {
         String displayName = user.getDisplayName();
         String email = user.getEmail();
 
-        db = FirebaseFirestore.getInstance();
         DocumentReference userRef = db.collection("Users").document(userId);
 
         Map<String, Object> userData = new HashMap<>();
@@ -172,57 +157,50 @@ public class RegisterActivity extends AppCompatActivity {
         userRef.set(userData)
                 .addOnSuccessListener(aVoid -> Log.d("Google Firestore: ", "User data successfully written to Firestore"))
                 .addOnFailureListener(e -> Log.w("Google Firestore:" , "Error writing user data to Firestore", e));
-        Intent intent = new Intent(RegisterActivity.this, MainActivity.class);
+        Intent intent = new Intent(RegisterActivity.this, LoginActivity.class);
         startActivity(intent);
+        finish();
     }
 
-    private void saveUserInFirestore(User user) {
-        try {
-            db = FirebaseFirestore.getInstance();
-            db.collection("Users")
-                    .add(user)
-                    .addOnSuccessListener(documentReference -> {
-                        Log.d("Firestore", "User successfully written with ID: " + documentReference.getId());
-                        Intent intent = new Intent(RegisterActivity.this, MainActivity.class);
-                        startActivity(intent);
-                    })
-                    .addOnFailureListener(e -> {
-                        Log.w("Firestore", "Error writing document", e);
-                    });
-        } catch (Exception e) {
-            Log.e("Save In Firestore", e.getMessage().toString());
-        }
-    }
-
-    // Util Functions
     private boolean validateInput() {
-        String email = binding.toLogin.getText().toString();
+        String email = binding.email.getText().toString().trim();
         String password = binding.password.getText().toString();
         String username = binding.name.getText().toString();
-
-        ArrayList<String> errorMessages = new ArrayList<>();
+        String confirm = binding.confirm.getText().toString();
+        boolean isValid = true;
 
         if (TextUtils.isEmpty(email)) {
-            errorMessages.add("Email is required.");
+            binding.textInputEmail.setError(getString(R.string.email_cannot_be_empty));
+            isValid = false;
+        }  else {
+            binding.toLogin.setError(null);
         }
 
         if (TextUtils.isEmpty(username)) {
-            errorMessages.add("Username is required.");
+            binding.textInputName.setError(getString(R.string.name_cannot_be_empty));
+            isValid = false;
+        } else {
+            binding.name.setError(null);
         }
 
         if (TextUtils.isEmpty(password)) {
-            errorMessages.add("Password is required.");
+            binding.textInputPassword.setError(getString(R.string.password_cannot_be_empty));
+            isValid = false;
         } else if (password.length() < 8) {
-            errorMessages.add("Password must be at least 8 characters long.");
+            binding.textInputPassword.setError(getString(R.string.password_must_be_at_least_8_characters_long));
+            isValid = false;
+        } else {
+            binding.password.setError(null);
         }
 
-        if (!errorMessages.isEmpty()) {
-            String errorMessage = TextUtils.join("\n", errorMessages);
-            showErrorDialog("Input Validation Failed", errorMessage);
-            return false;
+        if (!password.equals(confirm)) {
+            binding.textInputConfirm.setError(getString(R.string.passwords_do_not_match));
+            isValid = false;
+        } else {
+            binding.confirm.setError(null);
         }
 
-        return true;
+        return isValid;
     }
 
     public void showErrorDialog(String title, String message) {
@@ -235,5 +213,78 @@ public class RegisterActivity extends AppCompatActivity {
 
                 })
                 .build();
+    }
+
+    public void setupListeners() {
+        binding.withGoogle.setOnClickListener(v -> SingInWithGoogle());
+
+        binding.signUpBtn.setOnClickListener(v -> {
+            String email = binding.email.getText().toString().trim();
+            String password = binding.password.getText().toString();
+            if (validateInput()) {
+                signUp(email, password);
+            }
+        });
+
+        binding.toLogin.setOnClickListener(v -> {
+            Intent intent = new Intent(RegisterActivity.this, LoginActivity.class);
+            startActivity(intent);
+        });
+
+        binding.email.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                binding.textInputEmail.setError(null);
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                if (TextUtils.isEmpty(binding.email.getText())) {
+                    binding.textInputEmail.setError(getString(R.string.email_cannot_be_empty));
+                }
+            }
+        });
+        binding.name.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                binding.textInputName.setError(null);
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                if (TextUtils.isEmpty(binding.name.getText())) {
+                    binding.textInputName.setError(getString(R.string.name_cannot_be_empty));
+                }
+            }
+        });
+        binding.password.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                binding.textInputPassword.setError(null);
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                String password = binding.password.getText().toString();
+                if (TextUtils.isEmpty(password)) {
+                    binding.textInputPassword.setError(getString(R.string.password_cannot_be_empty));
+                }
+            }
+        });
     }
 }

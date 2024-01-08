@@ -6,32 +6,16 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent" >
 
-    <LinearLayout
-        android:id="@+id/linear_to_back"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
-
-        <ImageView
-            android:id="@+id/to_back_arrow"
-            android:layout_width="24dp"
-            android:layout_height="24dp"
-            android:layout_marginStart="16dp"
-            android:layout_marginTop="16dp"
-            app:srcCompat="@drawable/vector_back"
-            android:importantForAccessibility="no" />
-    </LinearLayout>
 
     <LinearLayout
         android:id="@+id/crtAccount_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
         android:orientation="horizontal"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/linear_to_back">
+        app:layout_constraintTop_toTopOf="parent">
 
         <TextView
             android:layout_width="0dp"
@@ -46,70 +30,70 @@
 
     <LinearLayout
         android:id="@+id/vertical_layout"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginHorizontal="30dp"
         android:layout_marginTop="30dp"
         android:orientation="vertical"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/crtAccount_layout">
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="24dp"
-            android:layout_marginTop="24dp"
-            android:layout_marginEnd="24dp"
-            android:orientation="horizontal">
 
-            <EditText
-                android:id="@+id/email"
-                android:layout_width="0dp"
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/textInputEmail"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:background="@drawable/edittext_back"
-                android:drawableStart="@drawable/email_icon"
-                android:drawablePadding="10dp"
-                android:ems="10"
-                android:hint="@string/email_address"
-                android:inputType="textEmailAddress"
-                android:paddingStart="15dp"
-                android:textSize="15sp"
-                android:importantForAutofill="no"
-                tools:ignore="RtlSymmetry" />
-        </LinearLayout>
+                app:boxStrokeErrorColor="@android:color/holo_red_dark"
+                app:boxStrokeColor="#6C68684F"
+                app:hintTextColor="@color/grey"
+                app:boxStrokeWidth="1dp"
+                app:errorEnabled="true">
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="24dp"
-            android:layout_marginTop="24dp"
-            android:layout_marginEnd="24dp"
-            android:orientation="horizontal">
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/email"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:drawableStart="@drawable/email_icon"
+                    android:drawablePadding="15dp"
+                    android:hint="@string/email_address"
+                    android:inputType="textEmailAddress"
+                    android:textColorHint="#6C68684F"
+                    app:boxStrokeWidth="1dp"
+                    tools:ignore="TextContrastCheck" />
+            </com.google.android.material.textfield.TextInputLayout>
 
-            <EditText
-                android:id="@+id/password"
-                android:layout_width="0dp"
+
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/textInputPassword"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:background="@drawable/edittext_back"
-                android:drawableStart="@drawable/password_icon"
-                android:drawablePadding="10dp"
-                android:ems="10"
-                android:hint="@string/password"
-                android:inputType="textPassword"
-                android:paddingStart="16dp"
-                android:textSize="15sp"
-                android:importantForAutofill="no"
-                tools:ignore="RtlSymmetry" />
-        </LinearLayout>
+                android:layout_marginTop="10dp"
+                app:boxStrokeErrorColor="@android:color/holo_red_dark"
+                app:hintTextColor="@color/grey"
+                app:boxStrokeColor="#6C68684F"
+                app:boxStrokeWidth="1dp"
+                app:errorEnabled="true"
+                app:passwordToggleTint="#6C68684F"
+                app:passwordToggleEnabled="true">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/password"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:autofillHints="password"
+                    android:drawableStart="@drawable/password_icon"
+                    android:drawablePadding="15dp"
+                    android:hint="@string/password"
+                    android:inputType="textPassword"
+                    tools:ignore="TextContrastCheck" />
+            </com.google.android.material.textfield.TextInputLayout>
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginStart="24dp"
-            android:layout_marginTop="24dp"
-            android:layout_marginEnd="24dp"
+            android:layout_marginTop="15dp"
             android:orientation="horizontal">
 
             <androidx.appcompat.widget.AppCompatButton
@@ -119,53 +103,49 @@
                 android:background="@drawable/btn_background"
                 android:text="@string/sign_in"
                 android:textColor="@color/white"
-                android:textSize="18sp" />
+                android:textSize="18sp"
+                tools:ignore="TextContrastCheck" />
         </LinearLayout>
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="24dp"
-            android:layout_marginTop="24dp"
-            android:layout_marginEnd="24dp"
+            android:layout_height="match_parent"
+            android:layout_marginTop="10dp"
             android:orientation="horizontal">
 
             <androidx.appcompat.widget.AppCompatButton
                 android:id="@+id/with_google"
-                android:layout_width="match_parent"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:layout_marginTop="10dp"
                 android:background="@drawable/btn_background"
                 android:backgroundTint="@color/white"
-                android:text="@string/continue_with_google"
-                android:textColor="@color/black"
-                android:drawableStart="@drawable/vector_google"
-                android:paddingHorizontal="16dp"
                 android:clickable="true"
-                android:importantForAccessibility="no" />
-
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="24dp"
-            android:layout_marginTop="24dp"
-            android:layout_marginEnd="24dp"
-            android:orientation="horizontal">
+                android:layout_marginHorizontal="5dp"
+                android:drawableStart="@drawable/vector_google"
+                android:importantForAccessibility="no"
+                android:paddingHorizontal="16dp"
+                android:text="Google"
+                android:textColor="@color/black"
+                tools:ignore="HardcodedText" />
 
             <androidx.appcompat.widget.AppCompatButton
                 android:id="@+id/with_fb"
-                android:layout_width="match_parent"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
+                android:layout_marginHorizontal="5dp"
+                android:layout_marginTop="10dp"
+                android:layout_weight="1"
                 android:background="@drawable/btn_background"
                 android:backgroundTint="#1877F2"
-                android:text="@string/continue_with_facebook"
-                android:textColor="@color/white"
-                android:drawableStart="@drawable/vector_fb"
-                android:paddingHorizontal="16dp"
                 android:clickable="true"
-                android:importantForAccessibility="no" />
-
+                android:drawableStart="@drawable/vector_fb"
+                android:importantForAccessibility="no"
+                android:paddingHorizontal="16dp"
+                android:text="Facebook"
+                android:textColor="@color/white"
+                tools:ignore="HardcodedText,TextContrastCheck" />
         </LinearLayout>
     </LinearLayout>
 
@@ -174,7 +154,7 @@
         app:layout_constraintTop_toBottomOf="@+id/vertical_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="30dp"
+        android:layout_marginTop="15dp"
         android:orientation="horizontal">
 
         <TextView
@@ -191,7 +171,7 @@
             android:layout_weight="1"
             android:clickable="true"
             android:text="@string/register"
-            android:textColor="@color/pink"
+            android:textColor="#D81B60"
             tools:ignore="TouchTargetSizeCheck" />
     </LinearLayout>
 
@@ -199,7 +179,7 @@
         app:layout_constraintTop_toBottomOf="@+id/linear_to_register"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
+        android:layout_marginTop="15dp"
         android:orientation="horizontal">
 
         <TextView
@@ -210,7 +190,7 @@
             android:layout_weight="1"
             android:clickable="true"
             android:text="@string/forgot_your_password"
-            android:textColor="@color/pink"
+            android:textColor="#D81B60"
             tools:ignore="TouchTargetSizeCheck" />
     </LinearLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>
