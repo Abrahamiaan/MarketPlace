@@ -75,4 +75,13 @@
 	</string>
     <string name="forgot_password_info">Please, enter your email address. You will receive a link to create a new password via email.</string>
     <string name="send">Send</string>
+    <string name="confirm_password">Confirm password</string>
+    <string name="email_cannot_be_empty">Email cannot be empty</string>
+    <string name="name_cannot_be_empty">Name cannot be empty</string>
+    <string name="password_cannot_be_empty">Password cannot be empty</string>
+    <string name="password_must_be_at_least_8_characters_long">Password must be at least 8 characters long</string>
+    <string name="passwords_do_not_match">Passwords do not match</string>
+    <string name="notification">Notification</string>
+    <string name="no_notifications">No Notification yet</string>
+    <string name="invalid_email_or_password">Invalid Email Or Password</string>
 </resources>

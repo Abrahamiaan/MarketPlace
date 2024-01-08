@@ -2,6 +2,9 @@ package com.example.marketplace.Activity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextUtils;
+import android.text.TextWatcher;
 import android.util.Log;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -15,10 +18,8 @@ import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.android.gms.auth.api.signin.GoogleSignInClient;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.google.android.gms.common.api.ApiException;
-import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthCredential;
-import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException;
 import com.google.firebase.auth.FirebaseUser;
@@ -47,16 +48,11 @@ public class LoginActivity extends AppCompatActivity {
                 .build();
         mGoogleSignInClient = GoogleSignIn.getClient(this, gso);
 
-        binding.signInBtn.setOnClickListener(v -> {
-            String email = binding.email.getText().toString();
-            String password = binding.password.getText().toString();
-            signIn(email, password);
-        });
+        binding.signInBtn.setOnClickListener(v -> signIn());
 
         binding.toRegister.setOnClickListener(v -> {
             Intent intent = new Intent(LoginActivity.this, RegisterActivity.class);
             startActivity(intent);
-            finish();
         });
         
         binding.withGoogle.setOnClickListener(v-> SingInWithGoogle());
@@ -65,30 +61,95 @@ public class LoginActivity extends AppCompatActivity {
             Intent intent = new Intent(LoginActivity.this, ForgotPasswordActivity.class);
             startActivity(intent);
         });
+
+        binding.email.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                binding.textInputEmail.setError(null);
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                if (TextUtils.isEmpty(binding.email.getText())) {
+                    binding.textInputEmail.setError("Email cannot be empty");
+                }
+            }
+        });
+        binding.password.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                binding.textInputPassword.setError(null);
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                if (TextUtils.isEmpty(binding.password.getText())) {
+                    binding.textInputPassword.setError("Password cannot be empty");
+                }
+            }
+        });
     }
 
-    private void signIn(String email, String password) {
-        if (email.isEmpty() || password.isEmpty()) {
-            showErrorDialog("Login Failed", "Email or Password cannot be empty");
-            return;
+    private void signIn() {
+        String email = binding.email.getText().toString();
+        String password = binding.password.getText().toString();
+        boolean isValid = true;
+
+        if (password.isEmpty()) {
+            binding.textInputPassword.setError(getString(R.string.password_cannot_be_empty));
+            isValid = false;
         }
+
+        if (email.isEmpty()) {
+            binding.textInputEmail.setError(getString(R.string.email_cannot_be_empty));
+            isValid= false;
+        }
+
+        if (!isValid)
+            return;
 
         mAuth.signInWithEmailAndPassword(email, password)
                 .addOnCompleteListener(this, task -> {
                     if (task.isSuccessful()) {
-                        Log.d("login", "signInWithEmail:success");
-                        Intent intent = new Intent(LoginActivity.this, MainActivity.class);
-                        startActivity(intent);
+                        FirebaseUser user = mAuth.getCurrentUser();
+                        if (user != null && !user.isEmailVerified()) {
+                            showErrorDialog("Email not verified", "Please verify your email and try again.");
+                            user.sendEmailVerification()
+                                    .addOnCompleteListener(this, task1 -> {
+                                            if (task1.isSuccessful()) {
+                                                mAuth.signOut();
+                                            } else {
+                                                Log.e("Login: ", "Failed to send verification email. Please try again");
+                                            }
+                                    });
+                        } else {
+                            Log.d("Login: ", "Sign In With Email Success");
+                            Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+                            startActivity(intent);
+                            finish();
+                        }
                     } else {
-                        Log.e("login", "signInWithEmail:failure", task.getException());
+                        Log.e("Login: ", "Sign In With Email Failure", task.getException());
                         if (task.getException() instanceof FirebaseAuthInvalidCredentialsException) {
-                            showErrorDialog("Login Failed", "Email or Password is incorrect");
+                            binding.textInputPassword.setError("Email or Password is incorrect");
+                            binding.textInputEmail.setError("Email or Password is incorrect");
                         } else {
                             showErrorDialog("Authentication failed", "Users in this date range don't exist");
                         }
                     }
                 });
     }
+
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -125,8 +186,16 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     public void SingInWithGoogle() {
-        Intent signInIntent = mGoogleSignInClient.getSignInIntent();
-        startActivityForResult(signInIntent, RC_SIGN_IN);
+        mGoogleSignInClient.signOut().addOnCompleteListener(this, task -> {
+            GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+                    .requestIdToken(getString(R.string.web_client_id))
+                    .requestEmail()
+                    .build();
+
+            mGoogleSignInClient = GoogleSignIn.getClient(this, gso);
+            Intent signInIntent = mGoogleSignInClient.getSignInIntent();
+            startActivityForResult(signInIntent, RC_SIGN_IN);
+        });
     }
 
     public void showErrorDialog(String title, String message) {
