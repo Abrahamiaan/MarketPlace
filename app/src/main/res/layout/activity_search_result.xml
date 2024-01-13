@@ -1,0 +1,192 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:focusable="true"
+    android:focusableInTouchMode="true"
+    android:background="@color/white"
+    android:clickable="true">
+
+    <LinearLayout
+        android:id="@+id/linearLayout"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:orientation="horizontal"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <ImageButton
+            android:id="@+id/toBack"
+            android:layout_width="?attr/actionBarSize"
+            android:layout_height="?attr/actionBarSize"
+            android:background="?attr/selectableItemBackgroundBorderless"
+            android:clickable="true"
+            app:srcCompat="@drawable/vector_back"
+            tools:ignore="ContentDescription,SpeakableTextPresentCheck" />
+
+        <TextView
+            android:id="@+id/searchQuery"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_marginStart="@dimen/_10sdp"
+            android:layout_weight="1"
+            android:gravity="left|center_vertical"
+            android:textAppearance="@style/TextAppearance.AppCompat.Subhead"
+            android:textColor="@color/pink"
+            android:textStyle="bold"
+            app:fontFamily="sans-serif-medium"
+            tools:ignore="RtlHardcoded" />
+
+        <ImageButton
+            android:id="@+id/toSearch"
+            android:layout_width="?attr/actionBarSize"
+            android:layout_height="?attr/actionBarSize"
+            android:background="?attr/selectableItemBackgroundBorderless"
+            android:clickable="true"
+            app:srcCompat="@drawable/vector_search"
+            app:tint="@color/pink"
+            tools:ignore="ContentDescription,SpeakableTextPresentCheck" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/sortFilterLayout"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/_40sdp"
+        android:orientation="horizontal"
+        android:layout_below="@+id/linearLayout"
+        android:baselineAligned="false">
+
+        <RelativeLayout
+            android:id="@+id/filterLayout"
+            android:layout_width="0dp"
+            android:layout_weight="0.25"
+            android:clickable="true"
+            android:layout_height="match_parent">
+
+            <ImageView
+                android:id="@+id/imageView2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentStart="true"
+                android:layout_centerInParent="true"
+                android:layout_marginStart="@dimen/_20sdp"
+                android:paddingEnd="@dimen/_10sdp"
+                android:src="@drawable/vector_filter"
+                tools:ignore="RtlSymmetry" />
+
+            <TextView
+                android:id="@+id/textView5"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/filters"
+                android:layout_toEndOf="@+id/imageView2"
+                android:layout_centerVertical="true" />
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/sortLayout"
+            android:layout_width="0dp"
+            android:layout_weight="0.25"
+            android:clickable="true"
+            android:layout_height="match_parent">
+
+            <ImageView
+                android:id="@+id/sortImg"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentStart="true"
+                android:layout_centerInParent="true"
+                android:layout_marginStart="@dimen/_20sdp"
+                android:paddingEnd="@dimen/_10sdp"
+                android:src="@drawable/vector_sortby" />
+
+            <TextView
+                android:id="@+id/sortTxt"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_toEndOf="@+id/sortImg"
+                android:text="@string/sort_by" />
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/viewsLayout"
+            android:layout_width="0dp"
+            android:layout_weight="0.25"
+            android:layout_height="match_parent">
+
+            <RelativeLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:layout_centerInParent="true">
+
+                <ImageView
+                    android:id="@+id/listViewIcon"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginEnd="@dimen/_16sdp"
+                    android:importantForAccessibility="no"
+                    android:src="@drawable/vector_list" />
+
+                <ImageView
+                    android:id="@+id/gridViewIcon"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginEnd="@dimen/_10sdp"
+                    android:layout_toEndOf="@+id/listViewIcon"
+                    android:importantForAccessibility="no"
+                    android:src="@drawable/vector_grid"/>
+            </RelativeLayout>
+        </RelativeLayout>
+    </LinearLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/_1sdp"
+        android:layout_below="@+id/linearLayout"
+        android:background="#FF657786"/>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/_1sdp"
+        android:layout_below="@+id/sortFilterLayout"
+        android:background="#FF657786"/>
+
+    <ProgressBar
+        android:id="@+id/progressBar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recyclerView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingLeft="@dimen/_2sdp"
+        android:paddingStart="@dimen/_2sdp"
+        android:paddingRight="@dimen/_2sdp"
+        android:paddingEnd="@dimen/_2sdp"
+        android:layout_marginTop="@dimen/_10sdp"
+        android:layout_below="@+id/sortFilterLayout"
+        android:paddingBottom="@dimen/_4sdp"
+        android:clipToPadding="false"
+        android:overScrollMode="never"
+        android:scrollbars="none"/>
+
+    <TextView
+        android:id="@+id/notMatches"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:text="@string/no_exact_matches_found"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        android:visibility="gone" />
+
+</RelativeLayout>

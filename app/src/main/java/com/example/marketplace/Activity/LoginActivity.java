@@ -124,7 +124,11 @@ public class LoginActivity extends AppCompatActivity {
                         FirebaseUser user = mAuth.getCurrentUser();
                         if (user != null && !user.isEmailVerified()) {
                             showErrorDialog("Email not verified", "Please verify your email and try again.");
-                            mAuth.signOut();
+                            user.sendEmailVerification().addOnCompleteListener(this, task1 -> {
+                                if(task1.isSuccessful()) {
+                                    mAuth.signOut();
+                                }
+                            });
                         } else {
                             Log.d("Login: ", "Sign In With Email Success");
                             Intent intent = new Intent(LoginActivity.this, MainActivity.class);

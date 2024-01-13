@@ -4,7 +4,9 @@ import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Log;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.app.AppCompatDelegate;
 
+import com.example.marketplace.Utils.LocaleHelper;
 import com.example.marketplace.databinding.ActivityForgotPasswordBinding;
 import com.google.firebase.auth.FirebaseAuth;
 
@@ -16,6 +18,8 @@ public class ForgotPasswordActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
+        LocaleHelper.setAppLanguage(this);
         binding = ActivityForgotPasswordBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 

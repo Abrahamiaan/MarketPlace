@@ -15,6 +15,7 @@ import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.resource.bitmap.RoundedCorners;
 import com.bumptech.glide.request.target.CustomTarget;
 import com.bumptech.glide.request.transition.Transition;
 import com.example.marketplace.Activity.DetailActivity;
@@ -26,16 +27,18 @@ import java.util.List;
 public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductViewHolder> {
     Context context;
     List<FlowerModel> flowersList;
+    int layoutResId;
 
-    public ProductAdapter(Context context, List<FlowerModel> flowersList) {
+    public ProductAdapter(Context context, List<FlowerModel> flowersList, int layoutResId) {
         this.context = context;
         this.flowersList = flowersList;
+        this.layoutResId = layoutResId;
     }
 
     @NonNull
     @Override
     public ProductAdapter.ProductViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(context).inflate(R.layout.prodcut_item, parent, false);
+        View view = LayoutInflater.from(context).inflate(layoutResId, parent, false);
         return new ProductViewHolder(view);
     }
 
@@ -45,6 +48,7 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductV
 
         Glide.with(context)
                 .load(currentFlower.getPhoto())
+                .transform(new RoundedCorners(30))
                 .into(new CustomTarget<Drawable>() {
                     @Override
                     public void onResourceReady(@NonNull Drawable resource, @Nullable Transition<? super Drawable> transition) {

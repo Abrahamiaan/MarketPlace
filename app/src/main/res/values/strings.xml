@@ -84,4 +84,7 @@
     <string name="notification">Notification</string>
     <string name="no_notifications">No Notification yet</string>
     <string name="email_or_password_is_incorrect">Email or Password is incorrect</string>
+    <string name="no_exact_matches_found">No exact matches found</string>
+    <string name="filters">Filters</string>
+    <string name="sort_by">Sort By</string>
 </resources>

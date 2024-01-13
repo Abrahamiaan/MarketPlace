@@ -1,7 +1,14 @@
 package com.example.marketplace.Model;
 
+import com.google.type.DateTime;
+
 import java.io.Serializable;
+import java.time.ZoneOffset;
+import java.util.Date;
 import java.util.List;
+
+import java.time.LocalDateTime;
+
 
 public class ProductModel implements Serializable{
     private String productId;
@@ -13,9 +20,11 @@ public class ProductModel implements Serializable{
     private String seller;
     private List<Double> lengths;
     private List<String> colors;
+    private Date listedTime;
 
     public ProductModel() {
-
+        Date currentDate = new Date();
+        listedTime = currentDate;
     }
     public String getProductId() {
         return productId;
@@ -87,5 +96,13 @@ public class ProductModel implements Serializable{
 
     public void setColors(List<String> colors) {
         this.colors = colors;
+    }
+
+    public Date getListedTime() {
+        return listedTime;
+    }
+
+    public void setListedTime(Date listedTime) {
+        this.listedTime = listedTime;
     }
 }

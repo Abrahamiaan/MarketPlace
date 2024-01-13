@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/white"
+    android:id="@+id/mainLayout"
     tools:context=".Activity.MainActivity">
 
     <FrameLayout
@@ -21,13 +21,14 @@
         android:id="@+id/navigationBar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:mbn_circleColor="#FFFFFF"
+        android:layout_alignParentBottom="true"
         app:mbn_backgroundBottomColor="@color/pink"
+        app:mbn_circleColor="#FFFFFF"
         app:mbn_countBackgroundColor="#ff6f00"
         app:mbn_countTextColor="#FFFFFF"
         app:mbn_defaultIconColor="@color/white"
         app:mbn_rippleColor="#2f424242"
+        app:backgroundColor="@null"
         app:mbn_selectedIconColor="#AE2755"
-        app:mbn_shadowColor="#1f212121"
-        android:layout_alignParentBottom="true" />
+        app:mbn_shadowColor="#1f212121" />
 </RelativeLayout>

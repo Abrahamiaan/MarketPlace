@@ -23,6 +23,8 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 public class HomeFragment extends Fragment {
@@ -40,29 +42,46 @@ public class HomeFragment extends Fragment {
         initRecyclerView();
         setCategoryRecycler(categoryList);
         setProductRecycler(flowersList);
+
         return binding.getRoot();
     }
 
     private void fetchDataFromFirestore() {
         CollectionReference flowersCollection = FirebaseFirestore.getInstance().collection("Products");
 
-        flowersCollection.get().addOnCompleteListener(task -> {
+        Calendar today = Calendar.getInstance();
+        today.set(Calendar.HOUR_OF_DAY, 0);
+        today.set(Calendar.MINUTE, 0);
+        today.set(Calendar.SECOND, 0);
+        today.set(Calendar.MILLISECOND, 0);
+
+        Date startOfDay = today.getTime();
+        today.add(Calendar.DAY_OF_MONTH, 1);
+        Date startOfNextDay = today.getTime();
+
+        flowersCollection.whereGreaterThanOrEqualTo("listedTime", startOfDay)
+                .whereLessThan("listedTime", startOfNextDay)
+                .get().addOnCompleteListener(task -> {
             if (task.isSuccessful()) {
                 for (QueryDocumentSnapshot document : task.getResult()) {
-                    String title = document.getString("title");
-                    String category = document.getString("category");
-                    long price = document.getLong("price");
-                    String details = document.getString("details");
-                    String photo = document.getString("photo");
-                    String seller = document.getString("seller");
+                    Date listedTime = document.getDate("listedTime");
 
-                    int flowerPrice = (int) price;
-                    FlowerModel flowerModel = new FlowerModel(title, flowerPrice, photo);
-                    flowerModel.setProductId(document.getId());
-                    flowerModel.setDetails(details);
-                    flowerModel.setCategory(category);
-                    flowerModel.setSeller(seller);
-                    flowersList.add(flowerModel);
+                    if (listedTime != null) {
+                        String title = document.getString("title");
+                        String category = document.getString("category");
+                        long price = document.getLong("price");
+                        String details = document.getString("details");
+                        String photo = document.getString("photo");
+                        String seller = document.getString("seller");
+
+                        int flowerPrice = (int) price;
+                        FlowerModel flowerModel = new FlowerModel(title, flowerPrice, photo);
+                        flowerModel.setProductId(document.getId());
+                        flowerModel.setDetails(details);
+                        flowerModel.setCategory(category);
+                        flowerModel.setSeller(seller);
+                        flowersList.add(flowerModel);
+                    }
                 }
                 productAdapter.notifyDataSetChanged();
             } else {
@@ -93,7 +112,7 @@ public class HomeFragment extends Fragment {
     private void setProductRecycler(List<FlowerModel> flowerDataList) {
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false);
         binding.productRecycler.setLayoutManager(layoutManager);
-        productAdapter = new ProductAdapter(requireContext(), flowerDataList);
+        productAdapter = new ProductAdapter(requireContext(), flowerDataList, R.layout.product_item);
         binding.productRecycler.setAdapter(productAdapter);
     }
 }

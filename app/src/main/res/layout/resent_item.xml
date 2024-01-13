@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="48dp">
+
+    <ImageView
+        android:id="@+id/iconIv"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
+        android:layout_alignParentStart="true"
+        android:layout_centerVertical="true"
+        android:scaleType="centerInside"
+        android:cropToPadding="false"
+        android:src="@drawable/vector_history"
+        android:importantForAccessibility="no"/>
+
+    <TextView
+        android:id="@+id/textTv"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_toStartOf="@+id/removeBtnWrapperFl"
+        android:layout_toEndOf="@id/iconIv"
+        android:layout_marginLeft="16dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginRight="16dp"
+        android:layout_marginEnd="16dp"
+        android:gravity="center_vertical"
+        android:scaleType="centerInside"
+        android:textSize="14sp"
+        android:lines="1"
+        android:minLines="1"
+        android:maxLines="1"
+        android:singleLine="true"
+        android:ellipsize="end"
+        tools:text="Suggestion"
+        tools:textColor="#000000"/>
+
+    <FrameLayout
+        android:id="@+id/removeBtnWrapperFl"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
+        android:layout_alignParentEnd="true">
+
+        <ImageView
+            android:id="@+id/removeBtn"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_gravity="center"
+            android:scaleType="centerInside"
+            android:src="@drawable/vector_close"
+            android:importantForAccessibility="no" />
+
+    </FrameLayout>
+
+</RelativeLayout>

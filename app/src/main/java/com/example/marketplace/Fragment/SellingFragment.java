@@ -1,47 +1,52 @@
 package com.example.marketplace.Fragment;
 
+import android.annotation.SuppressLint;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
-import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.Toast;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 
 import com.civitasv.ioslike.dialog.DialogHud;
 import com.example.marketplace.Adapter.ColorSizeAdapter;
 import com.example.marketplace.Model.ProductModel;
 import com.example.marketplace.R;
 import com.example.marketplace.databinding.FragmentSellingBinding;
-import com.google.android.material.textfield.TextInputEditText;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.net.HttpURLConnection;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 public class SellingFragment extends Fragment {
-
     FragmentSellingBinding binding;
     final int PICK_IMAGE_REQUEST = 1;
     static final String[] categories = new String[]{"Rose", "Tulip", "Lily", "Sunflower", "Plants"};
     ProductModel productModel;
-
     FirebaseFirestore db;
     Uri imagePath;
     StorageReference storageReference;
@@ -75,7 +80,6 @@ public class SellingFragment extends Fragment {
             }
         });
 
-
         List<EditText> colorItems = new ArrayList<>();
         binding.colorRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity().getApplicationContext()));
         colorAdapter = new ColorSizeAdapter(colorItems);
@@ -86,6 +90,7 @@ public class SellingFragment extends Fragment {
             colorAdapter.addItem(newEditText);
             editTextList.add(newEditText);
         });
+
 
         return binding.getRoot();
     }

@@ -14,6 +14,7 @@ import android.view.ViewGroup;
 
 import com.example.marketplace.Adapter.ProductAdapter;
 import com.example.marketplace.Model.FlowerModel;
+import com.example.marketplace.R;
 import com.example.marketplace.databinding.FragmentFavoriteBinding;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentReference;
@@ -104,11 +105,11 @@ public class FavoriteFragment extends Fragment {
             }
         }
     }
+
     private void setFavoriteRecycler(List<FlowerModel> favoriteDataList) {
         RecyclerView.LayoutManager layoutManager = new GridLayoutManager(requireContext(), 2);
         binding.favoriteRecycler.setLayoutManager(layoutManager);
-        productAdapter = new ProductAdapter(requireContext(), favoriteDataList);
-        binding.favoriteRecycler.setHasFixedSize(true);
+        productAdapter = new ProductAdapter(requireContext(), favoriteDataList, R.layout.product_item);
         binding.favoriteRecycler.setAdapter(productAdapter);
     }
 }
