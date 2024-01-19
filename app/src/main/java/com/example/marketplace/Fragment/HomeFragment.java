@@ -17,6 +17,7 @@ import com.example.marketplace.Adapter.ProductAdapter;
 import com.example.marketplace.Model.Category;
 import com.example.marketplace.Model.FlowerModel;
 import com.example.marketplace.R;
+import com.example.marketplace.Utils.TestingHelper;
 import com.example.marketplace.databinding.FragmentHomeBinding;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -59,29 +60,16 @@ public class HomeFragment extends Fragment {
         today.add(Calendar.DAY_OF_MONTH, 1);
         Date startOfNextDay = today.getTime();
 
-        flowersCollection.whereGreaterThanOrEqualTo("listedTime", startOfDay)
-                .whereLessThan("listedTime", startOfNextDay)
-                .get().addOnCompleteListener(task -> {
+//        flowersCollection.whereGreaterThanOrEqualTo("listedTime", startOfDay)
+//                .whereLessThan("listedTime", startOfNextDay)
+//                .get().addOnCompleteListener(task -> {
+
+        flowersCollection.get()
+                .addOnCompleteListener(task -> {
             if (task.isSuccessful()) {
                 for (QueryDocumentSnapshot document : task.getResult()) {
-                    Date listedTime = document.getDate("listedTime");
-
-                    if (listedTime != null) {
-                        String title = document.getString("title");
-                        String category = document.getString("category");
-                        long price = document.getLong("price");
-                        String details = document.getString("details");
-                        String photo = document.getString("photo");
-                        String seller = document.getString("seller");
-
-                        int flowerPrice = (int) price;
-                        FlowerModel flowerModel = new FlowerModel(title, flowerPrice, photo);
-                        flowerModel.setProductId(document.getId());
-                        flowerModel.setDetails(details);
-                        flowerModel.setCategory(category);
-                        flowerModel.setSeller(seller);
+                        FlowerModel flowerModel = document.toObject(FlowerModel.class);
                         flowersList.add(flowerModel);
-                    }
                 }
                 productAdapter.notifyDataSetChanged();
             } else {

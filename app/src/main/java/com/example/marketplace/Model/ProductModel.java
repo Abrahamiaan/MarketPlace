@@ -12,6 +12,7 @@ import java.time.LocalDateTime;
 
 public class ProductModel implements Serializable{
     private String productId;
+    private String sellerId;
     private String title;
     private String category;
     private String details;
@@ -23,8 +24,7 @@ public class ProductModel implements Serializable{
     private Date listedTime;
 
     public ProductModel() {
-        Date currentDate = new Date();
-        listedTime = currentDate;
+        listedTime = new Date();
     }
     public String getProductId() {
         return productId;
@@ -32,6 +32,14 @@ public class ProductModel implements Serializable{
 
     public void setProductId(String productId) {
         this.productId = productId;
+    }
+
+    public String getSellerId() {
+        return sellerId;
+    }
+
+    public void setSellerId(String sellerId) {
+        this.sellerId = sellerId;
     }
 
     public String getTitle() {

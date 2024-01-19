@@ -5,7 +5,10 @@ import android.os.AsyncTask;
 import android.util.Log;
 
 import com.example.marketplace.Model.ProductModel;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -65,7 +68,6 @@ public class TestingHelper {
             }.execute();
         }
     }
-
     private static String getRandomUnsplashImageUrl() {
         try {
             URL url = new URL("https://api.unsplash.com/photos/random?client_id=buPJCBomlHu7lQ6Knv1fbxfRWiwu0-YJgu_tnR3POZU&query=flower");
@@ -90,5 +92,30 @@ public class TestingHelper {
             e.printStackTrace();
             return null;
         }
+    }
+    public static void deleteTestProducts() {
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
+
+        db.collection("Products")
+                .orderBy("seller")
+                .startAt("Test")
+                .endAt("Test" + '\uf8ff')
+                .get()
+                .addOnCompleteListener(task -> {
+                    if (task.isSuccessful()) {
+                        for (QueryDocumentSnapshot document : task.getResult()) {
+                            db.collection("Products").document(document.getId()).delete()
+                                    .addOnCompleteListener(deleteTask -> {
+                                        if (deleteTask.isSuccessful()) {
+                                            Log.d("DELETE: ", "DELETED " + document.getId());
+                                        } else {
+                                            Log.e("DELETE ERROR: ", "Error deleting document " + document.getId(), deleteTask.getException());
+                                        }
+                                    });
+                        }
+                    } else {
+                        Log.e("DELETE ERROR: ", "Error getting documents: ", task.getException());
+                    }
+                });
     }
 }

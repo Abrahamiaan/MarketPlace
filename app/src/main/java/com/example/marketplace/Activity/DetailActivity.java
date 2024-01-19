@@ -6,6 +6,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.app.AppCompatDelegate;
 import androidx.core.content.ContextCompat;
 
+import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.util.Log;
@@ -50,7 +51,6 @@ public class DetailActivity extends AppCompatActivity {
         mAuth = FirebaseAuth.getInstance();
         db = FirebaseFirestore.getInstance();
 
-
         FlowerModel flowerModel = (FlowerModel) getIntent().getSerializableExtra("object");
         initProduct(flowerModel);
 
@@ -63,6 +63,13 @@ public class DetailActivity extends AppCompatActivity {
                 addToFavorites(flowerModel);
             else
                 removeFromFavorites(flowerModel);
+        });
+
+        binding.sellerReviewLayout.setOnClickListener(v -> {
+            Intent intent = new Intent(DetailActivity.this, ReviewActivity.class);
+            intent.putExtra("subject", flowerModel.getSeller());
+            intent.putExtra("subjectId",flowerModel.getSellerId());
+            startActivity(intent);
         });
     }
 

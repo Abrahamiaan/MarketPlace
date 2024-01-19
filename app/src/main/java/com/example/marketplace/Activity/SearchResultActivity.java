@@ -113,6 +113,7 @@ public class SearchResultActivity extends AppCompatActivity {
                                 String details = document.getString("details");
                                 String photo = document.getString("photo");
                                 String seller = document.getString("seller");
+                                String sellerId = document.getString("sellerId");
                                 Timestamp listedTimeTimeStamp = document.getTimestamp("listedTime");
                                 Date listedTime = null;
 
@@ -125,6 +126,7 @@ public class SearchResultActivity extends AppCompatActivity {
                                 flowerModel.setDetails(details);
                                 flowerModel.setCategory(category);
                                 flowerModel.setSeller(seller);
+                                flowerModel.setSellerId(sellerId);
                                 flowerModel.setListedTime(listedTime);
                                 flowersList.add(flowerModel);
                             }

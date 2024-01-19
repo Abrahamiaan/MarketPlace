@@ -1,11 +1,9 @@
 package com.example.marketplace.Fragment;
 
-import android.annotation.SuppressLint;
-import android.app.ProgressDialog;
+import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.net.Uri;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.view.LayoutInflater;
@@ -29,18 +27,9 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 
-import org.json.JSONException;
-import org.json.JSONObject;
-
-import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.net.HttpURLConnection;
-import java.net.URL;
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Random;
+import java.util.ArrayList;
 
 public class SellingFragment extends Fragment {
     FragmentSellingBinding binding;
@@ -118,7 +107,8 @@ public class SellingFragment extends Fragment {
     public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
-        if (requestCode == PICK_IMAGE_REQUEST && resultCode == getActivity().RESULT_OK && data != null) {
+        getActivity();
+        if (requestCode == PICK_IMAGE_REQUEST && resultCode == Activity.RESULT_OK && data != null) {
             imagePath = data.getData();
             try {
                 Bitmap bitmap = MediaStore.Images.Media.getBitmap(requireActivity().getContentResolver(), imagePath);
@@ -188,8 +178,9 @@ public class SellingFragment extends Fragment {
         productModel.setColors(colorAdapter.getColorItems());
         FirebaseAuth mAuth = FirebaseAuth.getInstance();
         FirebaseUser currentUser =  mAuth.getCurrentUser();
-        if ( currentUser != null) {
+        if (currentUser != null) {
             productModel.setSeller(currentUser.getDisplayName());
+            productModel.setSellerId(currentUser.getUid());
         }
 
         storageReference = FirebaseStorage.getInstance().getReference();

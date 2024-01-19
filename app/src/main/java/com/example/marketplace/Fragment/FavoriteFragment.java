@@ -84,12 +84,7 @@ public class FavoriteFragment extends Fragment {
                             if (task.isSuccessful()) {
                                 DocumentSnapshot productSnapshot = task.getResult();
                                 if (productSnapshot != null && productSnapshot.exists()) {
-                                    String title = productSnapshot.getString("title");
-                                    long price = productSnapshot.getLong("price");
-                                    String photo = productSnapshot.getString("photo");
-
-                                    int flowerPrice = (int) price;
-                                    FlowerModel flowerModel = new FlowerModel(title, flowerPrice, photo);
+                                    FlowerModel flowerModel = productSnapshot.toObject(FlowerModel.class);
                                     favoriteList.add(flowerModel);
 
                                     if (favoriteList.size() == productIds.size()) {

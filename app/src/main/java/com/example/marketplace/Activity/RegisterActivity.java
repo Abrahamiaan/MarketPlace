@@ -122,8 +122,9 @@ public class RegisterActivity extends AppCompatActivity {
                                             firebaseUser.updateProfile(profileUpdates)
                                                     .addOnCompleteListener(updateProfileTask -> {
                                                         if (updateProfileTask.isSuccessful()) {
-                                                            saveUserDataInFirestore(firebaseUser);
-                                                            Log.d("Sign Up: ",  "Register Successfully");
+                                                            Intent intent = new Intent(RegisterActivity.this, LoginActivity.class);
+                                                            startActivity(intent);
+                                                            finish();                                                            Log.d("Sign Up: ",  "Register Successfully");
                                                         } else {
                                                             Exception updateProfileException = updateProfileTask.getException();
                                                             Log.e("Update Profile Failed", Objects.requireNonNull(updateProfileException).getMessage());
@@ -141,25 +142,6 @@ public class RegisterActivity extends AppCompatActivity {
                         Log.e("Register Failed", exception.getMessage());
                     }
                 });
-    }
-
-    private void saveUserDataInFirestore(FirebaseUser user) {
-        String userId = user.getUid();
-        String displayName = user.getDisplayName();
-        String email = user.getEmail();
-
-        DocumentReference userRef = db.collection("Users").document(userId);
-
-        Map<String, Object> userData = new HashMap<>();
-        userData.put("displayName", displayName);
-        userData.put("email", email);
-
-        userRef.set(userData)
-                .addOnSuccessListener(aVoid -> Log.d("Google Firestore: ", "User data successfully written to Firestore"))
-                .addOnFailureListener(e -> Log.w("Google Firestore:" , "Error writing user data to Firestore", e));
-        Intent intent = new Intent(RegisterActivity.this, LoginActivity.class);
-        startActivity(intent);
-        finish();
     }
 
     private boolean validateInput() {

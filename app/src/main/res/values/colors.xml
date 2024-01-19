@@ -8,7 +8,9 @@
     <color name="backgroundColor">#FFFFFFFF</color>
     <color name="textColor">#FF000000</color>
 
-    <!-- TODO: Remove unused colors-->
+    <color name="colorPrimary">#E75480</color>
+    <color name="colorRating">#FFB300</color>
+
     <color name="grey_3">#f7f7f7</color>
     <color name="grey_10">#e6e6e6</color>
     <color name="grey_20">#cccccc</color>

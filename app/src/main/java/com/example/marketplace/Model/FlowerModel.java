@@ -7,6 +7,10 @@ public class FlowerModel extends ProductModel implements Serializable {
     private int price;
     private String photo;
 
+    FlowerModel() {
+
+    }
+
     public FlowerModel(String title, int price, String photo) {
         this.title = title;
         this.price = price;

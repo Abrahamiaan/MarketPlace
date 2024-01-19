@@ -87,4 +87,5 @@
     <string name="no_exact_matches_found">No exact matches found</string>
     <string name="filters">Filters</string>
     <string name="sort_by">Sort By</string>
+    <string name="barLabel" translatable="false">⛧⛧⛧⛧⛧\n⛧⛧⛧⛧\n⛧⛧⛧\n⛧⛧\n⛧</string>
 </resources>
