@@ -80,4 +80,12 @@
     <string name="notification">Ծանուցում</string>
     <string name="no_notifications">Դեռևս ծանուցում չկա</string>
     <string name="email_or_password_is_incorrect">Էլ. հասցեն կամ գաղտնաբառը սխալ է</string>
+    <string name="no_exact_matches_found">Ոչինչ չի գտնվել</string>
+    <string name="filters">Ֆիլտրեր</string>
+    <string name="sort_by">Դասավորել ըստ</string>
+    <string name="didn_t_receive_code">Կոդը չստացվեց՝</string>
+    <string name="resend">Նորից ուղարկել</string>
+    <string name="verify">Ստուգել</string>
+    <string name="please_enter_the_verification_code_sent_to_n">Խնդրում ենք մուտքագրել ստուգման կոդը, որպեսզի\n</string>
+    <string name="verify_account">Ստուգել հաշվին</string>
 </resources>

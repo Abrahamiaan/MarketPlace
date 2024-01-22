@@ -84,4 +84,12 @@
     <string name="notification">Уведомление</string>
     <string name="no_notifications">Уведомлений пока нет</string>.
     <string name="email_or_password_is_incorrect">Электронная почта или пароль неверны</string>
+    <string name="no_exact_matches_found">Точных совпадений не найдено</string>.
+    <string name="filters">Фильтры</string>
+    <string name="sort_by">Сортировать по</string>
+    <string name="didn_t_receive_code">Не получили код? </string>
+    <string name="resend">Отправить</string>
+    <string name="verify">Проверить</string>
+    <string name="please_enter_the_verification_code_sent_to_n">Пожалуйста, введите проверочный код, отправленный на адрес\n</string>.
+    <string name="verify_account">Проверить аккаунт</string>
 </resources>

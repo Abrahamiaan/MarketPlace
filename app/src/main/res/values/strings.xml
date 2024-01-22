@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name" translatable="false">MarketPlace</string>
+    <string name="app_name" translatable="false">Berqarat</string>
     <string name="web_client_id" translatable="false">836459178216-so47tia271engo6kgcm2ebsitc420gkk.apps.googleusercontent.com</string>
 
     <string name="explore_popular_categories">Explore Popular Categories</string>
@@ -87,5 +87,9 @@
     <string name="no_exact_matches_found">No exact matches found</string>
     <string name="filters">Filters</string>
     <string name="sort_by">Sort By</string>
-    <string name="barLabel" translatable="false">⛧⛧⛧⛧⛧\n⛧⛧⛧⛧\n⛧⛧⛧\n⛧⛧\n⛧</string>
+    <string name="didn_t_receive_code">Didn’t receive code?</string>
+    <string name="resend">Resend</string>
+    <string name="verify">Verify</string>
+    <string name="please_enter_the_verification_code_sent_to_n">Please enter the verification code sent to\n</string>
+    <string name="verify_account">Verify Account</string>
 </resources>

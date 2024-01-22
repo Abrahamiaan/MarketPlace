@@ -27,6 +27,11 @@ android {
         }
     }
 
+    packagingOptions {
+        exclude("META-INF/NOTICE.md")
+        exclude("META-INF/LICENSE.md")
+    }
+
     viewBinding {
         enable = true
     }
@@ -61,6 +66,8 @@ dependencies {
     annotationProcessor ("com.github.bumptech.glide:compiler:4.12.0")
     implementation ("com.firebaseui:firebase-ui-firestore:8.0.0")
 
+    implementation ("com.sun.mail:android-mail:1.6.6")
+    implementation ("com.sun.mail:android-activation:1.6.6")
 
 
     // Firebase Dependencies

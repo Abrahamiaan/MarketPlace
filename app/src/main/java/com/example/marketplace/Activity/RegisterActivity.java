@@ -6,6 +6,7 @@ import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.util.Log;
+import android.view.View;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.app.AppCompatDelegate;
@@ -25,11 +26,7 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.GoogleAuthProvider;
 import com.google.firebase.auth.UserProfileChangeRequest;
 import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.firestore.DocumentReference;
-import com.google.firebase.firestore.FirebaseFirestore;
 
-import java.util.HashMap;
-import java.util.Map;
 import java.util.Objects;
 
 import ir.androidexception.andexalertdialog.AndExAlertDialog;
@@ -39,7 +36,6 @@ public class RegisterActivity extends AppCompatActivity {
     static final int RC_SIGN_IN = 9001;
     private FirebaseAuth mAuth;
     private GoogleSignInClient mGoogleSignInClient;
-    private FirebaseFirestore db;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,7 +46,6 @@ public class RegisterActivity extends AppCompatActivity {
         setContentView(binding.getRoot());
 
         mAuth = FirebaseAuth.getInstance();
-        db = FirebaseFirestore.getInstance();
         FirebaseDatabase.getInstance().setPersistenceEnabled(true);
         GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
                 .requestIdToken(getString(R.string.web_client_id))
@@ -106,40 +101,41 @@ public class RegisterActivity extends AppCompatActivity {
     }
 
     private void signUp(String email, String password) {
+
+        if (binding.progressBar.getVisibility() == View.GONE)
+            binding.progressBar.setVisibility(View.VISIBLE);
+
         mAuth.createUserWithEmailAndPassword(email, password)
                 .addOnCompleteListener(this, task -> {
                     if (task.isSuccessful()) {
                         FirebaseUser firebaseUser = mAuth.getCurrentUser();
                         if (firebaseUser != null) {
-                            firebaseUser.sendEmailVerification()
-                                    .addOnCompleteListener(emailVerificationTask -> {
-                                        if (emailVerificationTask.isSuccessful()) {
-                                            String username = binding.name.getText().toString();
-                                            UserProfileChangeRequest profileUpdates = new UserProfileChangeRequest.Builder()
-                                                    .setDisplayName(username)
-                                                    .build();
-
-                                            firebaseUser.updateProfile(profileUpdates)
-                                                    .addOnCompleteListener(updateProfileTask -> {
-                                                        if (updateProfileTask.isSuccessful()) {
-                                                            Intent intent = new Intent(RegisterActivity.this, LoginActivity.class);
-                                                            startActivity(intent);
-                                                            finish();                                                            Log.d("Sign Up: ",  "Register Successfully");
-                                                        } else {
-                                                            Exception updateProfileException = updateProfileTask.getException();
-                                                            Log.e("Update Profile Failed", Objects.requireNonNull(updateProfileException).getMessage());
-                                                        }
-                                                    });
-                                        } else {
-                                            Exception emailVerificationException = emailVerificationTask.getException();
-                                            Log.e("Email Verification Failed", Objects.requireNonNull(emailVerificationException).getMessage());
-                                        }
-                                    });
+                            changeDisplayName(firebaseUser);
                         }
                     } else {
                         Exception exception = task.getException();
                         showErrorDialog("Register Failed", Objects.requireNonNull(exception).getMessage());
                         Log.e("Register Failed", exception.getMessage());
+                    }
+                });
+    }
+    private void changeDisplayName(FirebaseUser firebaseUser) {
+        String username = binding.name.getText().toString();
+        UserProfileChangeRequest profileUpdates = new UserProfileChangeRequest.Builder()
+                .setDisplayName(username)
+                .build();
+
+        firebaseUser.updateProfile(profileUpdates)
+                .addOnCompleteListener(updateProfileTask -> {
+                    if (updateProfileTask.isSuccessful()) {
+                        Intent intent = new Intent(RegisterActivity.this, VerifyActivity.class);
+                        startActivity(intent);
+                        Log.d("Sign Up: ", "Register Successfully");
+                        if (binding.progressBar.getVisibility() == View.VISIBLE)
+                            binding.progressBar.setVisibility(View.GONE);
+                    } else {
+                        Exception updateProfileException = updateProfileTask.getException();
+                        Log.e("Update Profile Failed", Objects.requireNonNull(updateProfileException).getMessage());
                     }
                 });
     }

@@ -121,20 +121,9 @@ public class LoginActivity extends AppCompatActivity {
         mAuth.signInWithEmailAndPassword(email, password)
                 .addOnCompleteListener(this, task -> {
                     if (task.isSuccessful()) {
-                        FirebaseUser user = mAuth.getCurrentUser();
-                        if (user != null && !user.isEmailVerified()) {
-                            showErrorDialog("Email not verified", "Please verify your email and try again.");
-                            user.sendEmailVerification().addOnCompleteListener(this, task1 -> {
-                                if(task1.isSuccessful()) {
-                                    mAuth.signOut();
-                                }
-                            });
-                        } else {
-                            Log.d("Login: ", "Sign In With Email Success");
-                            Intent intent = new Intent(LoginActivity.this, MainActivity.class);
-                            startActivity(intent);
-                            finish();
-                        }
+                        Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+                        startActivity(intent);
+                        finish();
                     } else {
                         Log.e("Login: ", "Sign In With Email Failure", task.getException());
                         if (task.getException() instanceof FirebaseAuthInvalidCredentialsException) {
