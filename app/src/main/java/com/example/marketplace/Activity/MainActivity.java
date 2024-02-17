@@ -11,7 +11,6 @@ import android.view.View;
 import com.etebarian.meowbottomnavigation.MeowBottomNavigation;
 import com.example.marketplace.R;
 import com.example.marketplace.Utils.LocaleHelper;
-import com.example.marketplace.Utils.TestingHelper;
 import com.example.marketplace.databinding.ActivityMainBinding;
 import com.example.marketplace.Fragment.*;
 
@@ -26,21 +25,8 @@ public class MainActivity extends AppCompatActivity {
         binding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
-        binding.navigationBar.add(new MeowBottomNavigation.Model(1, R.drawable.vector_home));
-        binding.navigationBar.add(new MeowBottomNavigation.Model(2, R.drawable.vector_search));
-        binding.navigationBar.add(new MeowBottomNavigation.Model(3, R.drawable.vector_sale));
-        binding.navigationBar.add(new MeowBottomNavigation.Model(4, R.drawable.vector_notification));
-        binding.navigationBar.add(new MeowBottomNavigation.Model(5, R.drawable.vector_profile));
-
-        binding.navigationBar.setVisibility(View.VISIBLE);
-
-        switchFragment(1);
-        binding.navigationBar.show(1, true);
-
-        binding.navigationBar.setOnClickMenuListener(model -> {
-            switchFragment(model.getId());
-            return null;
-        });
+        initGlobalFields();
+        initListeners();
     }
 
     private void switchFragment(int itemId) {
@@ -52,16 +38,15 @@ public class MainActivity extends AppCompatActivity {
                 binding.mainLayout.setBackgroundColor(Color.WHITE);
                 break;
             case 2:
-                selectedFragment = new SearchFragment();
-                binding.mainLayout.setBackgroundColor(Color.rgb(238, 238,238));
+                selectedFragment = new FavoriteFragment();
+                binding.mainLayout.setBackgroundColor(Color.WHITE);
                 break;
             case 3:
                 selectedFragment = new SellingFragment();
                 binding.mainLayout.setBackgroundColor(Color.WHITE);
                 break;
             case 4:
-                selectedFragment = new NotificationFragment();
-                binding.mainLayout.setBackgroundColor(Color.WHITE);
+                selectedFragment = new SellingFragment();
                 break;
             case 5:
                 selectedFragment = new ProfileFragment();
@@ -73,12 +58,27 @@ public class MainActivity extends AppCompatActivity {
             getSupportFragmentManager().beginTransaction().replace(R.id.frame_layout, selectedFragment).commit();
         }
     }
-
     @Override
     public void onBackPressed() {
         super.onBackPressed();
         if (binding.navigationBar.getVisibility() == View.GONE) {
             binding.navigationBar.setVisibility(View.VISIBLE);
         }
+    }
+    private void initGlobalFields() {
+        binding.navigationBar.add(new MeowBottomNavigation.Model(1, R.drawable.vector_home));
+        binding.navigationBar.add(new MeowBottomNavigation.Model(2, R.drawable.vector_favorite));
+        binding.navigationBar.add(new MeowBottomNavigation.Model(3, R.drawable.vector_add_outline));
+        binding.navigationBar.add(new MeowBottomNavigation.Model(4, R.drawable.vector_cart));
+        binding.navigationBar.add(new MeowBottomNavigation.Model(5, R.drawable.vector_profile));
+        binding.navigationBar.setVisibility(View.VISIBLE);
+        switchFragment(1);
+        binding.navigationBar.show(1, true);
+    }
+    private void initListeners() {
+        binding.navigationBar.setOnClickMenuListener(model -> {
+            switchFragment(model.getId());
+            return null;
+        });
     }
 }

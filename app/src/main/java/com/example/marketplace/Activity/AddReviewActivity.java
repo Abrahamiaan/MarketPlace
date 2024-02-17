@@ -6,6 +6,7 @@ import android.util.Log;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.app.AppCompatDelegate;
 
 import com.example.marketplace.Model.ReviewModel;
 import com.example.marketplace.databinding.ActivityAddReviewBinding;
@@ -26,15 +27,12 @@ public class AddReviewActivity extends AppCompatActivity {
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
         binding = ActivityAddReviewBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
-        db = FirebaseFirestore.getInstance();
-        mAuth = FirebaseAuth.getInstance();
-        currentUser = mAuth.getCurrentUser();
-
-        currentIntent = getIntent();
-        binding.button.setOnClickListener(v -> saveReview());
+        initGlobalFields();
+        initClickListeners();
     }
 
     private void saveReview() {
@@ -55,11 +53,16 @@ public class AddReviewActivity extends AppCompatActivity {
         review.setCreatedAt(new Date());
 
         db.collection("Reviews").add(review)
-                .addOnSuccessListener(documentReference -> {
-                    Log.d(TAG, "Review added with ID: " + documentReference.getId());
-                })
-                .addOnFailureListener(e -> {
-                    Log.e(TAG, "Error adding review", e);
-                });
+                .addOnSuccessListener(documentReference -> Log.d(TAG, "Review added with ID: " + documentReference.getId()))
+                .addOnFailureListener(e -> Log.e(TAG, "Error adding review", e));
+    }
+    private void initGlobalFields() {
+        currentIntent = getIntent();
+        db = FirebaseFirestore.getInstance();
+        mAuth = FirebaseAuth.getInstance();
+        currentUser = mAuth.getCurrentUser();
+    }
+    private void initClickListeners() {
+        binding.button.setOnClickListener(v -> saveReview());
     }
 }

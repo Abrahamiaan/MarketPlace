@@ -1,6 +1,5 @@
 package com.example.marketplace.Fragment;
 
-
 import android.content.SharedPreferences;
 import android.graphics.drawable.Drawable;
 import android.graphics.drawable.GradientDrawable;
@@ -27,31 +26,14 @@ public class LanguageFragment extends Fragment {
     FragmentLanguageBinding binding;
     ConstraintLayout parentLayout;
 
-    public LanguageFragment() {
-    }
-
+    public LanguageFragment() {}
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         binding = FragmentLanguageBinding.inflate(inflater, container, false);
 
-        parentLayout = binding.parentLayout;
-
-        setupLanguageSelection();
-        MeowBottomNavigation navigationBar =  getActivity().findViewById(R.id.navigationBar);
-        if (navigationBar != null) {
-            navigationBar.setVisibility(View.GONE);
-        }
-
-        binding.toBack.setOnClickListener(v -> {
-            if (getActivity() != null) {
-                getActivity().onBackPressed();
-            }
-        });
-
-        binding.armLinear.setOnClickListener(v -> updateLocale("hy"));
-        binding.engLinear.setOnClickListener(v -> updateLocale("en"));
-        binding.rusLinear.setOnClickListener(v -> updateLocale("ru"));
+        initGlobalFields();
+        initListeners();
 
         return binding.getRoot();
     }
@@ -60,7 +42,6 @@ public class LanguageFragment extends Fragment {
         String selectedLanguageCode = getSelectedLanguageCode();
         updateLanguageSelectionUI(selectedLanguageCode);
     }
-
     private void updateLanguageSelectionUI(String selectedLanguageCode) {
         Drawable languageBg = ContextCompat.getDrawable(requireContext(), R.drawable.language_bg);
         Drawable selectedBg = ContextCompat.getDrawable(requireContext(), R.drawable.selected_bg);
@@ -119,17 +100,14 @@ public class LanguageFragment extends Fragment {
                 break;
         }
     }
-
     private String getSelectedLanguageCode() {
         SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(requireContext());
         return preferences.getString(SELECTED_LANGUAGE, "en");
     }
-
     private void saveSelectedLanguage(String languageCode) {
         SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(requireContext());
         preferences.edit().putString(SELECTED_LANGUAGE, languageCode).apply();
     }
-
     private void updateLocale(String languageCode) {
         updateLanguageSelectionUI(languageCode);
         Locale locale = new Locale(languageCode);
@@ -138,11 +116,30 @@ public class LanguageFragment extends Fragment {
         saveSelectedLanguage(languageCode);
         getActivity().onBackPressed();
     }
-
     private void updateConstraints(int fromViewId, int toViewId) {
         ConstraintSet constraintSet = new ConstraintSet();
         constraintSet.clone(parentLayout);
         constraintSet.connect(fromViewId, ConstraintSet.TOP, toViewId, ConstraintSet.BOTTOM);
         constraintSet.applyTo(parentLayout);
+    }
+    private void initListeners() {
+        binding.toBack.setOnClickListener(v -> {
+            if (getActivity() != null) {
+                getActivity().onBackPressed();
+            }
+        });
+
+        binding.armLinear.setOnClickListener(v -> updateLocale("hy"));
+        binding.engLinear.setOnClickListener(v -> updateLocale("en"));
+        binding.rusLinear.setOnClickListener(v -> updateLocale("ru"));
+    }
+    private void initGlobalFields() {
+        parentLayout = binding.parentLayout;
+
+        setupLanguageSelection();
+        MeowBottomNavigation navigationBar =  getActivity().findViewById(R.id.navigationBar);
+        if (navigationBar != null) {
+            navigationBar.setVisibility(View.GONE);
+        }
     }
 }

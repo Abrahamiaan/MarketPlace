@@ -33,24 +33,17 @@
             android:layout_weight="1"
             android:gravity="center"
             android:text="Rating and reviews"
+            android:layout_marginEnd="?attr/actionBarSize"
             android:textSize="20sp"
             android:textAppearance="@style/TextAppearance.AppCompat.Subhead"
             android:textColor="@color/pink"
             android:textStyle="bold"
             app:fontFamily="sans-serif-medium" />
 
-        <ImageButton
-            android:id="@+id/addReview"
-            android:layout_width="?attr/actionBarSize"
-            android:layout_height="?attr/actionBarSize"
-            android:background="?attr/selectableItemBackgroundBorderless"
-            android:clickable="true"
-            app:srcCompat="@drawable/vector_add"
-            app:tint="@color/pink"
-            tools:ignore="ContentDescription,SpeakableTextPresentCheck" />
     </LinearLayout>
 
     <androidx.core.widget.NestedScrollView
+        android:visibility="visible"
         android:id="@+id/nestedScrollView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -79,7 +72,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="10dp"
-                    android:text="4.8"
+                    android:text="0"
                     android:textColor="#000"
                     android:textSize="30sp"
                     android:textStyle="bold" />
@@ -132,7 +125,7 @@
                                 android:id="@+id/fiveActive"
                                 android:layout_width="0dp"
                                 android:layout_height="8dp"
-                                android:layout_weight="80"
+                                android:layout_weight="0"
                                 android:background="@color/pink" />
 
                         </LinearLayout>
@@ -144,7 +137,7 @@
                             android:layout_gravity="center_vertical"
                             android:layout_marginStart="10dp"
                             android:layout_weight="1.5"
-                            android:text="384"
+                            android:text="0"
                             android:textColor="#000"
                             android:textSize="15sp"
                             android:textStyle="bold" />
@@ -190,7 +183,7 @@
                                 android:id="@+id/fourActive"
                                 android:layout_width="0dp"
                                 android:layout_height="8dp"
-                                android:layout_weight="50"
+                                android:layout_weight="0"
                                 android:background="@color/pink" />
 
                         </LinearLayout>
@@ -198,11 +191,11 @@
                         <TextView
                             android:id="@+id/fourTotal"
                             android:layout_width="0dp"
-                            android:layout_height="wrap_content"
+                            android:layout_height="match_parent"
                             android:layout_gravity="center_vertical"
                             android:layout_marginStart="10dp"
                             android:layout_weight="1.5"
-                            android:text="2"
+                            android:text="0"
                             android:textColor="#000"
                             android:textSize="15sp"
                             android:textStyle="bold" />
@@ -247,8 +240,8 @@
                             <View
                                 android:id="@+id/threeActive"
                                 android:layout_width="0dp"
-                                android:layout_height="8dp"
-                                android:layout_weight="50"
+                                android:layout_height="match_parent"
+                                android:layout_weight="0"
                                 android:background="@color/pink" />
 
                         </LinearLayout>
@@ -256,11 +249,11 @@
                         <TextView
                             android:id="@+id/threeTotal"
                             android:layout_width="0dp"
-                            android:layout_height="wrap_content"
+                            android:layout_height="17dp"
                             android:layout_gravity="center_vertical"
                             android:layout_marginStart="10dp"
                             android:layout_weight="1.5"
-                            android:text="384"
+                            android:text="0"
                             android:textColor="#000"
                             android:textSize="15sp"
                             android:textStyle="bold" />
@@ -306,7 +299,7 @@
                                 android:id="@+id/secondActive"
                                 android:layout_width="0dp"
                                 android:layout_height="8dp"
-                                android:layout_weight="50"
+                                android:layout_weight="0"
                                 android:background="@color/pink" />
                         </LinearLayout>
 
@@ -317,7 +310,7 @@
                             android:layout_gravity="center_vertical"
                             android:layout_marginStart="10dp"
                             android:layout_weight="1.5"
-                            android:text="384"
+                            android:text="0"
                             android:textColor="#000"
                             android:textSize="15sp"
                             android:textStyle="bold" />
@@ -363,7 +356,7 @@
                                 android:id="@+id/oneActive"
                                 android:layout_width="0dp"
                                 android:layout_height="8dp"
-                                android:layout_weight="50"
+                                android:layout_weight="0"
                                 android:background="@color/pink" />
 
                         </LinearLayout>
@@ -371,11 +364,11 @@
                         <TextView
                             android:id="@+id/oneTotal"
                             android:layout_width="0dp"
-                            android:layout_height="wrap_content"
+                            android:layout_height="18dp"
                             android:layout_gravity="center_vertical"
                             android:layout_marginStart="10dp"
                             android:layout_weight="1.5"
-                            android:text="384"
+                            android:text="0"
                             android:textColor="#000"
                             android:textSize="15sp"
                             android:textStyle="bold" />
@@ -390,7 +383,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginHorizontal="20dp"
                 android:layout_marginTop="10dp"
-                android:text="8 reviews"
+                android:text="0 reviews"
                 android:textSize="20sp"
                 android:textStyle="bold"
                 app:layout_constraintTop_toBottomOf="@+id/relativeLayout2"/>
@@ -418,5 +411,48 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         android:visibility="gone"/>
+
+    <com.tuann.floatingactionbuttonexpandable.FloatingActionButtonExpandable
+        android:id="@+id/addReview"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentBottom="true"
+        android:layout_margin="20dp"
+        app:fab_bg_color="@color/pink"
+        app:fab_content="Write New Review"
+        app:fab_duration="200"
+        app:fab_icon="@drawable/vector_edit"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+    <RelativeLayout
+        android:id="@+id/notReviewLayout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toTopOf="@+id/addReview"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/linearLayout"
+        android:visibility="gone">
+
+        <ImageView
+            android:id="@+id/imageView3"
+            android:layout_width="@dimen/_200sdp"
+            android:layout_height="@dimen/_200sdp"
+            android:src="@drawable/not_comments"
+            android:layout_centerHorizontal="true"/>
+
+        <TextView
+            android:id="@+id/textview"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="@dimen/_8sdp"
+            android:text="The user has not received any reviews yet"
+            android:textAlignment="center"
+            android:textSize="@dimen/_20sdp"
+            android:textStyle="bold"
+            android:layout_below="@+id/imageView3"/>
+    </RelativeLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

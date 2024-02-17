@@ -6,10 +6,8 @@ import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.AttachedSurfaceControl;
 import android.view.View;
 import android.widget.RadioButton;
 
@@ -18,10 +16,8 @@ import com.example.marketplace.Model.FlowerModel;
 import com.example.marketplace.R;
 import com.example.marketplace.Utils.LocaleHelper;
 import com.example.marketplace.Utils.SortHelper;
-import com.example.marketplace.Utils.TestingHelper;
 import com.example.marketplace.databinding.ActivitySearchResultBinding;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
-import com.google.firebase.Timestamp;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -29,16 +25,13 @@ import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 public class SearchResultActivity extends AppCompatActivity {
-
     enum ViewMode {
         Grid,
         List,
     }
-
     final static String TAG = "Search Result: ";
     ActivitySearchResultBinding binding;
     FirebaseFirestore db;
@@ -51,7 +44,7 @@ public class SearchResultActivity extends AppCompatActivity {
     RadioButton highToLow;
     RadioButton newlyListed;
     BottomSheetDialog bottomSheetDialog;
-
+    final ViewMode[] currentViewMode = {ViewMode.Grid};
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -61,32 +54,8 @@ public class SearchResultActivity extends AppCompatActivity {
         binding = ActivitySearchResultBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
-        db = FirebaseFirestore.getInstance();
-        productsCollection = db.collection("Products");
-        flowersList = new ArrayList<>();
-
-        final ViewMode[] currentViewMode = {ViewMode.Grid};
-
-        binding.gridViewIcon.setOnClickListener(v -> {
-            if (currentViewMode[0] != ViewMode.Grid) {
-                currentViewMode[0] = ViewMode.Grid;
-                initRecycler(currentViewMode[0]);
-            }
-        });
-
-        binding.listViewIcon.setOnClickListener(v -> {
-            if (currentViewMode[0] != ViewMode.List) {
-                currentViewMode[0] = ViewMode.List;
-                initRecycler(currentViewMode[0]);
-            }
-        });
-
-        binding.toSearch.setOnClickListener(v -> {
-            onBackPressed();
-            finish();
-        });
-
-        binding.toBack.setOnClickListener(v -> onBackPressed());
+        initGlobalFields();
+        initListeners();
         setSortData();
         searchByTitle();
         initRecycler(ViewMode.Grid);
@@ -107,27 +76,7 @@ public class SearchResultActivity extends AppCompatActivity {
                         QuerySnapshot querySnapshot = task.getResult();
                         if (querySnapshot != null && !querySnapshot.isEmpty()) {
                             for (DocumentSnapshot document : querySnapshot.getDocuments()) {
-                                String title = document.getString("title");
-                                String category = document.getString("category");
-                                long price = document.getLong("price");
-                                String details = document.getString("details");
-                                String photo = document.getString("photo");
-                                String seller = document.getString("seller");
-                                String sellerId = document.getString("sellerId");
-                                Timestamp listedTimeTimeStamp = document.getTimestamp("listedTime");
-                                Date listedTime = null;
-
-                                if (listedTimeTimeStamp != null)
-                                    listedTime = listedTimeTimeStamp.toDate();
-
-                                int flowerPrice = (int) price;
-                                FlowerModel flowerModel = new FlowerModel(title, flowerPrice, photo);
-                                flowerModel.setProductId(document.getId());
-                                flowerModel.setDetails(details);
-                                flowerModel.setCategory(category);
-                                flowerModel.setSeller(seller);
-                                flowerModel.setSellerId(sellerId);
-                                flowerModel.setListedTime(listedTime);
+                                FlowerModel flowerModel =  document.toObject(FlowerModel.class);
                                 flowersList.add(flowerModel);
                             }
 
@@ -178,7 +127,6 @@ public class SearchResultActivity extends AppCompatActivity {
             }
         });
     }
-
     private void setSortData() {
         binding.sortLayout.setOnClickListener(v -> {
             View dialogView = getLayoutInflater().inflate(R.layout.sort_by_dialog, null);
@@ -207,5 +155,29 @@ public class SearchResultActivity extends AppCompatActivity {
                 productAdapter.notifyDataSetChanged();
             });
         });
+    }
+    private void initGlobalFields() {
+        db = FirebaseFirestore.getInstance();
+        productsCollection = db.collection("Products");
+        flowersList = new ArrayList<>();
+    }
+    private void initListeners() {
+        binding.gridViewIcon.setOnClickListener(v -> {
+            if (currentViewMode[0] != ViewMode.Grid) {
+                currentViewMode[0] = ViewMode.Grid;
+                initRecycler(currentViewMode[0]);
+            }
+        });
+        binding.listViewIcon.setOnClickListener(v -> {
+            if (currentViewMode[0] != ViewMode.List) {
+                currentViewMode[0] = ViewMode.List;
+                initRecycler(currentViewMode[0]);
+            }
+        });
+        binding.toSearch.setOnClickListener(v -> {
+            onBackPressed();
+            finish();
+        });
+        binding.toBack.setOnClickListener(v -> onBackPressed());
     }
 }

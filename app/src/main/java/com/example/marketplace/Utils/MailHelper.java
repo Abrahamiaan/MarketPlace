@@ -14,7 +14,7 @@ import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
 public class MailHelper {
     static final String senderEmail = "berqarat.tsaghik@gmail.com";
-    static final String senderPassword = "********";
+    static final String senderPassword = "rnid agqo vxvr lpvj";
     static String subject = "[Berqarat] Please Verify Your Account";
 
     public static void sendEmail(final String clientEmail, String OtpCode) {

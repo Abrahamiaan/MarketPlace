@@ -32,22 +32,16 @@ public class FavoriteFragment extends Fragment {
     FirebaseAuth mAuth;
     FirebaseFirestore db;
     List<FlowerModel> favoriteList;
-
-    public FavoriteFragment() {
-
-    }
+    public FavoriteFragment() {}
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         binding = FragmentFavoriteBinding.inflate(inflater, container, false);
-        mAuth = FirebaseAuth.getInstance();
-        db = FirebaseFirestore.getInstance();
-        favoriteList = new ArrayList<>();
 
+        initGlobalFields();
+        initListeners();
         fetchUserFavorites();
-
-        binding.toBack.setOnClickListener(v-> getActivity().onBackPressed());
 
         return binding.getRoot();
     }
@@ -86,10 +80,7 @@ public class FavoriteFragment extends Fragment {
                                 if (productSnapshot != null && productSnapshot.exists()) {
                                     FlowerModel flowerModel = productSnapshot.toObject(FlowerModel.class);
                                     favoriteList.add(flowerModel);
-
-                                    if (favoriteList.size() == productIds.size()) {
-                                        setFavoriteRecycler(favoriteList);
-                                    }
+                                    productAdapter.notifyItemInserted(favoriteList.size());
                                 } else {
                                     Log.e(TAG_FAVORITE, "Product document with ID " + productId + " does not exist");
                                 }
@@ -100,11 +91,19 @@ public class FavoriteFragment extends Fragment {
             }
         }
     }
-
     private void setFavoriteRecycler(List<FlowerModel> favoriteDataList) {
         RecyclerView.LayoutManager layoutManager = new GridLayoutManager(requireContext(), 2);
         binding.favoriteRecycler.setLayoutManager(layoutManager);
         productAdapter = new ProductAdapter(requireContext(), favoriteDataList, R.layout.product_item);
         binding.favoriteRecycler.setAdapter(productAdapter);
+    }
+    private void initListeners() {
+        binding.toBack.setOnClickListener(v-> getActivity().onBackPressed());
+    }
+    private void initGlobalFields() {
+        mAuth = FirebaseAuth.getInstance();
+        db = FirebaseFirestore.getInstance();
+        favoriteList = new ArrayList<>();
+        setFavoriteRecycler(favoriteList);
     }
 }

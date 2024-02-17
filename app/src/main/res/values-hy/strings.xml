@@ -1,6 +1,6 @@
 <resources>
     <string name="explore_popular_categories">Տոպ Բաժիններ</string>
-    <string name="pick_of_the_day">Օրվա ընտրվածը</string>
+    <string name="pick_of_the_day">Ընտրված ձեր համար</string>
     <string name="search">Որոնել</string>
     <string name="see_more">Բոլորը</string>
 
@@ -88,4 +88,7 @@
     <string name="verify">Ստուգել</string>
     <string name="please_enter_the_verification_code_sent_to_n">Խնդրում ենք մուտքագրել ստուգման կոդը, որպեսզի\n</string>
     <string name="verify_account">Ստուգել հաշվին</string>
+    <string name="location">Գտնվելու վայրը</string>:
+    <string name="you_must_enter_product_details">Դուք պետք է մուտքագրեք ապրանքի մանրամասները</string>:
+    <string name="you_must_select_product_location">Դուք պետք է ընտրեք ապրանքի գտնվելու վայրը</string>:
 </resources>

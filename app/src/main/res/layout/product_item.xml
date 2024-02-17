@@ -43,6 +43,7 @@
             android:layout_height="wrap_content"
             android:textColor="@color/black"
             android:textSize="15sp"
+            android:singleLine="true"
             android:textStyle="bold"
             android:text="FFFFFF"
             android:paddingVertical="@dimen/_8sdp"

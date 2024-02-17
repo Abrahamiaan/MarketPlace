@@ -289,7 +289,8 @@
                     android:layout_width="20dp"
                     android:layout_height="@dimen/actionBarSize"
                     android:src="@drawable/vector_more1"
-                    android:layout_gravity="center_vertical"/>
+                    android:layout_gravity="center_vertical"
+                    tools:ignore="ContentDescription" />
             </LinearLayout>
 
 
@@ -325,7 +326,8 @@
                     android:layout_width="20dp"
                     android:layout_height="@dimen/actionBarSize"
                     android:src="@drawable/vector_more1"
-                    android:layout_gravity="center_vertical"/>
+                    android:layout_gravity="center_vertical"
+                    tools:ignore="ContentDescription" />
             </LinearLayout>
 
 

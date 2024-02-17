@@ -1,6 +1,6 @@
 <resources>
     <string name="explore_popular_categories">Исследуйте популярные категории</string>
-    <string name="pick_of_the_day">Выбор дня</string>
+    <string name="pick_of_the_day">Выбрано для вас</string>
     <string name="search">Поиск</string>
     <string name="see_more">Показать еще</string>
 
@@ -92,4 +92,7 @@
     <string name="verify">Проверить</string>
     <string name="please_enter_the_verification_code_sent_to_n">Пожалуйста, введите проверочный код, отправленный на адрес\n</string>.
     <string name="verify_account">Проверить аккаунт</string>
+    <string name="location">Местонахождение</string>.
+    <string name="you_must_enter_product_details">Вы должны ввести данные о продукте</string>.
+    <string name="you_must_select_product_location">Вы должны выбрать местоположение товара</string>.
 </resources>

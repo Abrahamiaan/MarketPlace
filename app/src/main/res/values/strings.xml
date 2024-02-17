@@ -1,9 +1,9 @@
 <resources>
     <string name="app_name" translatable="false">Berqarat</string>
     <string name="web_client_id" translatable="false">836459178216-so47tia271engo6kgcm2ebsitc420gkk.apps.googleusercontent.com</string>
-
+    <string name="api_key" translatable="false">AIzaSyDVz4zyufbhrXODBGqjom5nHh8YrfKioC0</string>
     <string name="explore_popular_categories">Explore Popular Categories</string>
-    <string name="pick_of_the_day">Pick of the day</string>
+    <string name="pick_of_the_day">Chosen for you</string>
     <string name="search">Search</string>
     <string name="see_more">See More</string>
 
@@ -92,4 +92,8 @@
     <string name="verify">Verify</string>
     <string name="please_enter_the_verification_code_sent_to_n">Please enter the verification code sent to\n</string>
     <string name="verify_account">Verify Account</string>
+    <string name="location">Location</string>
+    <string name="you_must_enter_product_details">You must enter product details</string>
+    <string name="you_must_select_product_location">You must select product location</string>
+    <string name="berq" translatable="false">BERQ</string>
 </resources>

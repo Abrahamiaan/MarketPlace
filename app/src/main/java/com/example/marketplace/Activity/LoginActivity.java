@@ -41,63 +41,8 @@ public class LoginActivity extends AppCompatActivity {
         binding = ActivityLoginBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
-        mAuth = FirebaseAuth.getInstance();
-        GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
-                .requestIdToken(getString(R.string.web_client_id))
-                .requestEmail()
-                .build();
-        mGoogleSignInClient = GoogleSignIn.getClient(this, gso);
-
-        binding.signInBtn.setOnClickListener(v -> signIn());
-
-        binding.toRegister.setOnClickListener(v -> {
-            Intent intent = new Intent(LoginActivity.this, RegisterActivity.class);
-            startActivity(intent);
-        });
-        
-        binding.withGoogle.setOnClickListener(v-> SingInWithGoogle());
-
-        binding.toForgotPassword.setOnClickListener(v -> {
-            Intent intent = new Intent(LoginActivity.this, ForgotPasswordActivity.class);
-            startActivity(intent);
-        });
-
-        binding.email.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
-            }
-
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-                binding.textInputEmail.setError(null);
-            }
-
-            @Override
-            public void afterTextChanged(Editable s) {
-                if (TextUtils.isEmpty(binding.email.getText())) {
-                    binding.textInputEmail.setError("Email cannot be empty");
-                }
-            }
-        });
-        binding.password.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
-            }
-
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-                binding.textInputPassword.setError(null);
-            }
-
-            @Override
-            public void afterTextChanged(Editable s) {
-                if (TextUtils.isEmpty(binding.password.getText())) {
-                    binding.textInputPassword.setError("Password cannot be empty");
-                }
-            }
-        });
+        initGlobalFields();
+        initListeners();
     }
 
     private void signIn() {
@@ -135,7 +80,6 @@ public class LoginActivity extends AppCompatActivity {
                     }
                 });
     }
-
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -151,7 +95,6 @@ public class LoginActivity extends AppCompatActivity {
             }
         }
     }
-
     private void firebaseAuthWithGoogle(String idToken) {
         AuthCredential credential = GoogleAuthProvider.getCredential(idToken, null);
 
@@ -170,7 +113,6 @@ public class LoginActivity extends AppCompatActivity {
                     }
                 });
     }
-
     public void SingInWithGoogle() {
         mGoogleSignInClient.signOut().addOnCompleteListener(this, task -> {
             GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
@@ -183,7 +125,6 @@ public class LoginActivity extends AppCompatActivity {
             startActivityForResult(signInIntent, RC_SIGN_IN);
         });
     }
-
     public void showErrorDialog(String title, String message) {
         new AndExAlertDialog.Builder(this)
                 .setTitle(title)
@@ -194,5 +135,61 @@ public class LoginActivity extends AppCompatActivity {
 
                 })
                 .build();
+    }
+    private void initListeners() {
+        binding.signInBtn.setOnClickListener(v -> signIn());
+        binding.toRegister.setOnClickListener(v -> {
+            Intent intent = new Intent(LoginActivity.this, RegisterActivity.class);
+            startActivity(intent);
+        });
+        binding.withGoogle.setOnClickListener(v-> SingInWithGoogle());
+        binding.toForgotPassword.setOnClickListener(v -> {
+            Intent intent = new Intent(LoginActivity.this, ForgotPasswordActivity.class);
+            startActivity(intent);
+        });
+        binding.email.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                binding.textInputEmail.setError(null);
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                if (TextUtils.isEmpty(binding.email.getText())) {
+                    binding.textInputEmail.setError("Email cannot be empty");
+                }
+            }
+        });
+        binding.password.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                binding.textInputPassword.setError(null);
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                if (TextUtils.isEmpty(binding.password.getText())) {
+                    binding.textInputPassword.setError("Password cannot be empty");
+                }
+            }
+        });
+    }
+    private void initGlobalFields() {
+        mAuth = FirebaseAuth.getInstance();
+        GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+                .requestIdToken(getString(R.string.web_client_id))
+                .requestEmail()
+                .build();
+        mGoogleSignInClient = GoogleSignIn.getClient(this, gso);
     }
 }

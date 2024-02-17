@@ -1,43 +1,27 @@
 package com.example.marketplace.Model;
 
 import java.io.Serializable;
+import java.util.List;
 
 public class FlowerModel extends ProductModel implements Serializable {
-    private String title;
-    private int price;
-    private String photo;
+    private List<Double> lengths;
+    private List<String> colors;
 
-    FlowerModel() {
+    public FlowerModel() { }
 
+    public List<Double> getLengths() {
+        return lengths;
     }
 
-    public FlowerModel(String title, int price, String photo) {
-        this.title = title;
-        this.price = price;
-        this.photo = photo;
+    public void setLengths(List<Double> lengths) {
+        this.lengths = lengths;
     }
 
-    public String getTitle() {
-        return title;
+    public List<String> getColors() {
+        return colors;
     }
 
-    public void setTitle(String title) {
-        this.title = title;
-    }
-
-    public int getPrice() {
-        return price;
-    }
-
-    public void setPrice(int price) {
-        this.price = price;
-    }
-
-    public String getPhoto() {
-        return photo;
-    }
-
-    public void setPhoto(String photo) {
-        this.photo = photo;
+    public void setColors(List<String> colors) {
+        this.colors = colors;
     }
 }

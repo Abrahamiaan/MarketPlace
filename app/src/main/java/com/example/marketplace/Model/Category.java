@@ -1,10 +1,8 @@
 package com.example.marketplace.Model;
 
 public class Category {
-
     int id;
     Integer imageUrl;
-
     String  name;
 
     public Category(int id, Integer imageUrl, String name) {

@@ -9,6 +9,7 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.app.AppCompatDelegate;
 
 import com.example.marketplace.Utils.MailHelper;
 import com.example.marketplace.databinding.ActivityVerifyBinding;
@@ -29,9 +30,26 @@ public class VerifyActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
         binding = ActivityVerifyBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
+        initGlobalFields();
+        initListeners();
+    }
+    private boolean verifyOTP(int number) {
+        String buffer = "";
+
+        buffer += otp1.getText().toString() +
+                otp2.getText().toString() +
+                otp3.getText().toString() +
+                otp4.getText().toString();
+
+        String num = String.valueOf(number);
+
+        return num.equals(buffer);
+    }
+    private void initGlobalFields() {
         otp1 = binding.otp1;
         otp2 = binding.otp2;
         otp3 = binding.otp3;
@@ -51,9 +69,10 @@ public class VerifyActivity extends AppCompatActivity {
             ex.printStackTrace();
         }
 
+    }
+    private void initListeners() {
         String verifyText = binding.verifyEmail.getText() + userEmail;
         binding.verifyEmail.setText(verifyText);
-
         binding.verifyBtn.setOnClickListener(v -> {
             if (verifyOTP(otpNum)) {
                 Intent intent = new Intent(VerifyActivity.this, MainActivity.class);
@@ -64,8 +83,8 @@ public class VerifyActivity extends AppCompatActivity {
                 Toast.makeText(this, "Verify Email Failed!", Toast.LENGTH_SHORT).show();
             }
         });
-
         binding.resend.setOnClickListener(v -> {
+            Random random = new Random();
             otpNum = random.nextInt(8999) + 1000;
 
             try {
@@ -75,9 +94,7 @@ public class VerifyActivity extends AppCompatActivity {
                 System.out.println("Error: Send Email Failed!!!");
             }
         });
-
         binding.toBack.setOnClickListener(v -> onBackPressed());
-
         setOtpTextWatcher(otp1, otp2);
         setOtpTextWatcher(otp2, otp3);
         setOtpTextWatcher(otp3, otp4);
@@ -100,17 +117,5 @@ public class VerifyActivity extends AppCompatActivity {
             public void afterTextChanged(Editable editable) {
             }
         });
-    }
-    private boolean verifyOTP(int number) {
-        String buffer = "";
-
-        buffer += otp1.getText().toString() +
-                otp2.getText().toString() +
-                otp3.getText().toString() +
-                otp4.getText().toString();
-
-        String num = String.valueOf(number);
-
-        return num.equals(buffer);
     }
 }

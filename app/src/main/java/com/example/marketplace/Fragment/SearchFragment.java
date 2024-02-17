@@ -33,19 +33,48 @@ public class SearchFragment extends Fragment {
                              Bundle savedInstanceState) {
         binding = FragmentSearchBinding.inflate(inflater, container, false);
 
+        initGlobalFields();
+        initListeners();
+
+        return binding.getRoot();
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        binding.searchBar.clearFocus();
+    }
+    @Override
+    public void onPause() {
+        super.onPause();
+        binding.searchBar.clearFocus();
+    }
+    @Override
+    public void onStart() {
+        super.onStart();
+        binding.searchBar.requestFocus();
+    }
+    private void updateRecentlyRecycler(String query) {
+        List<String> suggestionQueries = dataProvider.getSuggestionQuery(query);
+        if (suggestionQueries.isEmpty()) {
+            binding.recentRecyclerView.setVisibility(View.GONE);
+        } else {
+            binding.recentRecyclerView.setVisibility(View.VISIBLE);
+            recentAdapter.updateData(suggestionQueries);
+        }
+    }
+    private void initRecentlyRecycler(List<String> data) {
+        recentAdapter = new RecentAdapter(data, dataProvider);
+        binding.recentRecyclerView.setAdapter(recentAdapter);
+
+        binding.recentRecyclerView.setLayoutManager(new LinearLayoutManager(requireContext()));
+    }
+    private void initGlobalFields() {
         dataProvider = DataProvider.getInstance(requireContext());
-
-        binding.backBtn.setOnClickListener(v -> {
-            binding.searchBar.clearFocus();
-            InputMethodManager imm = (InputMethodManager) requireContext().getSystemService(Context.INPUT_METHOD_SERVICE);
-            imm.hideSoftInputFromWindow(binding.searchBar.getWindowToken(), 0);
-        });
-
-        binding.clearInputBtn.setOnClickListener(v -> binding.searchBar.getText().clear());
-
         initRecentlyRecycler(dataProvider.getRecentQueries());
         binding.searchBar.requestFocus();
-
+    }
+    private void initListeners() {
         binding.searchBar.setOnFocusChangeListener((v, hasFocus) -> {
             if (hasFocus) {
                 binding.recentRecyclerView.setVisibility(View.VISIBLE);
@@ -57,7 +86,6 @@ public class SearchFragment extends Fragment {
                 imm.hideSoftInputFromWindow(binding.searchBar.getWindowToken(), 0);
             }
         });
-
         binding.searchBar.setOnEditorActionListener((v, actionId, event) -> {
             if (actionId == EditorInfo.IME_ACTION_SEARCH) {
                 String query = binding.searchBar.getText().toString();
@@ -70,7 +98,12 @@ public class SearchFragment extends Fragment {
             }
             return false;
         });
-
+        binding.backBtn.setOnClickListener(v -> {
+            binding.searchBar.clearFocus();
+            InputMethodManager imm = (InputMethodManager) requireContext().getSystemService(Context.INPUT_METHOD_SERVICE);
+            imm.hideSoftInputFromWindow(binding.searchBar.getWindowToken(), 0);
+        });
+        binding.clearInputBtn.setOnClickListener(v -> binding.searchBar.getText().clear());
         binding.searchBar.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -86,42 +119,5 @@ public class SearchFragment extends Fragment {
                 updateRecentlyRecycler(s.toString());
             }
         });
-
-        return binding.getRoot();
-    }
-
-    @Override
-    public void onStop() {
-        super.onStop();
-        binding.searchBar.clearFocus();
-    }
-
-    @Override
-    public void onPause() {
-        super.onPause();
-        binding.searchBar.clearFocus();
-    }
-
-    @Override
-    public void onStart() {
-        super.onStart();
-        binding.searchBar.requestFocus();
-    }
-
-    private void updateRecentlyRecycler(String query) {
-        List<String> suggestionQueries = dataProvider.getSuggestionQuery(query);
-        if (suggestionQueries.isEmpty()) {
-            binding.recentRecyclerView.setVisibility(View.GONE);
-        } else {
-            binding.recentRecyclerView.setVisibility(View.VISIBLE);
-            recentAdapter.updateData(suggestionQueries);
-        }
-    }
-
-    private void initRecentlyRecycler(List<String> data) {
-        recentAdapter = new RecentAdapter(data, dataProvider);
-        binding.recentRecyclerView.setAdapter(recentAdapter);
-
-        binding.recentRecyclerView.setLayoutManager(new LinearLayoutManager(requireContext()));
     }
 }

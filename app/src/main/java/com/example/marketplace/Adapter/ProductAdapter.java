@@ -61,16 +61,7 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductV
                     }
                 });
 
-        String originalTitle = currentFlower.getTitle();
-        String displayedTitle;
-
-        if (originalTitle.length() > 15) {
-            displayedTitle = originalTitle.substring(0, 15) + "...";
-        } else {
-            displayedTitle = originalTitle;
-        }
-
-        holder.title.setText(displayedTitle);
+        holder.title.setText(currentFlower.getTitle());
         holder.price.setText(String.format("%s AMD", currentFlower.getPrice()));
 
         holder.itemView.setOnClickListener(v -> {

@@ -23,25 +23,48 @@ public class ProfileFragment extends Fragment {
     FragmentProfileBinding binding;
     FirebaseAuth mAuth;
 
-    public ProfileFragment() {
-
-    }
-
+    public ProfileFragment() { }
     @Override
     public View onCreateView(LayoutInflater inflater,
                              ViewGroup container,
                              Bundle savedInstanceState) {
         binding = FragmentProfileBinding.inflate(inflater, container, false);
 
+        initGlobalFields();
+        initListeners();
+
+        return binding.getRoot();
+    }
+
+    public void showConfirmDialog(String title, String message) {
+        new AndExAlertDialog.Builder(getActivity())
+                .setTitle(title)
+                .setMessage(message)
+                .setPositiveBtnText(getString(R.string.log_out))
+                .setNegativeBtnText(getString(R.string.cancel))
+                .setCancelableOnTouchOutside(false)
+                .OnPositiveClicked(v -> {
+                    if (mAuth.getCurrentUser() != null) {
+                        mAuth.signOut();
+                        Intent intent = new Intent(requireContext(), SplashActivity.class);
+                        startActivity(intent);
+                    }
+                })
+                .OnNegativeClicked(v -> {
+
+                })
+                .build();
+    }
+    private void initListeners() {
         mAuth = FirebaseAuth.getInstance();
         String currentUserName = mAuth.getCurrentUser().getDisplayName();
 
         binding.tvName.setText(currentUserName);
-
+    }
+    private void initGlobalFields() {
         binding.linearOut.setOnClickListener(v -> {
             showConfirmDialog(getString(R.string.oops), getString(R.string.are_you_sure_you_want_to_log_out));
         });
-
         binding.linearLanguage.setOnClickListener(v -> {
             LanguageFragment languageFragment = new LanguageFragment();
 
@@ -65,27 +88,5 @@ public class ProfileFragment extends Fragment {
 
             transaction.commit();
         });
-
-        return binding.getRoot();
-    }
-
-    public void showConfirmDialog(String title, String message) {
-        new AndExAlertDialog.Builder(getActivity())
-                .setTitle(title)
-                .setMessage(message)
-                .setPositiveBtnText(getString(R.string.log_out))
-                .setNegativeBtnText(getString(R.string.cancel))
-                .setCancelableOnTouchOutside(false)
-                .OnPositiveClicked(v -> {
-                    if (mAuth.getCurrentUser() != null) {
-                        mAuth.signOut();
-                        Intent intent = new Intent(requireContext(), SplashActivity.class);
-                        startActivity(intent);
-                    }
-                })
-                .OnNegativeClicked(v -> {
-
-                })
-                .build();
     }
 }

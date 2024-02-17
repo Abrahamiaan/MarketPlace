@@ -1,6 +1,7 @@
 package com.example.marketplace.Activity;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.app.AppCompatDelegate;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
 import android.content.Intent;
@@ -27,10 +28,12 @@ public class ReviewActivity extends AppCompatActivity {
     ReviewAdapter reviewAdapter;
     List<ReviewModel> reviewList = new ArrayList<>();
     int reviewsCount;
+    boolean haveReview = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
         binding = ActivityReviewBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
@@ -53,17 +56,33 @@ public class ReviewActivity extends AppCompatActivity {
             intent.putExtra("subjectId", subjectId);
             startActivity(intent);
         });
+        binding.nestedScrollView.setOnScrollChangeListener((View.OnScrollChangeListener) (v, scrollX, scrollY, oldScrollX, oldScrollY) -> {
+            if (scrollY > oldScrollY) {
+                binding.addReview.collapse(true);
+            } else {
+                binding.addReview.expand(true);
+            }
+        });
     }
 
     private void fetchReviews() {
+        binding.nestedScrollView.setVisibility(View.GONE);
+        binding.notReviewLayout.setVisibility(View.GONE);
+
         String subjectId = getIntent().getStringExtra("subjectId");
         Query query = db.collection("Reviews").whereEqualTo("subjectId", subjectId);
 
         query.get()
                 .addOnCompleteListener(task -> {
                     if (task.isSuccessful()) {
+                        haveReview = true;
                         reviewsCount = task.getResult().size();
                         binding.textReviewsCount.setText(reviewsCount + " reviews");
+                        if (reviewsCount == 0) {
+                            binding.nestedScrollView.setVisibility(View.GONE);
+                            binding.notReviewLayout.setVisibility(View.VISIBLE);
+                            haveReview = false;
+                        }
 
                         float totalRating = 0;
                         int[] ratingCounts = new int[5];
@@ -83,7 +102,11 @@ public class ReviewActivity extends AppCompatActivity {
                         updateRatingUI(ratingCounts, reviewsCount, totalRating);
                         reviewAdapter.notifyDataSetChanged();
                         binding.progressBar.setVisibility(View.GONE);
-                        binding.nestedScrollView.setVisibility(View.VISIBLE);
+                        if (haveReview) {
+                            binding.nestedScrollView.setVisibility(View.VISIBLE);
+                        } else  {
+                            binding.notReviewLayout.setVisibility(View.VISIBLE);
+                        }
                     } else {
                         Log.e(TAG, "Error getting reviews", task.getException());
                     }

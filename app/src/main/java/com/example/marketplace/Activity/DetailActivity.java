@@ -6,11 +6,13 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.app.AppCompatDelegate;
 import androidx.core.content.ContextCompat;
 
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.ArrayAdapter;
 import android.widget.Toast;
 
@@ -21,6 +23,12 @@ import com.example.marketplace.Model.FlowerModel;
 import com.example.marketplace.R;
 import com.example.marketplace.Utils.LocaleHelper;
 import com.example.marketplace.databinding.ActivityDetailBinding;
+import com.google.android.gms.maps.CameraUpdateFactory;
+import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.OnMapReadyCallback;
+import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
@@ -32,45 +40,29 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
-public class DetailActivity extends AppCompatActivity {
+public class DetailActivity extends AppCompatActivity implements OnMapReadyCallback {
     private static final String TAG_FAVORITE = "Favorite: ";
+    private static final int MAP_ZOOM = 15;
     ActivityDetailBinding binding;
     FirebaseAuth mAuth;
     FirebaseFirestore db;
     private boolean isFavorite = false;
     private int drawableRes;
+    int countOfProductItem = 1;
+    FlowerModel flowerModel;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        LocaleHelper.setAppLanguage(this);
         AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
+        LocaleHelper.setAppLanguage(this);
         binding = ActivityDetailBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
-        mAuth = FirebaseAuth.getInstance();
-        db = FirebaseFirestore.getInstance();
-
-        FlowerModel flowerModel = (FlowerModel) getIntent().getSerializableExtra("object");
-        initProduct(flowerModel);
-
-        binding.toBack.setOnClickListener(v-> onBackPressed());
-
-        checkIfFavorite(flowerModel);
-
-        binding.favoriteImg.setOnClickListener(v -> {
-            if (!isFavorite)
-                addToFavorites(flowerModel);
-            else
-                removeFromFavorites(flowerModel);
-        });
-
-        binding.sellerReviewLayout.setOnClickListener(v -> {
-            Intent intent = new Intent(DetailActivity.this, ReviewActivity.class);
-            intent.putExtra("subject", flowerModel.getSeller());
-            intent.putExtra("subjectId",flowerModel.getSellerId());
-            startActivity(intent);
-        });
+        initGlobalFields();
+        initProduct();
+        initListeners();
+        checkIfFavorite();
     }
 
     private void addToFavorites(FlowerModel flowerModel) {
@@ -89,7 +81,6 @@ public class DetailActivity extends AppCompatActivity {
                 })
                 .addOnFailureListener(e -> Log.e(TAG_FAVORITE, "Failed to add to favorites"));
     }
-
     private void removeFromFavorites(FlowerModel flowerModel) {
         String productId = flowerModel.getProductId();
         String userId = mAuth.getCurrentUser().getUid();
@@ -104,8 +95,7 @@ public class DetailActivity extends AppCompatActivity {
                 })
                 .addOnFailureListener(e -> Log.e(TAG_FAVORITE, "Failed to remove from favorites"));
     }
-
-    private void checkIfFavorite(FlowerModel flowerModel) {
+    private void checkIfFavorite() {
         String productId = flowerModel.getProductId();
         String userId = mAuth.getCurrentUser().getUid();
 
@@ -131,8 +121,7 @@ public class DetailActivity extends AppCompatActivity {
                     }
                 });
     }
-
-    private void initProduct(FlowerModel flowerModel) {
+    private void initProduct() {
         if (flowerModel != null) {
             binding.titleTxt.setText(flowerModel.getTitle());
             binding.sellerTxt.setText(flowerModel.getSeller());
@@ -161,7 +150,6 @@ public class DetailActivity extends AppCompatActivity {
                 String selectedItem = (String) parent.getItemAtPosition(position);
                 Toast.makeText(DetailActivity.this, "Selected: " + selectedItem, Toast.LENGTH_SHORT).show();
             });
-
             binding.LengthAutoComplete.setOnItemClickListener((parent, view, position, id) -> {
                 Double selectedItem = (Double) parent.getItemAtPosition(position);
                 Toast.makeText(DetailActivity.this, "Selected: " + selectedItem, Toast.LENGTH_SHORT).show();
@@ -183,6 +171,61 @@ public class DetailActivity extends AppCompatActivity {
         } else {
             Log.e("Product: ", "Product is Null");
         }
+    }
+    private void initListeners() {
+        binding.toBack.setOnClickListener(v-> onBackPressed());
+        binding.favoriteImg.setOnClickListener(v -> {
+            if (!isFavorite)
+                addToFavorites(flowerModel);
+            else
+                removeFromFavorites(flowerModel);
+        });
+        binding.sellerReviewLayout.setOnClickListener(v -> {
+            Intent intent = new Intent(DetailActivity.this, ReviewActivity.class);
+            intent.putExtra("subject", flowerModel.getSeller());
+            intent.putExtra("subjectId",flowerModel.getSellerId());
+            startActivity(intent);
+        });
+        binding.countPlus.setOnClickListener(v -> {
+            if (binding.countTxt.hasFocus()) {
+                binding.countTxt.clearFocus();
+                InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+                imm.hideSoftInputFromWindow(binding.countTxt.getWindowToken(), 0);
+            }
+
+            countOfProductItem = Integer.parseInt(String.valueOf(binding.countTxt.getText()));
+            countOfProductItem++;
+            binding.countTxt.setText(String.valueOf(countOfProductItem));
+        });
+        binding.countMinus.setOnClickListener(v -> {
+             if (binding.countTxt.hasFocus()) {
+                 binding.countTxt.clearFocus();
+                 InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+                 imm.hideSoftInputFromWindow(binding.countTxt.getWindowToken(), 0);
+                 binding.countTxt.setCursorVisible(false);
+             }
+
+             countOfProductItem = Integer.parseInt(String.valueOf(binding.countTxt.getText()));
+             if (countOfProductItem != 1) {
+                 countOfProductItem--;
+                 binding.countTxt.setText(String.valueOf(countOfProductItem));
+             }
+        });
+    }
+    private void initGlobalFields() {
+        flowerModel = (FlowerModel) getIntent().getSerializableExtra("object");
+        mAuth = FirebaseAuth.getInstance();
+        db = FirebaseFirestore.getInstance();
+
+        SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map);
+        mapFragment.getMapAsync(this);
+    }
+    @Override
+    public void onMapReady(@NonNull GoogleMap map) {
+        LatLng currentLocation = new LatLng(flowerModel.getLatitude(), flowerModel.getLongitude());
+        map.moveCamera(CameraUpdateFactory.newLatLng(currentLocation));
+        map.addMarker(new MarkerOptions().position(currentLocation));
+        map.animateCamera(CameraUpdateFactory.newLatLngZoom(currentLocation, MAP_ZOOM));
     }
 }
 

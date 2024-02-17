@@ -23,25 +23,30 @@ public class ForgotPasswordActivity extends AppCompatActivity {
         binding = ActivityForgotPasswordBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
+        initGlobalFields();
+        initListeners();
+    }
+    private void sendPasswordResetEmail() {
+        String email = binding.email.getText().toString().trim();
+        if (!TextUtils.isEmpty(email)) {
+            mAuth.sendPasswordResetEmail(email)
+                    .addOnCompleteListener(task -> {
+                        if (task.isSuccessful()) {
+                            Log.d(TAG, "Password Reset Email Sent Successfully");
+                            onBackPressed();
+                        } else {
+                            Log.e(TAG, "Error Sending Password Reset Email", task.getException());
+                        }
+                    });
+        } else {
+            binding.email.setError("Email can not be empty");
+        }
+    }
+    private void initGlobalFields() {
         mAuth = FirebaseAuth.getInstance();
-
-        binding.sendBtn.setOnClickListener(v -> {
-            String email = binding.email.getText().toString().trim();
-            if (!TextUtils.isEmpty(email)) {
-                mAuth.sendPasswordResetEmail(email)
-                        .addOnCompleteListener(task -> {
-                            if (task.isSuccessful()) {
-                                Log.d(TAG, "Password Reset Email Sent Successfully");
-                                onBackPressed();
-                            } else {
-                                Log.e(TAG, "Error Sending Password Reset Email", task.getException());
-                            }
-                        });
-            } else {
-                binding.email.setError("Email can not be empty");
-            }
-        });
-
+    }
+    private void initListeners() {
+        binding.sendBtn.setOnClickListener(v -> sendPasswordResetEmail());
         binding.toBackArrow.setOnClickListener(v -> onBackPressed());
     }
 }

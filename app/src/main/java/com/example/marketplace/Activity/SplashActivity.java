@@ -14,8 +14,8 @@ import android.widget.ImageView;
 import com.example.marketplace.R;
 import com.google.firebase.auth.FirebaseAuth;
 
-import java.util.Locale;
 
+@SuppressLint("CustomSplashScreen")
 public class SplashActivity extends AppCompatActivity {
     ImageView appLogo;
     FirebaseAuth mAuth;

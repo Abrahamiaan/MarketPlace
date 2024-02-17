@@ -45,16 +45,8 @@ public class RegisterActivity extends AppCompatActivity {
         binding = ActivityRegisterBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
-        mAuth = FirebaseAuth.getInstance();
-        FirebaseDatabase.getInstance().setPersistenceEnabled(true);
-        GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
-                .requestIdToken(getString(R.string.web_client_id))
-                .requestEmail()
-                .build();
-
-        mGoogleSignInClient = GoogleSignIn.getClient(this, gso);
-
-        setupListeners();
+        initGlobalFields();
+        initListeners();
     }
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -71,7 +63,6 @@ public class RegisterActivity extends AppCompatActivity {
             }
         }
     }
-
     private void firebaseAuthWithGoogle(String idToken) {
         AuthCredential credential = GoogleAuthProvider.getCredential(idToken, null);
 
@@ -86,8 +77,7 @@ public class RegisterActivity extends AppCompatActivity {
                     }
                 });
     }
-
-    public void SingInWithGoogle() {
+    private void SingInWithGoogle() {
         mGoogleSignInClient.signOut().addOnCompleteListener(this, task -> {
             GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
                     .requestIdToken(getString(R.string.web_client_id))
@@ -99,7 +89,6 @@ public class RegisterActivity extends AppCompatActivity {
             startActivityForResult(signInIntent, RC_SIGN_IN);
         });
     }
-
     private void signUp(String email, String password) {
 
         if (binding.progressBar.getVisibility() == View.GONE)
@@ -139,7 +128,6 @@ public class RegisterActivity extends AppCompatActivity {
                     }
                 });
     }
-
     private boolean validateInput() {
         String email = binding.email.getText().toString().trim();
         String password = binding.password.getText().toString();
@@ -180,7 +168,6 @@ public class RegisterActivity extends AppCompatActivity {
 
         return isValid;
     }
-
     public void showErrorDialog(String title, String message) {
         new AndExAlertDialog.Builder(this)
                 .setTitle(title)
@@ -192,10 +179,8 @@ public class RegisterActivity extends AppCompatActivity {
                 })
                 .build();
     }
-
-    public void setupListeners() {
+    private void initListeners() {
         binding.withGoogle.setOnClickListener(v -> SingInWithGoogle());
-
         binding.signUpBtn.setOnClickListener(v -> {
             String email = binding.email.getText().toString().trim();
             String password = binding.password.getText().toString();
@@ -203,12 +188,10 @@ public class RegisterActivity extends AppCompatActivity {
                 signUp(email, password);
             }
         });
-
         binding.toLogin.setOnClickListener(v -> {
             Intent intent = new Intent(RegisterActivity.this, LoginActivity.class);
             startActivity(intent);
         });
-
         binding.email.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -264,5 +247,15 @@ public class RegisterActivity extends AppCompatActivity {
                 }
             }
         });
+    }
+    private void  initGlobalFields() {
+        mAuth = FirebaseAuth.getInstance();
+        FirebaseDatabase.getInstance().setPersistenceEnabled(true);
+        GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+                .requestIdToken(getString(R.string.web_client_id))
+                .requestEmail()
+                .build();
+
+        mGoogleSignInClient = GoogleSignIn.getClient(this, gso);
     }
 }
