@@ -1,14 +1,7 @@
 package com.example.marketplace.Model;
 
-import com.google.type.DateTime;
-
 import java.io.Serializable;
-import java.time.ZoneOffset;
 import java.util.Date;
-import java.util.List;
-
-import java.time.LocalDateTime;
-
 
 public class ProductModel implements Serializable {
     private String productId;
@@ -22,6 +15,8 @@ public class ProductModel implements Serializable {
     private Date listedTime;
     private double longitude;
     private double latitude;
+    private int availableCount;
+    private int minimumPurchaseCount;
 
     public ProductModel() {
         listedTime = new Date();
@@ -91,5 +86,17 @@ public class ProductModel implements Serializable {
     }
     public void setLongitude(double longitude) {
         this.longitude = longitude;
+    }
+    public int getAvailableCount() {
+        return availableCount;
+    }
+    public void setAvailableCount(int availableCount) {
+        this.availableCount = availableCount;
+    }
+    public int getMinimumPurchaseCount() {
+        return minimumPurchaseCount;
+    }
+    public void setMinimumPurchaseCount(int minimumPurchaseCount) {
+        this.minimumPurchaseCount = minimumPurchaseCount;
     }
 }

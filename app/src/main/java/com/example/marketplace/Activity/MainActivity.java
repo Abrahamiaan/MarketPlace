@@ -46,7 +46,7 @@ public class MainActivity extends AppCompatActivity {
                 binding.mainLayout.setBackgroundColor(Color.WHITE);
                 break;
             case 4:
-                selectedFragment = new SellingFragment();
+                selectedFragment = new CartFragment();
                 break;
             case 5:
                 selectedFragment = new ProfileFragment();

@@ -96,4 +96,9 @@
     <string name="you_must_enter_product_details">You must enter product details</string>
     <string name="you_must_select_product_location">You must select product location</string>
     <string name="berq" translatable="false">BERQ</string>
+    <string name="your_cart_is_empty">Your cart is empty</string>
+    <string name="my_cart">My Cart</string>
+    <string name="order_sumary">Order Sumary</string>
+    <string name="total">Total</string>
+    <string name="order_now">Order Now</string>
 </resources>

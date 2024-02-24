@@ -11,6 +11,7 @@ import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.ArrayAdapter;
@@ -19,6 +20,7 @@ import android.widget.Toast;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.target.CustomTarget;
 import com.bumptech.glide.request.transition.Transition;
+import com.example.marketplace.Model.CartModel;
 import com.example.marketplace.Model.FlowerModel;
 import com.example.marketplace.R;
 import com.example.marketplace.Utils.LocaleHelper;
@@ -36,6 +38,7 @@ import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.SetOptions;
 
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
@@ -50,6 +53,7 @@ public class DetailActivity extends AppCompatActivity implements OnMapReadyCallb
     private int drawableRes;
     int countOfProductItem = 1;
     FlowerModel flowerModel;
+    CartModel cartModel;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -127,7 +131,7 @@ public class DetailActivity extends AppCompatActivity implements OnMapReadyCallb
             binding.sellerTxt.setText(flowerModel.getSeller());
             binding.priceTxt.setText(String.format("%s ֏", flowerModel.getPrice()));
             binding.description.setText(flowerModel.getDetails());
-
+            binding.countTxt.setText(String.valueOf(flowerModel.getMinimumPurchaseCount()));
 
             List<String> colors = flowerModel.getColors();
             if (colors == null || colors.isEmpty()) {
@@ -135,7 +139,6 @@ public class DetailActivity extends AppCompatActivity implements OnMapReadyCallb
             }
 
             List<Double> lengths = flowerModel.getLengths();
-
             if (lengths == null || lengths.isEmpty()) {
                 binding.lengthInit.setVisibility(View.GONE);
             }
@@ -173,6 +176,34 @@ public class DetailActivity extends AppCompatActivity implements OnMapReadyCallb
         }
     }
     private void initListeners() {
+        binding.addToCardBtn.setOnClickListener(v -> {
+            cartModel = new CartModel(flowerModel, Integer.parseInt(binding.countTxt.getText().toString()), mAuth.getCurrentUser().getUid());
+            addToCart(cartModel);
+        });
+        binding.countTxt.setOnEditorActionListener((v, actionId, event) -> {
+            if (event != null && (event.getAction() == KeyEvent.ACTION_DOWN) &&
+                    (event.getKeyCode() == KeyEvent.KEYCODE_ENTER)) {
+                String text = v.getText().toString();
+                try {
+                    int count = Integer.parseInt(text);
+                    if (count < flowerModel.getMinimumPurchaseCount() ) {
+                        v.setText(String.valueOf(flowerModel.getMinimumPurchaseCount()));
+                    } else if (count > flowerModel.getAvailableCount()) {
+                        v.setText(String.valueOf(flowerModel.getAvailableCount()));
+                    }
+                    if (binding.countTxt.hasFocus()) {
+                        binding.countTxt.clearFocus();
+                        InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+                        imm.hideSoftInputFromWindow(binding.countTxt.getWindowToken(), 0);
+                    }
+                } catch (NumberFormatException e) {
+                    Log.e("NumberFormatException", Arrays.toString(e.getStackTrace()));
+                }
+                return true;
+            }
+            return false;
+        });
+
         binding.toBack.setOnClickListener(v-> onBackPressed());
         binding.favoriteImg.setOnClickListener(v -> {
             if (!isFavorite)
@@ -194,8 +225,10 @@ public class DetailActivity extends AppCompatActivity implements OnMapReadyCallb
             }
 
             countOfProductItem = Integer.parseInt(String.valueOf(binding.countTxt.getText()));
-            countOfProductItem++;
-            binding.countTxt.setText(String.valueOf(countOfProductItem));
+            if (countOfProductItem < flowerModel.getAvailableCount()) {
+                countOfProductItem++;
+                binding.countTxt.setText(String.valueOf(countOfProductItem));
+            }
         });
         binding.countMinus.setOnClickListener(v -> {
              if (binding.countTxt.hasFocus()) {
@@ -206,7 +239,7 @@ public class DetailActivity extends AppCompatActivity implements OnMapReadyCallb
              }
 
              countOfProductItem = Integer.parseInt(String.valueOf(binding.countTxt.getText()));
-             if (countOfProductItem != 1) {
+             if (countOfProductItem < flowerModel.getMinimumPurchaseCount()) {
                  countOfProductItem--;
                  binding.countTxt.setText(String.valueOf(countOfProductItem));
              }
@@ -219,6 +252,31 @@ public class DetailActivity extends AppCompatActivity implements OnMapReadyCallb
 
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
+    }
+    private void addToCart(CartModel cartModel) {
+        int min = cartModel.getProductModel().getMinimumPurchaseCount();
+        int max = cartModel.getProductModel().getAvailableCount();
+
+        if (cartModel.getCount() > max) {
+            cartModel.setCount(max);
+            Toast.makeText(this, "Available count is " + max, Toast.LENGTH_SHORT).show();
+        } else if (cartModel.getCount() < min) {
+            cartModel.setCount(min);
+            Toast.makeText(this, "Minimum purchase count is " + min, Toast.LENGTH_SHORT).show();
+        }
+
+        db.collection("CartItems")
+                .add(cartModel)
+                .addOnCompleteListener(task -> {
+                    if (task.isSuccessful()) {
+                        Toast.makeText(this, "Item added to cart successfully", Toast.LENGTH_SHORT).show();
+                    } else {
+                        Exception e = task.getException();
+                        if (e != null) {
+                            Log.e("AddToCart", Arrays.toString(e.getStackTrace()));
+                        }
+                    }
+                });
     }
     @Override
     public void onMapReady(@NonNull GoogleMap map) {
