@@ -1,7 +1,7 @@
 <resources>
     <string name="app_name" translatable="false">Berqarat</string>
     <string name="web_client_id" translatable="false">836459178216-so47tia271engo6kgcm2ebsitc420gkk.apps.googleusercontent.com</string>
-    <string name="api_key" translatable="false">AIzaSyDVz4zyufbhrXODBGqjom5nHh8YrfKioC0</string>
+    <string name="api_key" translatable="false">API_KEY_NEMA</string>
     <string name="explore_popular_categories">Explore Popular Categories</string>
     <string name="pick_of_the_day">Chosen for you</string>
     <string name="search">Search</string>
@@ -48,7 +48,7 @@
     <string name="help">Help</string>
     <string name="log_out">Log Out</string>
     <string name="notifications">Notifications</string>
-    <string name="edit_personal_details">Edit Personal Details</string>
+    <string name="edit_personal_details">Edit Account</string>
     <string name="are_you_sure_you_want_to_log_out">Are you sure you want to log out?</string>
     <string name="oops">OOPS!!</string>
     <string name="settings">Settings</string>
@@ -101,4 +101,26 @@
     <string name="order_sumary">Order Sumary</string>
     <string name="total">Total</string>
     <string name="order_now">Order Now</string>
+    <string name="transactions">Transactions</string>
+    <string name="ads">Ads</string>
+    <string name="account">Account</string>
+    <string name="support">Support</string>
+    <string name="terms_of_service">Terms Of Service</string>
+    <string name="moderation_of_ads">Moderation Of Ads</string>
+    <string name="contact_information">Contact Information</string>
+    <string name="upload">Upload</string>
+    <string name="professional_acc_info">Advanced Features and capabilities for professional users. Your ads will always be on the main page</string>
+    <string name="individaul_info">All the necessary and essential functions for working with ads</string>
+    <string name="my_profile">My Profile</string>
+    <string name="save">SAVE</string>
+    <string name="profile">Profile</string>
+    <string name="your_name">Your Name</string>
+    <string name="delivery_address">Delivery Address</string>
+    <string name="select_delivery_address">Select Delivery address</string>
+    <string name="send_reset_password_email">Send Reset Password To Email</string>
+    <string name="account_type">Account Type</string>
+    <string name="individual">Individual</string>
+    <string name="professional">Professional</string>
+    <string name="professional_price">5000 Դ per month</string>
+    <string name="password_reset_email_sent_successfully">Password Reset Email Sent Successfully</string>
 </resources>
