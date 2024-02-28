@@ -117,5 +117,27 @@ public class ProfileFragment extends Fragment {
 
             transaction.commit();
         });
+        binding.linearAds.setOnClickListener(v -> {
+            AdsFragment fragment = new AdsFragment();
+
+            FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
+            FragmentTransaction transaction = fragmentManager.beginTransaction();
+
+            transaction.replace(R.id.frame_layout, fragment);
+            transaction.addToBackStack(null);
+
+            transaction.commit();
+        });
+        binding.linearContacts.setOnClickListener(v -> {
+            ContactInfoFragment fragment = new ContactInfoFragment();
+
+            FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
+            FragmentTransaction transaction = fragmentManager.beginTransaction();
+
+            transaction.replace(R.id.frame_layout, fragment);
+            transaction.addToBackStack(null);
+
+            transaction.commit();
+        });
     }
 }

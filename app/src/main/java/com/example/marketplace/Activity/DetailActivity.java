@@ -4,6 +4,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.app.AppCompatDelegate;
+import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.core.content.ContextCompat;
 
 import android.content.Context;
@@ -32,6 +33,7 @@ import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FieldValue;
@@ -49,6 +51,7 @@ public class DetailActivity extends AppCompatActivity implements OnMapReadyCallb
     ActivityDetailBinding binding;
     FirebaseAuth mAuth;
     FirebaseFirestore db;
+    FirebaseUser currentUser;
     private boolean isFavorite = false;
     private int drawableRes;
     int countOfProductItem = 1;
@@ -71,7 +74,7 @@ public class DetailActivity extends AppCompatActivity implements OnMapReadyCallb
 
     private void addToFavorites(FlowerModel flowerModel) {
         String productId = flowerModel.getProductId();
-        String userId = mAuth.getCurrentUser().getUid();
+        String userId = currentUser.getUid();
 
         DocumentReference userFavoritesDocument = db.collection("Favorites").document(userId);
 
@@ -87,7 +90,7 @@ public class DetailActivity extends AppCompatActivity implements OnMapReadyCallb
     }
     private void removeFromFavorites(FlowerModel flowerModel) {
         String productId = flowerModel.getProductId();
-        String userId = mAuth.getCurrentUser().getUid();
+        String userId = currentUser.getUid();
 
         DocumentReference userFavoritesDocument = db.collection("Favorites").document(userId);
 
@@ -101,7 +104,7 @@ public class DetailActivity extends AppCompatActivity implements OnMapReadyCallb
     }
     private void checkIfFavorite() {
         String productId = flowerModel.getProductId();
-        String userId = mAuth.getCurrentUser().getUid();
+        String userId = currentUser.getUid();
 
         DocumentReference userFavoritesDocument = db.collection("Favorites").document(userId);
 
@@ -177,7 +180,7 @@ public class DetailActivity extends AppCompatActivity implements OnMapReadyCallb
     }
     private void initListeners() {
         binding.addToCardBtn.setOnClickListener(v -> {
-            cartModel = new CartModel(flowerModel, Integer.parseInt(binding.countTxt.getText().toString()), mAuth.getCurrentUser().getUid());
+            cartModel = new CartModel(flowerModel, Integer.parseInt(binding.countTxt.getText().toString()), currentUser.getUid());
             addToCart(cartModel);
         });
         binding.countTxt.setOnEditorActionListener((v, actionId, event) -> {
@@ -217,7 +220,10 @@ public class DetailActivity extends AppCompatActivity implements OnMapReadyCallb
             intent.putExtra("subjectId",flowerModel.getSellerId());
             startActivity(intent);
         });
+
         binding.countPlus.setOnClickListener(v -> {
+            int min = flowerModel.getMinimumPurchaseCount();
+            int max = flowerModel.getAvailableCount();
             if (binding.countTxt.hasFocus()) {
                 binding.countTxt.clearFocus();
                 InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
@@ -225,32 +231,53 @@ public class DetailActivity extends AppCompatActivity implements OnMapReadyCallb
             }
 
             countOfProductItem = Integer.parseInt(String.valueOf(binding.countTxt.getText()));
-            if (countOfProductItem < flowerModel.getAvailableCount()) {
-                countOfProductItem++;
-                binding.countTxt.setText(String.valueOf(countOfProductItem));
+            if (countOfProductItem < min) {
+                binding.countTxt.setText(String.valueOf(min));
+            } else if (countOfProductItem + 1 < max) {
+                binding.countTxt.setText(String.valueOf(++countOfProductItem));
+            } else {
+                binding.countTxt.setText(String.valueOf(max));
             }
         });
-        binding.countMinus.setOnClickListener(v -> {
-             if (binding.countTxt.hasFocus()) {
-                 binding.countTxt.clearFocus();
-                 InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
-                 imm.hideSoftInputFromWindow(binding.countTxt.getWindowToken(), 0);
-                 binding.countTxt.setCursorVisible(false);
-             }
 
-             countOfProductItem = Integer.parseInt(String.valueOf(binding.countTxt.getText()));
-             if (countOfProductItem < flowerModel.getMinimumPurchaseCount()) {
-                 countOfProductItem--;
-                 binding.countTxt.setText(String.valueOf(countOfProductItem));
-             }
+        binding.countMinus.setOnClickListener(v -> {
+            int min = flowerModel.getMinimumPurchaseCount();
+            int max = flowerModel.getAvailableCount();
+
+            if (binding.countTxt.hasFocus()) {
+                binding.countTxt.clearFocus();
+                InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+                imm.hideSoftInputFromWindow(binding.countTxt.getWindowToken(), 0);
+            }
+
+            countOfProductItem = Integer.parseInt(String.valueOf(binding.countTxt.getText()));
+            System.out.println(countOfProductItem);
+            if (countOfProductItem > max) {
+                binding.countTxt.setText(String.valueOf(max));
+            } else if (countOfProductItem - 1 > min) {
+                binding.countTxt.setText(String.valueOf(--countOfProductItem));
+            } else {
+                binding.countTxt.setText(String.valueOf(min));
+            }
         });
     }
     private void initGlobalFields() {
         flowerModel = (FlowerModel) getIntent().getSerializableExtra("object");
         mAuth = FirebaseAuth.getInstance();
         db = FirebaseFirestore.getInstance();
+        currentUser = mAuth.getCurrentUser();
 
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map);
+        boolean sellerIsCurrent = flowerModel.getSellerId().equals(currentUser.getUid());
+
+        if (sellerIsCurrent) {
+            binding.addToCardBtn.setVisibility(View.GONE);
+            binding.view2.setVisibility(View.GONE);
+            ConstraintLayout.LayoutParams layoutParams = (ConstraintLayout.LayoutParams) binding.scrollView.getLayoutParams();
+            layoutParams.topMargin = getResources().getDimensionPixelSize(R.dimen.actionBarSize);
+            layoutParams.bottomMargin = getResources().getDimensionPixelSize(com.intuit.sdp.R.dimen._10sdp);
+            binding.scrollView.setLayoutParams(layoutParams);
+        }
         mapFragment.getMapAsync(this);
     }
     private void addToCart(CartModel cartModel) {

@@ -117,4 +117,8 @@
     <string name="individual">Անհատական</string>
     <string name="professional">Պրոֆեսիոնալ</string>
     <string name="professional_price">5000-Դ ամսեկան</string>
+    <string name="password_reset_email_sent_successfully">Նամակի ուղարկում է կատարվեց</string>.
+    <string name="my_ads">Իմ հայտարարությունները</string>
+    <string name="you_haven_t_ads_yet">Դուք չունեք ակտիվ հայտարարություններ</string>
+    <string name="quantity">Քանակ</string>
 </resources>

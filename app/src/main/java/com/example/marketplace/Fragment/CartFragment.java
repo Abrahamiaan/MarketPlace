@@ -70,6 +70,8 @@ public class CartFragment extends Fragment {
                         }
                         if (cartItems.isEmpty()) {
                             binding.cartIsEmptyTxt.setVisibility(View.VISIBLE);
+                            binding.progressView.setVisibility(View.GONE);
+                            binding.orderBtn.setVisibility(View.GONE);
                         } else {
                             binding.cartIsEmptyTxt.setVisibility(View.GONE);
                             mergeDuplicateItems();

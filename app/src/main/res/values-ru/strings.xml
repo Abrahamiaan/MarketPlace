@@ -121,4 +121,8 @@
     <string name="individual">Индивидуальный</string>
     <string name="professional">Профессиональный</string>
     <string name="professional_price">5000 Դ в месяц</string>
+    <string name="password_reset_email_sent_successfully">Электронное письмо для сброса пароля отправлено успешно</string>.
+    <string name="my_ads">Мои объявления</string>
+    <string name="you_haven_t_ads_yet">У вас еще нет объявлений</string>
+    <string name="quantity">Количество</string>
 </resources>

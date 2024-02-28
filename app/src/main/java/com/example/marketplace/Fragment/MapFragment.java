@@ -129,6 +129,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
     public void onMapReady(@NonNull GoogleMap map) {
         googleMap = map;
 
+        googleMap.setOnMapClickListener(this::updateMapLocationWithLabel);
         if (ActivityCompat.checkSelfPermission(requireContext(), Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED
                 && ActivityCompat.checkSelfPermission(requireContext(), Manifest.permission.ACCESS_COARSE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
 
@@ -172,9 +173,6 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
             }
         }
     }
-
-
-
 
     private void updateMapLocationWithLabel(LatLng latLng) {
         if (googleMap != null) {

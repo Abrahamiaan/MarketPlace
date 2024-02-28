@@ -1,7 +1,7 @@
 <resources>
     <string name="app_name" translatable="false">Berqarat</string>
     <string name="web_client_id" translatable="false">836459178216-so47tia271engo6kgcm2ebsitc420gkk.apps.googleusercontent.com</string>
-    <string name="api_key" translatable="false">API_KEY_NEMA</string>
+    <string name="api_key" translatable="false">AIzaSyCTBrvCNgaZbwquBX2VjEdHdCN8kpBDFkA</string>
     <string name="explore_popular_categories">Explore Popular Categories</string>
     <string name="pick_of_the_day">Chosen for you</string>
     <string name="search">Search</string>
@@ -123,4 +123,9 @@
     <string name="professional">Professional</string>
     <string name="professional_price">5000 Դ per month</string>
     <string name="password_reset_email_sent_successfully">Password Reset Email Sent Successfully</string>
+    <string name="my_ads">My Ads</string>
+    <string name="you_haven_t_ads_yet">You haven\'t ads yet</string>
+    <string name="quantity">Quantity</string>
+    <string name="available_count">Available count</string>
+    <string name="min_purchase_count">Min purchase count</string>
 </resources>

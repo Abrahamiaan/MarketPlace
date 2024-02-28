@@ -54,6 +54,7 @@ public class SellingFragment extends Fragment {
     DialogHud dialogHud;
     double latitude = -91;
     double longitude = 181;
+    Bitmap bitmap;
 
     public SellingFragment() {}
 
@@ -74,8 +75,9 @@ public class SellingFragment extends Fragment {
         getActivity();
         if (requestCode == PICK_IMAGE_REQUEST && resultCode == RESULT_OK && data != null) {
             imagePath = data.getData();
+            requireActivity().getIntent().putExtra("imagePath", imagePath.toString());
             try {
-                Bitmap bitmap = MediaStore.Images.Media.getBitmap(requireActivity().getContentResolver(), imagePath);
+                bitmap = MediaStore.Images.Media.getBitmap(requireActivity().getContentResolver(), imagePath);
                 binding.productPhoto.setImageBitmap(bitmap);
             } catch (IOException e) {
                 e.printStackTrace();
@@ -89,6 +91,11 @@ public class SellingFragment extends Fragment {
         Intent data = requireActivity().getIntent();
         latitude = data.getDoubleExtra("latitude", -91);
         longitude = data.getDoubleExtra("longitude", 181);
+
+        if (bitmap != null) {
+            binding.productPhoto.setImageBitmap(bitmap);
+        }
+
         try {
             if (latitude != -91 && longitude != 181) {
                 Geocoder geocoder = new Geocoder(requireContext(), Locale.getDefault());
@@ -170,6 +177,8 @@ public class SellingFragment extends Fragment {
         String category = binding.CategoryView.getText().toString();
         String priceText = binding.productPrice.getText().toString();
         String details = binding.productDetails.getText().toString();
+        String minPurchaseCount = binding.minPurchaseCount.getText().toString();
+        String availableCount = binding.availableCount.getText().toString();
 
         dialogHud = new DialogHud(requireContext())
                 .setMode(DialogHud.Mode.LOADING)
@@ -211,9 +220,13 @@ public class SellingFragment extends Fragment {
             return;
         }
 
-        if (imagePath == null) {
-            showToast(getString(R.string.you_must_select_product_photo));
-            return;
+        String imagePathStr = requireActivity().getIntent().getStringExtra("imagePath");
+        if (imagePathStr != null) {
+            imagePath = Uri.parse(imagePathStr);
+            if (imagePath == null) {
+                showToast(getString(R.string.you_must_select_product_photo));
+                return;
+            }
         }
 
         if (latitude == -91 || longitude == 181) {
@@ -221,10 +234,17 @@ public class SellingFragment extends Fragment {
             return;
         }
 
+        if(minPurchaseCount.isEmpty() || availableCount.isEmpty()) {
+            showToast("You must enter quantity");
+            return;
+        }
+
         productModel.setTitle(productName);
         productModel.setCategory(category);
         productModel.setPrice(price);
         productModel.setDetails(details);
+        productModel.setAvailableCount(Integer.parseInt(availableCount));
+        productModel.setMinimumPurchaseCount(Integer.parseInt(minPurchaseCount));
 
         productModel.setColors(colorAdapter.getColorItems());
 
@@ -240,7 +260,6 @@ public class SellingFragment extends Fragment {
 
         uploadToStorage();
     }
-
     private void uploadToStorage() {
         storageReference.child("products/" + productModel.getProductId()).putFile(imagePath)
                 .addOnSuccessListener(taskSnapshot -> storageReference.child("products/" + productModel.getProductId()).getDownloadUrl()
@@ -253,7 +272,6 @@ public class SellingFragment extends Fragment {
                     Toast.makeText(requireContext(), getString(R.string.failed_to_upload_photo) + e.getMessage(), Toast.LENGTH_SHORT).show();
                 });
     }
-
     private void showToast(String message) {
         Toast.makeText(requireContext(), message, Toast.LENGTH_SHORT).show();
     }
