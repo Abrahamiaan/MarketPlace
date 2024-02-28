@@ -54,7 +54,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
                              Bundle savedInstanceState) {
         binding = FragmentMapBinding.inflate(inflater, container, false);
 
-        Places.initialize(requireActivity().getApplicationContext(), getString(R.string.api_key));
+        Places.initialize(requireActivity().getApplicationContext(), getString(R.string.API_KEY));
 
         autocompleteFragment = (AutocompleteSupportFragment) getChildFragmentManager().findFragmentById(R.id.autocomplete_fragment);
         autocompleteFragment.setPlaceFields(Arrays.asList(Place.Field.ID, Place.Field.ADDRESS, Place.Field.LAT_LNG));

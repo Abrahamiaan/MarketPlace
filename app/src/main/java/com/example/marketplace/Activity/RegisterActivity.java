@@ -80,7 +80,7 @@ public class RegisterActivity extends AppCompatActivity {
     private void SingInWithGoogle() {
         mGoogleSignInClient.signOut().addOnCompleteListener(this, task -> {
             GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
-                    .requestIdToken(getString(R.string.web_client_id))
+                    .requestIdToken(getString(R.string.WEB_CLIENT_ID))
                     .requestEmail()
                     .build();
 
@@ -252,7 +252,7 @@ public class RegisterActivity extends AppCompatActivity {
         mAuth = FirebaseAuth.getInstance();
         FirebaseDatabase.getInstance().setPersistenceEnabled(true);
         GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
-                .requestIdToken(getString(R.string.web_client_id))
+                .requestIdToken(getString(R.string.WEB_CLIENT_ID))
                 .requestEmail()
                 .build();
 

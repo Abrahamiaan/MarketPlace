@@ -1,7 +1,5 @@
 <resources>
     <string name="app_name" translatable="false">Berqarat</string>
-    <string name="web_client_id" translatable="false">836459178216-so47tia271engo6kgcm2ebsitc420gkk.apps.googleusercontent.com</string>
-    <string name="api_key" translatable="false">AIzaSyCTBrvCNgaZbwquBX2VjEdHdCN8kpBDFkA</string>
     <string name="explore_popular_categories">Explore Popular Categories</string>
     <string name="pick_of_the_day">Chosen for you</string>
     <string name="search">Search</string>

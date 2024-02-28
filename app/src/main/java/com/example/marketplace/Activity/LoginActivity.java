@@ -116,7 +116,7 @@ public class LoginActivity extends AppCompatActivity {
     public void SingInWithGoogle() {
         mGoogleSignInClient.signOut().addOnCompleteListener(this, task -> {
             GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
-                    .requestIdToken(getString(R.string.web_client_id))
+                    .requestIdToken(getString(R.string.WEB_CLIENT_ID))
                     .requestEmail()
                     .build();
 
@@ -187,7 +187,7 @@ public class LoginActivity extends AppCompatActivity {
     private void initGlobalFields() {
         mAuth = FirebaseAuth.getInstance();
         GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
-                .requestIdToken(getString(R.string.web_client_id))
+                .requestIdToken(getString(R.string.WEB_CLIENT_ID))
                 .requestEmail()
                 .build();
         mGoogleSignInClient = GoogleSignIn.getClient(this, gso);
