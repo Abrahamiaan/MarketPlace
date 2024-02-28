@@ -128,4 +128,6 @@
     <string name="quantity">Quantity</string>
     <string name="available_count">Available count</string>
     <string name="min_purchase_count">Min purchase count</string>
+    <string name="phone_number">Phone number</string>
+    <string name="add_phone_number">Add Phone Number</string>
 </resources>

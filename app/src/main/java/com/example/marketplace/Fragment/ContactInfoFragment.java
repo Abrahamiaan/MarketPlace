@@ -1,5 +1,6 @@
 package com.example.marketplace.Fragment;
 
+import android.annotation.SuppressLint;
 import android.graphics.Color;
 import android.os.Bundle;
 
@@ -35,6 +36,7 @@ public class ContactInfoFragment extends Fragment {
         return binding.getRoot();
     }
 
+    @SuppressLint("SetTextI18n")
     private void addNewPhoneNumberCard() {
         MaterialCardView cardView = new MaterialCardView(requireContext());
         cardView.setLayoutParams(new LinearLayout.LayoutParams(
@@ -93,7 +95,7 @@ public class ContactInfoFragment extends Fragment {
                 LinearLayout.LayoutParams.WRAP_CONTENT,
                 1
         ));
-        // textView.setText("098305624");
+        textView.setText("123456789");
         textView.setTextColor(Color.parseColor("#2962FF"));
         textView.setTextSize(TypedValue.COMPLEX_UNIT_SP, 18);
 

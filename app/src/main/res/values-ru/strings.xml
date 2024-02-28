@@ -125,4 +125,8 @@
     <string name="my_ads">Мои объявления</string>
     <string name="you_haven_t_ads_yet">У вас еще нет объявлений</string>
     <string name="quantity">Количество</string>
+    <string name="available_count">Доступное количество</string>
+    <string name="min_purchase_count">Минимальное количество</string>
+    <string name="phone_number">Номер телефона</string>
+    <string name="add_phone_number">Добавить номер</string>.
 </resources>

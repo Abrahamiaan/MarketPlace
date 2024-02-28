@@ -121,4 +121,8 @@
     <string name="my_ads">Իմ հայտարարությունները</string>
     <string name="you_haven_t_ads_yet">Դուք չունեք ակտիվ հայտարարություններ</string>
     <string name="quantity">Քանակ</string>
+    <string name="available_count">Առկա քանակ</string>
+    <string name="min_purchase_count">Առնվազն վաճառվող</string>
+    <string name="phone_number">Հեռախոսահամար</string>
+    <string name="add_phone_number">Ավելավնել հեռախոսահամար</string>
 </resources>

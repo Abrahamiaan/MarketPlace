@@ -35,25 +35,13 @@
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:gravity="center"
-                android:text="@string/my_profile"
+                android:layout_marginEnd="?attr/actionBarSize"
+                android:text="@string/contact_information"
                 android:textAppearance="@style/TextAppearance.AppCompat.Subhead"
                 android:textColor="@color/pink"
                 android:textSize="18sp"
                 android:textStyle="bold"
                 app:fontFamily="sans-serif-medium" />
-
-            <TextView
-                android:id="@+id/saveBtn"
-                android:layout_width="wrap_content"
-                android:layout_height="?attr/actionBarSize"
-                android:background="?attr/selectableItemBackgroundBorderless"
-                android:clickable="true"
-                android:gravity="center"
-                android:text="@string/save"
-                android:minWidth="?attr/actionBarSize"
-                android:layout_marginHorizontal="@dimen/_3sdp"
-                android:textColor="#2962FF"
-                android:textSize="14sp" />
         </LinearLayout>
 
         <TextView
@@ -90,12 +78,13 @@
                     <ImageView
                         android:layout_width="@dimen/_30sdp"
                         android:layout_height="@dimen/_30sdp"
+                        android:layout_gravity="center"
                         android:layout_marginHorizontal="@dimen/_10sdp"
                         android:background="@drawable/vector_email"
                         android:backgroundTint="@color/grey_20"
+                        android:importantForAccessibility="no"
                         android:paddingVertical="@dimen/_2sdp"
-                        android:layout_gravity="center"
-                        android:importantForAccessibility="no" />
+                        tools:ignore="ImageContrastCheck" />
 
                     <TextView
                         android:id="@+id/emailAddress"
@@ -115,7 +104,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="20dp"
-            android:text="Phone Numbers"
+            android:text="@string/phone_number"
             android:textSize="20sp"
             android:layout_marginHorizontal="@dimen/_10sdp"/>
 
@@ -146,11 +135,12 @@
                     <ImageView
                         android:layout_width="@dimen/_30sdp"
                         android:layout_height="@dimen/_30sdp"
+                        android:layout_gravity="center"
                         android:layout_marginHorizontal="@dimen/_10sdp"
                         android:background="@drawable/vector_phone"
+                        android:importantForAccessibility="no"
                         android:paddingVertical="@dimen/_2sdp"
-                        android:layout_gravity="center"
-                        android:importantForAccessibility="no" />
+                        tools:ignore="ImageContrastCheck" />
 
                     <TextView
                         android:id="@+id/addPhoneBtn"
@@ -160,7 +150,7 @@
                         android:layout_weight="1"
                         android:textColor="#2962FF"
                         android:textSize="18sp"
-                        android:text="Add Phone Number"/>
+                        android:text="@string/add_phone_number"/>
                 </LinearLayout>
             </com.google.android.material.card.MaterialCardView>
         </LinearLayout>
