@@ -84,7 +84,10 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.CartViewHolder
                 cartFragment.updateTotalSum();
             }
         });
+
+        holder.removeBtn.setOnClickListener(v -> cartFragment.removeFromCart(position));
     }
+
 
     @Override
     public int getItemCount() {
@@ -99,6 +102,7 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.CartViewHolder
         TextView totalPrice;
         TextView countOfProduct;
         ImageView photo;
+        ImageView removeBtn;
 
         public CartViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -109,6 +113,7 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.CartViewHolder
             totalPrice = itemView.findViewById(R.id.totalPrice);
             countOfProduct = itemView.findViewById(R.id.count);
             photo = itemView.findViewById(R.id.photoProduct);
+            removeBtn = itemView.findViewById(R.id.removeBtn);
         }
     }
 }

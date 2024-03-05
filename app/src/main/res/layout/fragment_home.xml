@@ -18,15 +18,16 @@
         android:backgroundTint="#D13268">
 
         <TextView
-            android:id="@+id/textView"
+            android:id="@+id/deliveryAddress"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerHorizontal="true"
             android:layout_marginStart="16dp"
             android:layout_marginTop="16dp"
-            android:text="Select Delivery address"
+            android:text="@string/delivery_address"
             android:textColor="@color/white"
-            android:textSize="15sp" />
+            android:textSize="15sp"
+            tools:ignore="RelativeOverlap" />
 
         <ImageView
             android:id="@+id/notifications"
@@ -40,10 +41,10 @@
             app:tint="@color/white" />
 
         <androidx.appcompat.widget.AppCompatEditText
-            android:id="@+id/editText"
+            android:id="@+id/searchBar"
             android:layout_width="match_parent"
             android:layout_height="@dimen/_40sdp"
-            android:layout_below="@+id/textView"
+            android:layout_below="@+id/deliveryAddress"
             android:layout_marginHorizontal="@dimen/_10sdp"
             android:layout_marginVertical="@dimen/_10sdp"
             android:background="@drawable/search_bg"
@@ -69,7 +70,7 @@
             android:layout_height="match_parent">
 
             <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/categoryRecycler"
+                android:id="@+id/topAdsRecycler"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
@@ -80,6 +81,7 @@
                 app:layout_constraintTop_toBottomOf="@+id/textView3" />
 
             <TextView
+                android:visibility="gone"
                 android:id="@+id/textView3"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -102,7 +104,7 @@
                 android:textSize="20sp"
                 android:textStyle="bold"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/categoryRecycler" />
+                app:layout_constraintTop_toBottomOf="@+id/topAdsRecycler" />
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/productRecycler"
@@ -111,7 +113,10 @@
                 android:layout_marginTop="16dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/textView4" />
+                app:layout_constraintTop_toBottomOf="@+id/textView4"
+                android:paddingBottom="@dimen/_100sdp"
+                android:layout_marginBottom="@dimen/_10sdp"
+                android:clipToPadding="false"/>
 
             <TextView
                 android:id="@+id/allPick"
@@ -120,9 +125,11 @@
                 android:layout_marginEnd="16dp"
                 android:text="@string/see_more"
                 android:textColor="#448AFF"
+                android:textSize="15sp"
                 app:layout_constraintBottom_toBottomOf="@+id/textView4"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="@+id/textView4" />
+                app:layout_constraintTop_toTopOf="@+id/textView4"
+                />
         </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.core.widget.NestedScrollView>
 </androidx.constraintlayout.widget.ConstraintLayout>

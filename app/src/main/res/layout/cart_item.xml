@@ -108,6 +108,22 @@
                 app:layout_constraintTop_toTopOf="parent"
                 tools:ignore="HardcodedText" />
 
+            <ImageView
+                android:id="@+id/removeBtn"
+                android:layout_width="@dimen/_25sdp"
+                android:layout_height="@dimen/_25sdp"
+                android:background="@drawable/white_circle_background"
+                android:gravity="center"
+                android:src="@drawable/vector_delete"
+                app:tint="@color/grey_80"
+                android:textColor="@color/black"
+                app:backgroundTint="@color/grey_10"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toStartOf="@+id/countMinus"
+                app:layout_constraintTop_toTopOf="parent"
+                android:layout_marginEnd="@dimen/_5sdp"
+                android:importantForAccessibility="no" />
+
         </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.constraintlayout.widget.ConstraintLayout>
 </com.google.android.material.card.MaterialCardView>

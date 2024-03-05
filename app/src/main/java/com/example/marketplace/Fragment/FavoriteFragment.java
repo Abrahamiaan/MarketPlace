@@ -40,7 +40,6 @@ public class FavoriteFragment extends Fragment {
         binding = FragmentFavoriteBinding.inflate(inflater, container, false);
 
         initGlobalFields();
-        initListeners();
         fetchUserFavorites();
 
         return binding.getRoot();
@@ -96,9 +95,6 @@ public class FavoriteFragment extends Fragment {
         binding.favoriteRecycler.setLayoutManager(layoutManager);
         productAdapter = new ProductAdapter(requireContext(), favoriteDataList, R.layout.product_item);
         binding.favoriteRecycler.setAdapter(productAdapter);
-    }
-    private void initListeners() {
-        binding.toBack.setOnClickListener(v-> getActivity().onBackPressed());
     }
     private void initGlobalFields() {
         mAuth = FirebaseAuth.getInstance();

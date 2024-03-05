@@ -19,15 +19,12 @@ import com.example.marketplace.Adapter.ProductAdapter;
 import com.example.marketplace.Model.Category;
 import com.example.marketplace.Model.FlowerModel;
 import com.example.marketplace.R;
-import com.example.marketplace.Utils.Constants;
 import com.example.marketplace.databinding.FragmentHomeBinding;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 
 import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Date;
 import java.util.List;
 
 public class HomeFragment extends Fragment {
@@ -36,7 +33,6 @@ public class HomeFragment extends Fragment {
     List<FlowerModel> flowersList;
     CategoryAdapter categoryAdapter;
     ProductAdapter productAdapter;
-    static final String[] categories = Constants.categories;
 
     @Nullable
     @Override
@@ -55,22 +51,7 @@ public class HomeFragment extends Fragment {
     private void fetchDataFromFirestore() {
         CollectionReference flowersCollection = FirebaseFirestore.getInstance().collection("Products");
 
-        Calendar today = Calendar.getInstance();
-        today.set(Calendar.HOUR_OF_DAY, 0);
-        today.set(Calendar.MINUTE, 0);
-        today.set(Calendar.SECOND, 0);
-        today.set(Calendar.MILLISECOND, 0);
-
-        Date startOfDay = today.getTime();
-        today.add(Calendar.DAY_OF_MONTH, 1);
-        Date startOfNextDay = today.getTime();
-
-//        flowersCollection.whereGreaterThanOrEqualTo("listedTime", startOfDay)
-//                .whereLessThan("listedTime", startOfNextDay)
-//                .get().addOnCompleteListener(task -> {
-
-        flowersCollection.get()
-                .addOnCompleteListener(task -> {
+        flowersCollection.get().addOnCompleteListener(task -> {
             if (task.isSuccessful()) {
                 for (QueryDocumentSnapshot document : task.getResult()) {
                         FlowerModel flowerModel = document.toObject(FlowerModel.class);
@@ -94,18 +75,20 @@ public class HomeFragment extends Fragment {
     }
     private void setCategoryRecycler(List<Category> categoryDataList) {
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false);
-        binding.categoryRecycler.setLayoutManager(layoutManager);
+        binding.topAdsRecycler.setLayoutManager(layoutManager);
         categoryAdapter = new CategoryAdapter(requireContext(), categoryDataList);
-        binding.categoryRecycler.setAdapter(categoryAdapter);
+        binding.topAdsRecycler.setAdapter(categoryAdapter);
     }
     private void setProductRecycler(List<FlowerModel> flowerDataList) {
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false);
+        //RecyclerView.LayoutManager layoutManager = new GridLayoutManager(requireContext(), 2);
         binding.productRecycler.setLayoutManager(layoutManager);
         productAdapter = new ProductAdapter(requireContext(), flowerDataList, R.layout.product_item);
         binding.productRecycler.setAdapter(productAdapter);
     }
     private void initListeners() {
         binding.notifications.setOnClickListener(v -> replaceFragment(new NotificationFragment()));
+        binding.searchBar.setOnClickListener(v -> replaceFragment(new SearchFragment()));
     }
     private void replaceFragment(Fragment fragment) {
         FragmentManager fragmentManager = getActivity().getSupportFragmentManager();

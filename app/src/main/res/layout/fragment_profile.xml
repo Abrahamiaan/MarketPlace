@@ -28,8 +28,7 @@
                 android:layout_width="43dp"
                 android:layout_height="43dp"
                 android:padding="@dimen/_3sdp"
-                android:background="@drawable/item_bg"
-                android:src="@drawable/vector_profile"
+                android:background="@drawable/vector_profile"
                 android:visibility="visible"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -222,6 +221,7 @@
             android:layout_marginTop="10dp">
 
             <LinearLayout
+                android:visibility="gone"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/actionBarSize"
                 android:orientation="horizontal"

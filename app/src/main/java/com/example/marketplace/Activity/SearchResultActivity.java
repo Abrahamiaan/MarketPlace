@@ -6,6 +6,7 @@ import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -78,13 +79,14 @@ public class SearchResultActivity extends AppCompatActivity {
                             for (DocumentSnapshot document : querySnapshot.getDocuments()) {
                                 FlowerModel flowerModel =  document.toObject(FlowerModel.class);
                                 flowersList.add(flowerModel);
+                                productAdapter.notifyItemInserted(flowersList.size());
                             }
 
                             binding.progressBar.setVisibility(View.GONE);
                             binding.notMatches.setVisibility(View.GONE);
                             binding.recyclerView.setVisibility(View.VISIBLE);
-                            flowersListCopy = new ArrayList<>(flowersList);
-                            productAdapter.notifyDataSetChanged();
+                            flowersListCopy = new ArrayList<>();
+                            flowersListCopy.addAll(flowersList);
                         }
                         else {
                             binding.progressBar.setVisibility(View.GONE);
@@ -129,6 +131,7 @@ public class SearchResultActivity extends AppCompatActivity {
     }
     private void setSortData() {
         binding.sortLayout.setOnClickListener(v -> {
+            @SuppressLint("InflateParams")
             View dialogView = getLayoutInflater().inflate(R.layout.sort_by_dialog, null);
 
             bestMatch = dialogView.findViewById(R.id.bestMatch);
@@ -142,17 +145,23 @@ public class SearchResultActivity extends AppCompatActivity {
 
             setRadioButtonListener(lowToHigh, () -> {
                 flowersList.sort(SortHelper.sortByAscPrice);
-                productAdapter.notifyDataSetChanged();
+                productAdapter.notifyItemRangeChanged(0, flowersList.size());
             });
 
             setRadioButtonListener(highToLow, () -> {
                 flowersList.sort(SortHelper.sortByDescPrice);
-                productAdapter.notifyDataSetChanged();
+                productAdapter.notifyItemRangeChanged(0, flowersList.size());
             });
 
             setRadioButtonListener(newlyListed, () -> {
                 flowersList.sort(SortHelper.sortByListedDate);
-                productAdapter.notifyDataSetChanged();
+                productAdapter.notifyItemRangeChanged(0, flowersList.size());
+            });
+
+            setRadioButtonListener(bestMatch, () -> {
+                flowersList.clear();
+                flowersList.addAll(flowersListCopy);
+                productAdapter.notifyItemRangeChanged(0, flowersList.size());
             });
         });
     }

@@ -31,6 +31,8 @@ import com.google.firebase.auth.UserProfileChangeRequest;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.FirebaseFirestoreException;
+import com.google.firebase.firestore.SetOptions;
 
 import java.util.Arrays;
 import java.util.HashMap;
@@ -53,6 +55,7 @@ public class EditAccountFragment extends Fragment {
 
         initGlobalFields();
         initListeners();
+        
 
         return binding.getRoot();
     }
@@ -63,7 +66,7 @@ public class EditAccountFragment extends Fragment {
         currentUser = mAuth.getCurrentUser();
         db = FirebaseFirestore.getInstance();
         onStartPhotoUri = currentUser.getPhotoUrl();
-
+        fetchAddress();
 
         binding.userName.setText(currentUser.getDisplayName());
         Glide.with(this)
@@ -176,10 +179,10 @@ public class EditAccountFragment extends Fragment {
                 });
     }
     private void checkAndSaveChanges() {
-        DocumentReference docRef = db.collection("DeliveryAddresses").document(currentUser.getUid());
+        DocumentReference documentReference = db.collection("DeliveryAddresses").document(currentUser.getUid());
         String newAddress = binding.deliveryAddress.getText().toString();
 
-        docRef.get().addOnCompleteListener(task -> {
+        documentReference.get().addOnCompleteListener(task -> {
             if (task.isSuccessful()) {
                 DocumentSnapshot document = task.getResult();
                 if (document.exists()) {
@@ -187,6 +190,8 @@ public class EditAccountFragment extends Fragment {
                     if (storedAddress != null && !storedAddress.equals(newAddress)) {
                         updateAddressInFirebase(newAddress);
                     }
+                } else {
+                    updateAddressInFirebase(newAddress);
                 }
             } else {
                 Exception e = task.getException();
@@ -194,15 +199,42 @@ public class EditAccountFragment extends Fragment {
             }
         });
     }
-    private void updateAddressInFirebase(String newAddress) {
-        DocumentReference docRef = db.collection("DeliveryAddresses").document(currentUser.getUid());
-        Map<String, Object> addressData = new HashMap<>();
-        addressData.put("address", newAddress);
 
-        docRef.update(addressData)
-                .addOnSuccessListener(aVoid -> Log.d("Edit Account", "Address updated successfully"))
-                .addOnFailureListener(e -> Log.e("Edit Account", "Error updating address", e));
+    private void fetchAddress() {
+        DocumentReference docRef = db.collection("DeliveryAddresses").document(currentUser.getUid());
+
+        docRef.get().addOnCompleteListener(task -> {
+            if (task.isSuccessful()) {
+                DocumentSnapshot document = task.getResult();
+                if (document.exists()) {
+                    binding.deliveryAddress.setText(document.getString("address"));
+                }
+            } else {
+                Exception e = task.getException();
+                Log.e("Edit Account: ", Arrays.toString(e.getStackTrace()));
+            }
+        });
     }
+
+    private void updateAddressInFirebase(String newAddress) {
+    DocumentReference address = db.collection("DeliveryAddresses").document(currentUser.getUid());
+
+    Map<String, Object> addressData = new HashMap<>();
+    addressData.put("address", newAddress);
+    System.out.println(newAddress);
+
+    address.set(addressData, SetOptions.merge())
+            .addOnSuccessListener(aVoid -> Log.d("Edit Account", "Address updated successfully"))
+            .addOnFailureListener(e -> {
+                Log.e("Edit Account", "Error updating address", e);
+                if (e instanceof FirebaseFirestoreException && ((FirebaseFirestoreException) e).getCode() == FirebaseFirestoreException.Code.NOT_FOUND) {
+                    address.set(addressData)
+                            .addOnSuccessListener(aVoid -> Log.d("Edit Account", "Address added successfully"))
+                            .addOnFailureListener(ex -> Log.e("Edit Account", "Error adding address", ex));
+                }
+            });
+}
+
     private boolean checkNameChanges() {
         return !(binding.userName.getText().toString().equals(currentUser.getDisplayName()));
     }

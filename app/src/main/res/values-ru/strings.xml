@@ -13,8 +13,8 @@
     <string name="already_have_an_account">Уже есть аккаунт?\t\t</string>
 
     <string name="welcome_back">
-		<font fgcolor='#000000'>Добро пожаловать</font>
-        <font fgcolor='#E02181'> назад</font>
+		<font fgcolor='#000000'>Добро</font>
+        <font fgcolor='#E02181'> пожаловать</font>
 	</string>
     <string name="login">"Вход "</string>
     <string name="does_not_have_an_account">Нет аккаунта?\t\t</string>

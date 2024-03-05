@@ -95,12 +95,13 @@
                             android:hint="@string/your_name"
                             android:paddingHorizontal="@dimen/_7sdp"
                             android:paddingVertical="@dimen/_3sdp"
-                            android:textColorHint="#757575" />
+                            android:textColorHint="#757575"
+                            tools:ignore="TextContrastCheck" />
 
                         <androidx.appcompat.widget.AppCompatEditText
                             android:id="@+id/userName"
                             android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
+                            android:layout_height="@dimen/_40sdp"
                             android:background="@null"
                             android:ems="10"
                             android:hint="User Name"
@@ -131,7 +132,7 @@
                         <androidx.appcompat.widget.AppCompatEditText
                             android:id="@+id/deliveryAddress"
                             android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
+                            android:layout_height="@dimen/_40sdp"
                             android:background="@null"
                             android:ems="10"
                             android:hint="@string/select_delivery_address"
@@ -204,6 +205,7 @@
         </LinearLayout>
 
         <TextView
+            android:visibility="gone"
             android:textColor="@color/black"
             android:textStyle="bold"
             android:layout_width="wrap_content"
@@ -212,8 +214,8 @@
             android:text="@string/account_type"
             android:textSize="20sp"
             android:layout_marginHorizontal="@dimen/_10sdp"/>
-
         <LinearLayout
+            android:visibility="gone"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
@@ -333,5 +335,6 @@
                 </LinearLayout>
             </com.google.android.material.card.MaterialCardView>
         </LinearLayout>
+
     </LinearLayout>
 </FrameLayout>

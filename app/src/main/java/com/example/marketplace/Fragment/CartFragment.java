@@ -23,7 +23,7 @@ import java.util.Map;
 
 public class CartFragment extends Fragment {
     FragmentCartBinding binding;
-    private RecyclerView recyclerView;
+    RecyclerView recyclerView;
     private CartAdapter cartAdapter;
     private List<CartModel> cartItems;
     private FirebaseFirestore db;
@@ -36,7 +36,6 @@ public class CartFragment extends Fragment {
         binding = FragmentCartBinding.inflate(inflater, container, false);
 
         initGlobalFields();
-
         return binding.getRoot();
     }
     private void initGlobalFields() {
@@ -78,6 +77,38 @@ public class CartFragment extends Fragment {
                         }
                     } else {
                         Log.e("FetchCart", "Error getting documents: ", task.getException());
+                    }
+                });
+    }
+    public void removeFromCart(int position) {
+        CartModel cM = cartItems.get(position);
+        String prodId = cM.getProductModel().getProductId();
+        String ownerId = cM.getOwnerId();
+
+        db.collection("CartItems")
+                .whereEqualTo("ownerId", ownerId)
+                .whereEqualTo("productModel.productId", prodId)
+                .get()
+                .addOnCompleteListener(task -> {
+                    if (task.isSuccessful()) {
+                        for (QueryDocumentSnapshot document : task.getResult()) {
+                            db.collection("CartItems").document(document.getId())
+                                    .delete()
+                                    .addOnSuccessListener(aVoid -> {
+                                        cartItems.remove(position);
+                                        cartAdapter.notifyItemRemoved(position);
+                                        updateTotalSum();
+
+                                        if (cartItems.isEmpty()) {
+                                            binding.cartIsEmptyTxt.setVisibility(View.VISIBLE);
+                                            binding.orderBtn.setVisibility(View.GONE);
+                                        }
+                                    })
+                                    .addOnFailureListener(e ->
+                                            Log.e("RemoveFromCart", "Error removing document", e));
+                        }
+                    } else {
+                        Log.e("RemoveFromCart", "Error getting documents: ", task.getException());
                     }
                 });
     }
