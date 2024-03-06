@@ -128,5 +128,7 @@
     <string name="available_count">Доступное количество</string>
     <string name="min_purchase_count">Минимальное количество</string>
     <string name="phone_number">Номер телефона</string>
-    <string name="add_phone_number">Добавить номер</string>.
+    <string name="add_phone_number">Добавить номер</string>
+    <string name="clear_all">Очистить все</string>
+    <string name="mark_as_read">Отметить как прочитанное</string>
 </resources>

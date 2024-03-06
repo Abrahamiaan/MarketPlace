@@ -29,16 +29,66 @@
             android:textSize="15sp"
             tools:ignore="RelativeOverlap" />
 
-        <ImageView
-            android:id="@+id/notifications"
+        <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentEnd="true"
             android:layout_marginTop="16dp"
-            android:layout_marginEnd="16dp"
-            android:importantForAccessibility="no"
-            android:src="@drawable/vector_notification"
-            app:tint="@color/white" />
+            android:layout_marginEnd="16dp">
+
+            <ImageView
+                android:id="@+id/notifications"
+                android:layout_width="@dimen/_25sdp"
+                android:layout_height="@dimen/_25sdp"
+                android:importantForAccessibility="no"
+                android:src="@drawable/vector_notification"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:tint="@color/white" />
+
+            <androidx.cardview.widget.CardView
+                android:id="@+id/notificationNumberContainer"
+                android:layout_width="15dp"
+                android:layout_height="15dp"
+                app:cardBackgroundColor="@color/ios_like_blue"
+                app:cardCornerRadius="50dp"
+                app:layout_constraintEnd_toEndOf="@+id/notifications"
+                app:layout_constraintTop_toTopOf="@+id/notifications"
+                tools:ignore="TextSizeCheck">
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+
+                    <TextView
+                        android:id="@+id/unreadCount"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="0"
+                        android:textColor="@color/white"
+                        android:textSize="11sp"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        tools:ignore="HardcodedText" />
+
+                    <ProgressBar
+                        android:id="@+id/unreadProgressBar"
+                        style="?android:attr/progressBarStyle"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:visibility="gone"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+            </androidx.cardview.widget.CardView>
+        </androidx.constraintlayout.widget.ConstraintLayout>
 
         <androidx.appcompat.widget.AppCompatEditText
             android:id="@+id/searchBar"
@@ -49,12 +99,13 @@
             android:layout_marginVertical="@dimen/_10sdp"
             android:background="@drawable/search_bg"
             android:drawableStart="@drawable/vector_search"
+            android:focusable="false"
             android:gravity="center"
             android:hint="@string/berq"
             android:paddingStart="@dimen/_10sdp"
             android:paddingEnd="@dimen/_20sdp"
             android:textSize="@dimen/_15sdp"
-            android:focusable="false" />
+            tools:ignore="TextSizeCheck" />
 
     </RelativeLayout>
 
@@ -124,12 +175,11 @@
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="16dp"
                 android:text="@string/see_more"
-                android:textColor="#448AFF"
+                android:textColor="#1976D2"
                 android:textSize="15sp"
                 app:layout_constraintBottom_toBottomOf="@+id/textView4"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="@+id/textView4"
-                />
+                app:layout_constraintTop_toTopOf="@+id/textView4" />
         </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.core.widget.NestedScrollView>
 </androidx.constraintlayout.widget.ConstraintLayout>

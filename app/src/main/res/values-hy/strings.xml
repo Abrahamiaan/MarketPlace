@@ -125,4 +125,6 @@
     <string name="min_purchase_count">Առնվազն վաճառվող</string>
     <string name="phone_number">Հեռախոսահամար</string>
     <string name="add_phone_number">Ավելավնել հեռախոսահամար</string>
+    <string name="clear_all">Մաքրել Բոլորը</string>
+    <string name="mark_as_read">Նշել կարդացած</string>
 </resources>

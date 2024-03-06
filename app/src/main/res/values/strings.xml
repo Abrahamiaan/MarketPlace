@@ -128,4 +128,6 @@
     <string name="min_purchase_count">Min purchase count</string>
     <string name="phone_number">Phone number</string>
     <string name="add_phone_number">Add Phone Number</string>
+    <string name="clear_all">Clear All</string>
+    <string name="mark_as_read">Mark As Read</string>
 </resources>

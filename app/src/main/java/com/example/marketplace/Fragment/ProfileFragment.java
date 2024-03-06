@@ -1,6 +1,9 @@
 package com.example.marketplace.Fragment;
 
+import static android.content.Context.MODE_PRIVATE;
+
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
@@ -138,6 +141,11 @@ public class ProfileFragment extends Fragment {
             transaction.addToBackStack(null);
 
             transaction.commit();
+        });
+        binding.switchNotification.setOnCheckedChangeListener((buttonView, isChecked) -> {
+            SharedPreferences.Editor editor = requireActivity().getSharedPreferences("MyPreferences", MODE_PRIVATE).edit();
+            editor.putBoolean("notification_enabled", isChecked);
+            editor.apply();
         });
     }
 }
