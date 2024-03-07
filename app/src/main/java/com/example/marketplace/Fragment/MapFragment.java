@@ -6,8 +6,6 @@ import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
 
-import androidx.activity.result.ActivityResultLauncher;
-import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.core.app.ActivityCompat;
 import androidx.fragment.app.Fragment;
@@ -46,7 +44,6 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
     private double latitude = -91;
     private double longitude = 181;
     SharedPreferences sharedPreferences;
-
     private static final int REQUEST_LOCATION_PERMISSION = 123;
 
     @Override
@@ -147,9 +144,12 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
                     editor.putFloat("last_known_latitude", (float) latLng.latitude);
                     editor.putFloat("last_known_longitude", (float) latLng.longitude);
                     editor.apply();
+
+                    latitude = latLng.latitude;
+                    longitude = latLng.longitude;
                 } else {
-                    float latitude = sharedPreferences.getFloat("last_known_latitude", -91f);
-                    float longitude = sharedPreferences.getFloat("last_known_longitude", 181f);
+                    latitude = sharedPreferences.getFloat("last_known_latitude", -91f);
+                    longitude = sharedPreferences.getFloat("last_known_longitude", 181f);
                     if (latitude != -91 && longitude != 181) {
                         LatLng latLng = new LatLng(latitude, longitude);
                         googleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(latLng, 15.0f));
