@@ -131,4 +131,8 @@
     <string name="add_phone_number">Добавить номер</string>
     <string name="clear_all">Очистить все</string>
     <string name="mark_as_read">Отметить как прочитанное</string>
+    <string name="confirm_products">Подтвердить продукты</string>
+    <string name="disprove">Опровергнуть</string>
+    <string name="approve">Одобрить</string>
+    <string name="admin">Админ</string>
 </resources>

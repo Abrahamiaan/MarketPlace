@@ -96,12 +96,12 @@
                 <ImageView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:src="@drawable/vector_notification"
                     android:layout_gravity="center_vertical"
                     android:background="@drawable/profile_item_bg"
-                    app:tint="@color/white"
                     android:backgroundTint="#4CD964"
-                    tools:ignore="ContentDescription" />
+                    android:src="@drawable/vector_notification"
+                    app:tint="@color/white"
+                    tools:ignore="ContentDescription,ImageContrastCheck" />
 
                 <TextView
                     android:id="@+id/tv_notifications2"
@@ -365,7 +365,7 @@
                     android:backgroundTint="#4B456B7D"
                     android:src="@drawable/vector_article"
                     app:tint="@color/white"
-                    tools:ignore="ContentDescription" />
+                    tools:ignore="ContentDescription,ImageContrastCheck" />
 
                 <TextView
                     android:layout_width="0dp"
@@ -401,7 +401,7 @@
                     android:backgroundTint="#4B456B7D"
                     android:src="@drawable/vector_article"
                     app:tint="@color/white"
-                    tools:ignore="ContentDescription" />
+                    tools:ignore="ContentDescription,ImageContrastCheck" />
 
                 <TextView
                     android:layout_width="0dp"
@@ -455,6 +455,63 @@
                     android:layout_height="@dimen/actionBarSize"
                     android:src="@drawable/vector_more1"
                     android:layout_gravity="center_vertical"
+                    tools:ignore="ContentDescription" />
+            </LinearLayout>
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/adminParent"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintEnd_toEndOf="@id/guideline2"
+            app:layout_constraintStart_toStartOf="@id/guideline1"
+            app:layout_constraintTop_toBottomOf="@+id/linear_regional">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:text="@string/admin"
+                android:textColor="@color/black"
+                android:textSize="25sp"
+                android:textStyle="bold"
+                app:layout_constraintStart_toStartOf="@id/guideline1"
+                app:layout_constraintTop_toBottomOf="@id/linear_regional" />
+
+            <LinearLayout
+                android:id="@+id/linear_confirm_products"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/actionBarSize"
+                android:layout_marginTop="10dp"
+                android:orientation="horizontal">
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:background="@drawable/profile_item_bg"
+                    android:backgroundTint="@color/black"
+                    android:src="@drawable/vector_admin"
+                    app:tint="@color/white"
+                    tools:ignore="ContentDescription" />
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginStart="20dp"
+                    android:layout_weight="1"
+                    android:text="@string/confirm_products"
+                    android:textColor="@color/black"
+                    android:textSize="20sp"
+                    android:textStyle="normal" />
+
+                <ImageView
+                    android:layout_width="20dp"
+                    android:layout_height="@dimen/actionBarSize"
+                    android:layout_gravity="center_vertical"
+                    android:src="@drawable/vector_more1"
                     tools:ignore="ContentDescription" />
             </LinearLayout>
         </LinearLayout>

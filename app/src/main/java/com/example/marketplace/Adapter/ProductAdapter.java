@@ -3,10 +3,10 @@ package com.example.marketplace.Adapter;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.drawable.Drawable;
-import android.media.Image;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -19,6 +19,7 @@ import com.bumptech.glide.load.resource.bitmap.RoundedCorners;
 import com.bumptech.glide.request.target.CustomTarget;
 import com.bumptech.glide.request.transition.Transition;
 import com.example.marketplace.Activity.DetailActivity;
+import com.example.marketplace.Admin.ConfirmationActivity;
 import com.example.marketplace.Model.FlowerModel;
 import com.example.marketplace.R;
 
@@ -28,11 +29,19 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductV
     Context context;
     List<FlowerModel> flowersList;
     int layoutResId;
+    ConfirmationActivity activity;
 
     public ProductAdapter(Context context, List<FlowerModel> flowersList, int layoutResId) {
         this.context = context;
         this.flowersList = flowersList;
         this.layoutResId = layoutResId;
+    }
+
+    public ProductAdapter(ConfirmationActivity activity, Context context, List<FlowerModel> flowersList, int layoutResId) {
+        this.context = context;
+        this.flowersList = flowersList;
+        this.layoutResId = layoutResId;
+        this.activity = activity;
     }
 
     @NonNull
@@ -69,6 +78,8 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductV
             intent.putExtra("object", currentFlower);
             context.startActivity(intent);
         });
+        holder.subConfirmMenu.setOnClickListener(v -> activity.showPopup(v, position));
+        holder.description.setText(currentFlower.getDetails());
     }
 
     @Override
@@ -80,6 +91,8 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductV
         ImageView image;
         TextView title;
         TextView price;
+        TextView description;
+        ImageButton subConfirmMenu;
 
         public ProductViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -87,6 +100,8 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductV
             image = itemView.findViewById(R.id.productImg);
             title = itemView.findViewById(R.id.titleTxt);
             price = itemView.findViewById(R.id.priceTxt);
+            subConfirmMenu = itemView.findViewById(R.id.dotsMenuBtn);
+            description = itemView.findViewById(R.id.description);
         }
     }
 }

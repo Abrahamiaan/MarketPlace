@@ -127,4 +127,8 @@
     <string name="add_phone_number">Ավելավնել հեռախոսահամար</string>
     <string name="clear_all">Մաքրել Բոլորը</string>
     <string name="mark_as_read">Նշել կարդացած</string>
+    <string name="confirm_products">Հաստատեք ապրանքները</string>
+    <string name="disprove">Հերքել</string>:
+    <string name="approve">Թույլատրել</string>
+    <string name="admin">Ադմինիստրատոր</string>
 </resources>

@@ -113,7 +113,7 @@ public class SellingFragment extends Fragment {
         db = FirebaseFirestore.getInstance();
         imagePath = null;
         productModel = new FlowerModel();
-        productModel.setProductId(db.collection("Products").document().getId());
+        productModel.setProductId(db.collection("UnconfirmedProducts").document().getId());
         List<EditText> colorItems = new ArrayList<>();
         binding.colorRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity().getApplicationContext()));
         colorAdapter = new ColorSizeAdapter(colorItems);
@@ -148,7 +148,7 @@ public class SellingFragment extends Fragment {
         });
     }
     private void uploadToFirestore() {
-        db.collection("Products").document(productModel.getProductId()).set(productModel)
+        db.collection("UnconfirmedProducts").document(productModel.getProductId()).set(productModel)
                 .addOnSuccessListener(aVoid -> dialogHud.dismiss())
                 .addOnFailureListener(e -> {
                     Toast.makeText(requireContext(), getString(R.string.failed_to_upload_product) + e.getMessage(), Toast.LENGTH_LONG).show();

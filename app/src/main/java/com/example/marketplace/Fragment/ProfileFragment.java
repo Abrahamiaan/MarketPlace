@@ -23,10 +23,12 @@ import com.bumptech.glide.load.resource.bitmap.CircleCrop;
 import com.bumptech.glide.request.target.CustomTarget;
 import com.bumptech.glide.request.transition.Transition;
 import com.example.marketplace.Activity.SplashActivity;
+import com.example.marketplace.Admin.ConfirmationActivity;
 import com.example.marketplace.R;
 import com.example.marketplace.databinding.FragmentProfileBinding;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.FirebaseFirestore;
 
 
 import ir.androidexception.andexalertdialog.AndExAlertDialog;
@@ -35,6 +37,8 @@ public class ProfileFragment extends Fragment {
     FragmentProfileBinding binding;
     FirebaseAuth mAuth;
     FirebaseUser currentUser;
+    FirebaseFirestore db;
+    boolean isAdmin;
 
 
     public ProfileFragment() { }
@@ -64,14 +68,13 @@ public class ProfileFragment extends Fragment {
                         startActivity(intent);
                     }
                 })
-                .OnNegativeClicked(v -> {
-
-                })
+                .OnNegativeClicked(v -> {})
                 .build();
     }
     private void initGlobalFields() {
         mAuth = FirebaseAuth.getInstance();
         currentUser = mAuth.getCurrentUser();
+        db = FirebaseFirestore.getInstance();
         if (currentUser != null) {
             String currentUserName = currentUser.getDisplayName();
             Uri photoUrl = currentUser.getPhotoUrl();
@@ -93,9 +96,10 @@ public class ProfileFragment extends Fragment {
                             public void onLoadCleared(@Nullable Drawable placeholder) {}
                         });
             }
+
+            fetchUserMetaData();
         }
     }
-
     private void initListeners() {
         binding.linearOut.setOnClickListener(v -> showConfirmDialog(getString(R.string.oops), getString(R.string.are_you_sure_you_want_to_log_out)));
         binding.linearLanguage.setOnClickListener(v -> {
@@ -147,5 +151,22 @@ public class ProfileFragment extends Fragment {
             editor.putBoolean("notification_enabled", isChecked);
             editor.apply();
         });
+        if (isAdmin) {
+            binding.linearConfirmProducts.setOnClickListener(v -> {
+                Intent intent = new Intent(requireContext(), ConfirmationActivity.class);
+                startActivity(intent);
+            });
+        }
+    }
+    private void fetchUserMetaData() {
+        db.collection("UserMetaData")
+                .document(currentUser.getUid())
+                .get()
+                .addOnCompleteListener(task -> {
+                    if (task.isSuccessful()) {
+                        isAdmin = task.getResult().getBoolean("isAdmin");
+                        binding.adminParent.setVisibility(isAdmin ? View.VISIBLE : View.GONE);
+                    }
+                });
     }
 }

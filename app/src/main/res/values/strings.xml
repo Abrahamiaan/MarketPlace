@@ -130,4 +130,8 @@
     <string name="add_phone_number">Add Phone Number</string>
     <string name="clear_all">Clear All</string>
     <string name="mark_as_read">Mark As Read</string>
+    <string name="confirm_products">Confirm Products</string>
+    <string name="disprove">Disprove</string>
+    <string name="approve">Approve</string>
+    <string name="admin">Admin</string>
 </resources>

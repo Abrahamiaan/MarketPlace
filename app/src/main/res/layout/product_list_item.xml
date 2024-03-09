@@ -1,37 +1,58 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="@dimen/_100sdp"
+    android:layout_height="@dimen/_75sdp"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:orientation="horizontal"
     android:background="@drawable/edit_text_round_bg_outline"
     android:padding="8dp">
 
     <ImageView
         android:id="@+id/productImg"
-        android:layout_width="@dimen/_100sdp"
+        android:layout_width="@dimen/_75sdp"
         android:layout_height="match_parent"
+        android:importantForAccessibility="no"
         android:scaleType="centerCrop"
-        android:importantForAccessibility="no" />
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <LinearLayout
+        android:id="@+id/linearLayout4"
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
         android:orientation="vertical"
-        android:layout_marginStart="@dimen/_16sdp">
+        android:layout_marginStart="@dimen/_10sdp"
+        app:layout_constraintStart_toEndOf="@+id/productImg"
+        tools:layout_editor_absoluteY="8dp">
 
         <TextView
             android:id="@+id/titleTxt"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Varder"
-            android:textSize="@dimen/_18sdp"/>
+            android:layout_height="wrap_content"/>
 
         <TextView
             android:id="@+id/priceTxt"
             android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+        <TextView
+            android:id="@+id/description"
+            android:layout_width="@dimen/_200sdp"
             android:layout_height="wrap_content"
-            android:textSize="@dimen/_20sdp"
-            android:text="45 AMD"/>
+            android:maxLines="3"/>
     </LinearLayout>
-</LinearLayout>
+
+    <ImageButton
+        android:id="@+id/dotsMenuBtn"
+        android:layout_width="@dimen/_37sdp"
+        android:layout_height="@dimen/_37sdp"
+        android:background="?attr/selectableItemBackgroundBorderless"
+        android:clickable="true"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/vector_dots"
+        app:tint="@color/pink"
+        tools:ignore="ContentDescription,SpeakableTextPresentCheck" />
+</androidx.constraintlayout.widget.ConstraintLayout>
