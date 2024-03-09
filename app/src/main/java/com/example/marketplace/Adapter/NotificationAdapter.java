@@ -6,7 +6,6 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
-import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.marketplace.Fragment.NotificationFragment;
@@ -40,9 +39,7 @@ public class NotificationAdapter extends RecyclerView.Adapter<NotificationAdapte
     @Override
     public void onBindViewHolder(NotificationViewHolder holder, int position) {
         NotificationModel notification = notificationList.get(position);
-        holder.notificationParentLayout.setOnClickListener(v -> {
-            fragment.markAsRead(notification.getOwnerId(), notification.getNotificationId());
-        });
+        holder.notificationParentLayout.setOnClickListener(v -> fragment.markAsRead(notification.getOwnerId(), notification.getNotificationId()));
         holder.bind(notification);
     }
 
