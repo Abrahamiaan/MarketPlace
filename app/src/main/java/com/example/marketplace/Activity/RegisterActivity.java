@@ -26,7 +26,12 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.GoogleAuthProvider;
 import com.google.firebase.auth.UserProfileChangeRequest;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.SetOptions;
+import com.google.firebase.messaging.FirebaseMessaging;
 
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Objects;
 
 import ir.androidexception.andexalertdialog.AndExAlertDialog;
@@ -35,7 +40,9 @@ public class RegisterActivity extends AppCompatActivity {
     private ActivityRegisterBinding binding;
     static final int RC_SIGN_IN = 9001;
     private FirebaseAuth mAuth;
+    private FirebaseFirestore db;
     private GoogleSignInClient mGoogleSignInClient;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -99,7 +106,7 @@ public class RegisterActivity extends AppCompatActivity {
                     if (task.isSuccessful()) {
                         FirebaseUser firebaseUser = mAuth.getCurrentUser();
                         if (firebaseUser != null) {
-                            changeDisplayName(firebaseUser);
+                            saveUserMetadata(firebaseUser);
                         }
                     } else {
                         Exception exception = task.getException();
@@ -128,6 +135,32 @@ public class RegisterActivity extends AppCompatActivity {
                     }
                 });
     }
+
+    private void saveUserMetadata(FirebaseUser firebaseUser) {
+        FirebaseMessaging.getInstance().getToken()
+                .addOnCompleteListener(task -> {
+                    if (task.isSuccessful() && task.getResult() != null) {
+                        String fcmToken = task.getResult();
+
+                        Map<String, Object> userMetadata = new HashMap<>();
+                        userMetadata.put("isAdmin", false);
+                        userMetadata.put("FCMToken", fcmToken);
+
+                        db.collection("UserMetadata").document(firebaseUser.getUid())
+                                .set(userMetadata, SetOptions.merge())
+                                .addOnSuccessListener(aVoid -> {
+                                    Log.d("Save Metadata", "User metadata saved successfully");
+                                    changeDisplayName(firebaseUser);
+                                    if (binding.progressBar.getVisibility() == View.VISIBLE)
+                                        binding.progressBar.setVisibility(View.GONE);
+                                })
+                                .addOnFailureListener(e -> Log.e("Save Metadata", "Error saving user metadata", e));
+                    } else {
+                        Log.e("FCM Token", "Failed to get FCM token", task.getException());
+                    }
+                });
+    }
+
     private boolean validateInput() {
         String email = binding.email.getText().toString().trim();
         String password = binding.password.getText().toString();
@@ -250,6 +283,7 @@ public class RegisterActivity extends AppCompatActivity {
     }
     private void  initGlobalFields() {
         mAuth = FirebaseAuth.getInstance();
+        db = FirebaseFirestore.getInstance();
         FirebaseDatabase.getInstance().setPersistenceEnabled(true);
         GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
                 .requestIdToken(getString(R.string.WEB_CLIENT_ID))
