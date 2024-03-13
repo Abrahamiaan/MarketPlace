@@ -96,7 +96,7 @@
     <string name="berq" translatable="false">BERQ</string>
     <string name="your_cart_is_empty">Your cart is empty</string>
     <string name="my_cart">My Cart</string>
-    <string name="order_sumary">Order Sumary</string>
+    <string name="order_summary">Order Summary</string>
     <string name="total">Total</string>
     <string name="order_now">Order Now</string>
     <string name="transactions">Transactions</string>

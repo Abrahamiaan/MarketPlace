@@ -97,7 +97,7 @@
     <string name="you_must_select_product_location">Вы должны выбрать местоположение товара</string>
     <string name="your_cart_is_empty">Ваша корзина пуста</string>
     <string name="my_cart">Моя корзина</string>
-    <string name="order_sumary">Сумма заказа</string>
+    <string name="order_summary">Сумма заказа</string>
     <string name="total">Итого</string>
     <string name="order_now">Заказать сейчас</string>
     <string name="transactions">Сделки</string>

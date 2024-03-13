@@ -30,6 +30,7 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductV
     List<FlowerModel> flowersList;
     int layoutResId;
     ConfirmationActivity activity;
+    boolean isAdmin;
 
     public ProductAdapter(Context context, List<FlowerModel> flowersList, int layoutResId) {
         this.context = context;
@@ -42,6 +43,8 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductV
         this.flowersList = flowersList;
         this.layoutResId = layoutResId;
         this.activity = activity;
+
+        isAdmin = true;
     }
 
     @NonNull
@@ -78,8 +81,10 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductV
             intent.putExtra("object", currentFlower);
             context.startActivity(intent);
         });
-        holder.subConfirmMenu.setOnClickListener(v -> activity.showPopup(v, position));
-        holder.description.setText(currentFlower.getDetails());
+        if (isAdmin) {
+            holder.subConfirmMenu.setOnClickListener(v -> activity.showPopup(v, position));
+            holder.description.setText(currentFlower.getDetails());
+        }
     }
 
     @Override

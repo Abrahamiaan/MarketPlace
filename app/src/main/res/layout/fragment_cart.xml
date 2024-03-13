@@ -70,7 +70,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginVertical="@dimen/_13sdp"
-                android:text="@string/order_sumary"
+                android:text="@string/order_summary"
                 android:textSize="18sp"
                 android:textStyle="bold" />
 
