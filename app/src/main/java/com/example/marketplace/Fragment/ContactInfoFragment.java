@@ -1,6 +1,5 @@
 package com.example.marketplace.Fragment;
 
-import android.annotation.SuppressLint;
 import android.graphics.Color;
 import android.os.Bundle;
 
@@ -22,6 +21,7 @@ import com.google.android.material.card.MaterialCardView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
+
 public class ContactInfoFragment extends Fragment {
     FragmentContactInfoBinding binding;
     FirebaseAuth mAuth;
@@ -36,7 +36,6 @@ public class ContactInfoFragment extends Fragment {
         return binding.getRoot();
     }
 
-    @SuppressLint("SetTextI18n")
     private void addNewPhoneNumberCard() {
         MaterialCardView cardView = new MaterialCardView(requireContext());
         cardView.setLayoutParams(new LinearLayout.LayoutParams(

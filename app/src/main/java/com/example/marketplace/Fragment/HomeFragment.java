@@ -107,7 +107,7 @@ public class HomeFragment extends Fragment {
                             binding.unreadCount.setText(String.valueOf(count));
                         }
                     } else {
-                        Log.d("UnreadCount", "Error getting documents: ", task.getException());
+                        Log.e("UnreadCount", "Error getting documents: ", task.getException());
                     }
                     binding.unreadProgressBar.setVisibility(View.GONE);
                     binding.notificationNumberContainer.setVisibility(View.VISIBLE);

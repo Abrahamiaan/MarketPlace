@@ -151,12 +151,10 @@ public class ProfileFragment extends Fragment {
             editor.putBoolean("notification_enabled", isChecked);
             editor.apply();
         });
-        if (isAdmin) {
-            binding.linearConfirmProducts.setOnClickListener(v -> {
-                Intent intent = new Intent(requireContext(), ConfirmationActivity.class);
-                startActivity(intent);
-            });
-        }
+        binding.linearConfirmProducts.setOnClickListener(v -> {
+            Intent intent = new Intent(requireContext(), ConfirmationActivity.class);
+            startActivity(intent);
+        });
     }
     private void fetchUserMetaData() {
         db.collection("UserMetaData")

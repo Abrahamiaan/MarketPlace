@@ -101,9 +101,9 @@ public class NotificationHelper {
                     System.out.println("Response: " + responseBody);
                 }
             } catch (IOException e) {
-                Log.d("Send Notification", e.toString());
+                Log.e("Send Notification", e.getMessage());
+                e.getStackTrace();
             }
         }).start();
     }
-
 }

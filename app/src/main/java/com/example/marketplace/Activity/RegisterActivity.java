@@ -146,7 +146,7 @@ public class RegisterActivity extends AppCompatActivity {
                         userMetadata.put("isAdmin", false);
                         userMetadata.put("FCMToken", fcmToken);
 
-                        db.collection("UserMetadata").document(firebaseUser.getUid())
+                        db.collection("UserMetaData").document(firebaseUser.getUid())
                                 .set(userMetadata, SetOptions.merge())
                                 .addOnSuccessListener(aVoid -> {
                                     Log.d("Save Metadata", "User metadata saved successfully");

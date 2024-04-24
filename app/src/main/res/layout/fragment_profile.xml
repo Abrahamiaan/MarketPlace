@@ -462,6 +462,7 @@
         <LinearLayout
             android:id="@+id/adminParent"
             android:layout_width="0dp"
+            android:visibility="gone"
             android:layout_height="wrap_content"
             android:orientation="vertical"
             app:layout_constraintEnd_toEndOf="@id/guideline2"
