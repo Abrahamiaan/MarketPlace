@@ -5,7 +5,6 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -17,6 +16,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.marketplace.Adapter.CategoryAdapter;
 import com.example.marketplace.Adapter.ProductAdapter;
+import com.example.marketplace.Adapter.SpecialOffersAdapter;
 import com.example.marketplace.Model.Category;
 import com.example.marketplace.Model.FlowerModel;
 import com.example.marketplace.R;
@@ -62,28 +62,41 @@ public class HomeFragment extends Fragment {
                         productAdapter.notifyItemInserted(flowersList.size());
                 }
             } else {
-                Toast.makeText(requireContext(), "Failed to fetch data from Firestore", Toast.LENGTH_SHORT).show();
+                Log.e("Home Fragment", "Failed to fetch data from Firestore");
             }
         });
     }
+
     private void initRecyclerView() {
         categoryList = new ArrayList<>();
 
-        categoryList.add(new Category(1, R.drawable.rose, "FIRST"));
-        categoryList.add(new Category(2, R.drawable.tulip, "SECOND"));
-        categoryList.add(new Category(3, R.drawable.lily, "THIRD"));
+        categoryList.add(new Category(1, R.drawable.rose, getString(R.string.house_plants), "House Plants"));
+        categoryList.add(new Category(2, R.drawable.rose, getString(R.string.roses), "Roses"));
+        categoryList.add(new Category(3, R.drawable.rose, getString(R.string.flowers), "Flowers"));
+        categoryList.add(new Category(4, R.drawable.rose, getString(R.string.outdoor_plants), "Outdoor Plants"));
+        categoryList.add(new Category(5, R.drawable.rose, getString(R.string.lilies), "Lilies"));
 
         flowersList = new ArrayList<> ();
         fetchDataFromFirestore();
         setCategoryRecycler(categoryList);
         setProductRecycler(flowersList);
+        setSpecialOffersRecycler();
         fetchUnreadCount();
     }
     private void setCategoryRecycler(List<Category> categoryDataList) {
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false);
-        binding.topAdsRecycler.setLayoutManager(layoutManager);
+        binding.categoriesRecycler.setLayoutManager(layoutManager);
         categoryAdapter = new CategoryAdapter(requireContext(), categoryDataList);
-        binding.topAdsRecycler.setAdapter(categoryAdapter);
+        binding.categoriesRecycler.setAdapter(categoryAdapter);
+    }
+    private void setSpecialOffersRecycler() {
+        List<Category> listAds = new ArrayList<>();
+        Category category = new Category(R.color.colorPrimary, R.drawable.rose_examplepng, getString(R.string._100_off_special_delivery_in_april), null);
+        listAds.add(category);
+        RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false);
+        binding.specialOfferRecycler.setLayoutManager(layoutManager);
+        SpecialOffersAdapter categoryAdapter1 = new SpecialOffersAdapter(requireContext(), listAds);
+        binding.specialOfferRecycler.setAdapter(categoryAdapter1);
     }
     private void setProductRecycler(List<FlowerModel> flowerDataList) {
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false);

@@ -1,23 +1,25 @@
 package com.example.marketplace.Adapter;
 
 import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.marketplace.Activity.FlowersListActivity;
 import com.example.marketplace.Model.Category;
 import com.example.marketplace.R;
-;
+
 import java.util.List;
 
 public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.CategoryViewHolder> {
     Context context;
     List<Category> categoryList;
+
 
     public CategoryAdapter(Context context, List<Category> categoryList) {
         this.context = context;
@@ -33,8 +35,14 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.Catego
 
     @Override
     public void onBindViewHolder(@NonNull CategoryViewHolder holder, int position) {
-        holder.categoryImage.setImageResource(categoryList.get(position).getImageUrl());
         holder.name.setText(categoryList.get(position).getName());
+
+        holder.itemView.setOnClickListener(v -> {
+            Intent i = new Intent(context, FlowersListActivity.class);
+            i.putExtra("categoryName", categoryList.get(position).getTitle());
+            i.putExtra("pageTitle", categoryList.get(position).getName());
+            context.startActivity(i);
+        });
     }
 
     @Override
@@ -43,13 +51,11 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.Catego
     }
 
     public  static class CategoryViewHolder extends RecyclerView.ViewHolder{
-        ImageView categoryImage;
         TextView name;
 
         public CategoryViewHolder(@NonNull View itemView) {
             super(itemView);
 
-            categoryImage = itemView.findViewById(R.id.categoryImage);
             name = itemView.findViewById(R.id.nameTextView);
         }
     }

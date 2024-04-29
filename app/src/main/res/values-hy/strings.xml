@@ -131,4 +131,10 @@
     <string name="disprove">Հերքել</string>:
     <string name="approve">Թույլատրել</string>
     <string name="admin">Ադմինիստրատոր</string>
+    <string name="house_plants">Տնային բույսեր</string>
+    <string name="roses">Վարդեր</string>
+    <string name="flowers">Ծաղիկներ</string>
+    <string name="outdoor_plants">Դրսային բույսեր</string>
+    <string name="lilies">Լիլիներ</string>
+    <string name="_100_off_special_delivery_in_april">100% զեղչ ապրիլին \nառաքումների համար</string>
 </resources>

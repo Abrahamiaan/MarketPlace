@@ -4,11 +4,21 @@ public class Category {
     int id;
     Integer imageUrl;
     String  name;
+    String  title;
 
-    public Category(int id, Integer imageUrl, String name) {
+    public Category(int id, Integer imageUrl, String name, String title) {
         this.id = id;
         this.imageUrl = imageUrl;
         this.name = name;
+        this.title = title;
+    }
+
+    public String getTitle() {
+        return title;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
     }
 
     public int getId() {

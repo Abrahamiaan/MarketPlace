@@ -24,26 +24,24 @@ import com.example.marketplace.R;
 
 import java.util.List;
 
-public class TestAdapter extends RecyclerView.Adapter<TestAdapter.ProductViewHolder> {
+public class ProductGridAdapter extends RecyclerView.Adapter<ProductGridAdapter.ProductGridViewHolder> {
     Context context;
     List<FlowerModel> flowersList;
-    int layoutResId;
 
-    public TestAdapter(Context context, List<FlowerModel> flowersList, int layoutResId) {
+    public ProductGridAdapter(Context context, List<FlowerModel> flowersList) {
         this.context = context;
         this.flowersList = flowersList;
-        this.layoutResId = layoutResId;
     }
 
     @NonNull
     @Override
-    public TestAdapter.ProductViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(context).inflate(R.layout.test_item, parent, false);
-        return new ProductViewHolder(view);
+    public ProductGridAdapter.ProductGridViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        View view = LayoutInflater.from(context).inflate(R.layout.product_grid_item, parent, false);
+        return new ProductGridViewHolder(view);
     }
 
     @Override
-    public void onBindViewHolder(@NonNull ProductViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull ProductGridViewHolder holder, int position) {
         FlowerModel currentFlower = flowersList.get(position);
 
         Glide.with(context)
@@ -52,7 +50,7 @@ public class TestAdapter extends RecyclerView.Adapter<TestAdapter.ProductViewHol
                 .into(new CustomTarget<Drawable>() {
                     @Override
                     public void onResourceReady(@NonNull Drawable resource, @Nullable Transition<? super Drawable> transition) {
-                        holder.image.setBackground(resource);
+                        holder.productImg.setBackground(resource);
                     }
 
                     @Override
@@ -61,8 +59,8 @@ public class TestAdapter extends RecyclerView.Adapter<TestAdapter.ProductViewHol
                     }
                 });
 
-        holder.title.setText(currentFlower.getTitle());
-        holder.price.setText(String.format("%s AMD", currentFlower.getPrice()));
+        holder.titleTxt.setText(currentFlower.getTitle());
+        holder.priceTxt.setText(String.format("%s Դ", currentFlower.getPrice()));
 
         holder.itemView.setOnClickListener(v -> {
             Intent intent = new Intent(holder.itemView.getContext(), DetailActivity.class);
@@ -76,17 +74,16 @@ public class TestAdapter extends RecyclerView.Adapter<TestAdapter.ProductViewHol
         return flowersList != null ? flowersList.size() : 0;
     }
 
-    public static class ProductViewHolder extends RecyclerView.ViewHolder {
-        ImageView image;
-        TextView title;
-        TextView price;
+    public static class ProductGridViewHolder extends RecyclerView.ViewHolder {
+        TextView titleTxt;
+        TextView priceTxt;
+        ImageView productImg;
 
-        public ProductViewHolder(@NonNull View itemView) {
+        public ProductGridViewHolder(@NonNull View itemView) {
             super(itemView);
-
-            image = itemView.findViewById(R.id.productImg);
-            title = itemView.findViewById(R.id.titleTxt);
-            price = itemView.findViewById(R.id.priceTxt);
+            titleTxt = itemView.findViewById(R.id.titleTxt);
+            priceTxt = itemView.findViewById(R.id.priceTxt);
+            productImg = itemView.findViewById(R.id.productImg);
         }
     }
 }

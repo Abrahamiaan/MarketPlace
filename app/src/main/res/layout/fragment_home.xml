@@ -7,7 +7,7 @@
     android:background="@color/backgroundColor"
     tools:context=".Activity.MainActivity">
 
-    <RelativeLayout
+    <LinearLayout
         android:id="@+id/homeCard"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -15,24 +15,30 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         android:background="@drawable/bottom_rounded_corners"
-        android:backgroundTint="#D13268">
+        android:backgroundTint="#D13268"
+        android:orientation="horizontal">
 
-        <TextView
-            android:id="@+id/deliveryAddress"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerHorizontal="true"
-            android:layout_marginStart="16dp"
-            android:layout_marginTop="16dp"
-            android:text="@string/delivery_address"
-            android:textColor="@color/white"
-            android:textSize="15sp"
-            tools:ignore="RelativeOverlap" />
+        <androidx.appcompat.widget.AppCompatEditText
+            android:id="@+id/searchBar"
+            android:layout_gravity="center"
+            android:layout_width="0dp"
+            android:layout_weight="0.8"
+            android:layout_height="@dimen/_40sdp"
+            android:layout_marginHorizontal="@dimen/_10sdp"
+            android:layout_marginVertical="@dimen/_10sdp"
+            android:background="@drawable/search_bg"
+            android:drawableStart="@drawable/vector_search"
+            android:focusable="false"
+            android:gravity="center"
+            android:hint="@string/berq"
+            android:paddingStart="@dimen/_10sdp"
+            android:paddingEnd="@dimen/_20sdp"
+            android:textSize="@dimen/_15sdp"
+            tools:ignore="TextSizeCheck" />
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignParentEnd="true"
             android:layout_marginTop="16dp"
             android:layout_marginEnd="16dp">
 
@@ -88,98 +94,149 @@
                 </androidx.constraintlayout.widget.ConstraintLayout>
 
             </androidx.cardview.widget.CardView>
+
+
         </androidx.constraintlayout.widget.ConstraintLayout>
-
-        <androidx.appcompat.widget.AppCompatEditText
-            android:id="@+id/searchBar"
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/_40sdp"
-            android:layout_below="@+id/deliveryAddress"
-            android:layout_marginHorizontal="@dimen/_10sdp"
-            android:layout_marginVertical="@dimen/_10sdp"
-            android:background="@drawable/search_bg"
-            android:drawableStart="@drawable/vector_search"
-            android:focusable="false"
-            android:gravity="center"
-            android:hint="@string/berq"
-            android:paddingStart="@dimen/_10sdp"
-            android:paddingEnd="@dimen/_20sdp"
-            android:textSize="@dimen/_15sdp"
-            tools:ignore="TextSizeCheck" />
-
-    </RelativeLayout>
-
+    </LinearLayout>
 
     <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:layout_constraintTop_toBottomOf="@+id/homeCard"
-        android:layout_marginTop="@dimen/_10sdp">
+        app:layout_constraintTop_toBottomOf="@+id/homeCard">
 
-        <androidx.constraintlayout.widget.ConstraintLayout
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="match_parent"
+            android:orientation="vertical">
 
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/topAdsRecycler"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
-                android:layout_marginEnd="16dp"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.0"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/textView3" />
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
 
-            <TextView
-                android:visibility="gone"
-                android:id="@+id/textView3"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="16dp"
-                android:text="@string/explore_popular_categories"
-                android:textColor="@color/textColor"
-                android:textSize="20sp"
-                android:textStyle="bold"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/specialOfferRecycler"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="16dp"
+                    android:layout_marginEnd="16dp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.0"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/textView3" />
 
-            <TextView
-                android:id="@+id/textView4"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="16dp"
-                android:layout_marginTop="24dp"
-                android:text="@string/pick_of_the_day"
-                android:textColor="@color/textColor"
-                android:textSize="20sp"
-                android:textStyle="bold"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/topAdsRecycler" />
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/categoriesRecycler"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="16dp"
+                    android:layout_marginEnd="16dp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.0"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/specialOfferRecycler" />
 
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/productRecycler"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/textView4"
-                android:paddingBottom="@dimen/_100sdp"
-                android:layout_marginBottom="@dimen/_10sdp"
-                android:clipToPadding="false"/>
+                <TextView
+                    android:id="@+id/textView3"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="16dp"
+                    android:text="@string/explore_popular_categories"
+                    android:textColor="@color/textColor"
+                    android:textSize="20sp"
+                    android:textStyle="bold"
+                    android:visibility="gone"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
 
-            <TextView
-                android:id="@+id/allPick"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginEnd="16dp"
-                android:text="@string/see_more"
-                android:textColor="#1976D2"
-                android:textSize="15sp"
-                app:layout_constraintBottom_toBottomOf="@+id/textView4"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="@+id/textView4" />
-        </androidx.constraintlayout.widget.ConstraintLayout>
+                <TextView
+                    android:id="@+id/textView4"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginTop="24dp"
+                    android:text="@string/pick_of_the_day"
+                    android:textColor="@color/textColor"
+                    android:textSize="20sp"
+                    android:textStyle="bold"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/categoriesRecycler" />
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/productRecycler"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="16dp"
+                    android:layout_marginBottom="@dimen/_10sdp"
+                    android:clipToPadding="false"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/textView4" />
+
+                <TextView
+                    android:id="@+id/allPick"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="16dp"
+                    android:text="@string/see_more"
+                    android:textColor="#1976D2"
+                    android:textSize="15sp"
+                    app:layout_constraintBottom_toBottomOf="@+id/textView4"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="@+id/textView4" />
+
+                <TextView
+                    android:id="@+id/textView5"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginTop="24dp"
+                    android:text="@string/flowers"
+                    android:textColor="@color/textColor"
+                    android:textSize="20sp"
+                    android:textStyle="bold"
+                    android:visibility="gone"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/productRecycler" />
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/flowersRecycler"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="16dp"
+                    android:layout_marginBottom="@dimen/_10sdp"
+                    android:clipToPadding="false"
+                    android:visibility="gone"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/textView5" />
+
+                <TextView
+                    android:id="@+id/textView6"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginTop="24dp"
+                    android:text="@string/plants"
+                    android:textColor="@color/textColor"
+                    android:textSize="20sp"
+                    android:textStyle="bold"
+                    android:visibility="gone"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/flowersRecycler" />
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/plantsRecycler"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="16dp"
+                    android:layout_marginBottom="@dimen/_10sdp"
+                    android:clipToPadding="false"
+                    android:visibility="gone"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/textView6" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+        </LinearLayout>
     </androidx.core.widget.NestedScrollView>
 </androidx.constraintlayout.widget.ConstraintLayout>
