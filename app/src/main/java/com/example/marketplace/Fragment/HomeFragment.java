@@ -19,6 +19,7 @@ import com.example.marketplace.Adapter.ProductAdapter;
 import com.example.marketplace.Adapter.SpecialOffersAdapter;
 import com.example.marketplace.Model.Category;
 import com.example.marketplace.Model.FlowerModel;
+import com.example.marketplace.Model.SpecialOffer;
 import com.example.marketplace.R;
 import com.example.marketplace.databinding.FragmentHomeBinding;
 import com.google.firebase.auth.FirebaseAuth;
@@ -70,11 +71,11 @@ public class HomeFragment extends Fragment {
     private void initRecyclerView() {
         categoryList = new ArrayList<>();
 
-        categoryList.add(new Category(1, R.drawable.rose, getString(R.string.house_plants), "House Plants"));
-        categoryList.add(new Category(2, R.drawable.rose, getString(R.string.roses), "Roses"));
-        categoryList.add(new Category(3, R.drawable.rose, getString(R.string.flowers), "Flowers"));
-        categoryList.add(new Category(4, R.drawable.rose, getString(R.string.outdoor_plants), "Outdoor Plants"));
-        categoryList.add(new Category(5, R.drawable.rose, getString(R.string.lilies), "Lilies"));
+        categoryList.add(new Category(1,  getString(R.string.house_plants), "House Plants"));
+        categoryList.add(new Category(2,  getString(R.string.roses), "Roses"));
+        categoryList.add(new Category(3,  getString(R.string.flowers), "Flowers"));
+        categoryList.add(new Category(4,  getString(R.string.outdoor_plants), "Outdoor Plants"));
+        categoryList.add(new Category(5,  getString(R.string.lilies), "Lilies"));
 
         flowersList = new ArrayList<> ();
         fetchDataFromFirestore();
@@ -90,17 +91,21 @@ public class HomeFragment extends Fragment {
         binding.categoriesRecycler.setAdapter(categoryAdapter);
     }
     private void setSpecialOffersRecycler() {
-        List<Category> listAds = new ArrayList<>();
-        Category category = new Category(R.color.colorPrimary, R.drawable.rose_examplepng, getString(R.string._100_off_special_delivery_in_april), null);
-        listAds.add(category);
+        List<SpecialOffer> specialOffers = new ArrayList<>();
+        SpecialOffer specialOffer1 = new SpecialOffer(getString(R.string._100_off_special_delivery_in_april),
+                    R.drawable.rose_example, R.drawable.union_1, R.color.specialOfferFirst);
+        SpecialOffer specialOffer2 = new SpecialOffer(getString(R.string.special_offer_second),
+                    R.drawable.rose_example_t, R.drawable.union_2, R.color.specialOfferSecond);
+
+        specialOffers.add(specialOffer1);
+        specialOffers.add(specialOffer2);
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false);
         binding.specialOfferRecycler.setLayoutManager(layoutManager);
-        SpecialOffersAdapter categoryAdapter1 = new SpecialOffersAdapter(requireContext(), listAds);
+        SpecialOffersAdapter categoryAdapter1 = new SpecialOffersAdapter(requireContext(), specialOffers);
         binding.specialOfferRecycler.setAdapter(categoryAdapter1);
     }
     private void setProductRecycler(List<FlowerModel> flowerDataList) {
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false);
-        //RecyclerView.LayoutManager layoutManager = new GridLayoutManager(requireContext(), 2);
         binding.productRecycler.setLayoutManager(layoutManager);
         productAdapter = new ProductAdapter(requireContext(), flowerDataList, R.layout.product_item);
         binding.productRecycler.setAdapter(productAdapter);

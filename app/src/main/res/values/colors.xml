@@ -11,6 +11,10 @@
     <color name="colorPrimary">#E75480</color>
     <color name="colorRating">#FFB300</color>
 
+    <color name="specialOfferFirst">#DC4543</color>
+    <color name="specialOfferSecond">#7DB9FF</color>
+    <color name="specialOfferThird">#F29B4B</color>
+
     <color name="grey_3">#f7f7f7</color>
     <color name="grey_10">#e6e6e6</color>
     <color name="grey_20">#cccccc</color>

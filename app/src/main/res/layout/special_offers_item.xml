@@ -1,41 +1,41 @@
-<?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout
+<androidx.cardview.widget.CardView
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/mainCard"
     android:layout_width="match_parent"
     android:layout_height="@dimen/_150sdp"
-    android:background="@drawable/white_circle_back_2"
-    android:backgroundTint="@color/colorPrimary"
-    android:layout_marginHorizontal="@dimen/_10sdp"
-    android:layout_marginVertical="@dimen/_5sdp">
+    app:cardCornerRadius="@dimen/_15sdp"
+    android:layout_marginHorizontal="@dimen/_8sdp"
+    app:layout_constraintEnd_toEndOf="parent"
+    app:layout_constraintStart_toStartOf="parent">
 
-    <ImageView
-        android:id="@+id/specialImg"
-        android:layout_width="@dimen/_120sdp"
-        android:layout_height="@dimen/_120sdp"
-        android:src="@drawable/rose_examplepng"
-        android:layout_marginStart="@dimen/_20sdp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        android:importantForAccessibility="no" />
-
-    <LinearLayout
-        android:layout_width="wrap_content"
-        android:layout_height="match_parent"
-        android:orientation="vertical"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/specialImg">
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/unionConstraint"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
 
         <TextView
             android:id="@+id/specialText"
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_gravity="center"
-            android:layout_weight="1"
-            android:gravity="center"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="24sp"
             android:textColor="@color/white"
-            android:textSize="@dimen/_16sdp"
-            android:textStyle="bold" />
-    </LinearLayout>
-</androidx.constraintlayout.widget.ConstraintLayout>
+            android:textStyle="bold"
+            android:layout_marginStart="@dimen/_10sdp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <ImageView
+            android:id="@+id/secondaryImg"
+            android:layout_width="@dimen/_180sdp"
+            android:layout_height="match_parent"
+            android:importantForAccessibility="no"
+            android:paddingEnd="-100dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:ignore="RtlSymmetry,ImageContrastCheck" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</androidx.cardview.widget.CardView>

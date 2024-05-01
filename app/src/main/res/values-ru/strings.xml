@@ -140,6 +140,7 @@
     <string name="flowers">Цветы</string>
     <string name="outdoor_plants">Уличные растения</string>
     <string name="lilies">Лилии</string>
-    <string name="_100_off_special_delivery_in_april">100% скидка на специальную \nдоставку в апреле</string>
+    <string name="_100_off_special_delivery_in_april">100% скидка на \nспециальную \nдоставку в апреле</string>
     <string name="plants">Растения</string>
+    <string name="special_offer_second">Купите более \n100 роз и получите \nбесплатную доставку</string>
 </resources>

@@ -14,7 +14,6 @@ import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
-import com.bumptech.glide.load.resource.bitmap.RoundedCorners;
 import com.bumptech.glide.request.target.CustomTarget;
 import com.bumptech.glide.request.transition.Transition;
 import com.example.marketplace.Activity.DetailActivity;
@@ -46,7 +45,6 @@ public class ProductGridAdapter extends RecyclerView.Adapter<ProductGridAdapter.
 
         Glide.with(context)
                 .load(currentFlower.getPhoto())
-                .transform(new RoundedCorners(30))
                 .into(new CustomTarget<Drawable>() {
                     @Override
                     public void onResourceReady(@NonNull Drawable resource, @Nullable Transition<? super Drawable> transition) {
@@ -54,13 +52,11 @@ public class ProductGridAdapter extends RecyclerView.Adapter<ProductGridAdapter.
                     }
 
                     @Override
-                    public void onLoadCleared(@Nullable Drawable placeholder) {
-
-                    }
+                    public void onLoadCleared(@Nullable Drawable placeholder) {}
                 });
 
         holder.titleTxt.setText(currentFlower.getTitle());
-        holder.priceTxt.setText(String.format("%s Դ", currentFlower.getPrice()));
+        holder.priceTxt.setText(String.format("%sԴ", currentFlower.getPrice()));
 
         holder.itemView.setOnClickListener(v -> {
             Intent intent = new Intent(holder.itemView.getContext(), DetailActivity.class);

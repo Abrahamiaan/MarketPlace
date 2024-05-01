@@ -63,10 +63,6 @@ public class ContactInfoFragment extends Fragment {
         linearLayout.setOrientation(LinearLayout.HORIZONTAL);
         linearLayout.setGravity(Gravity.CENTER_VERTICAL);
         linearLayout.setBackgroundColor(Color.WHITE);
-        linearLayout.setPadding(getResources().getDimensionPixelSize(com.intuit.sdp.R.dimen._10sdp),
-                getResources().getDimensionPixelSize(com.intuit.sdp.R.dimen._10sdp),
-                getResources().getDimensionPixelSize(com.intuit.sdp.R.dimen._10sdp),
-                getResources().getDimensionPixelSize(com.intuit.sdp.R.dimen._10sdp));
 
         ImageView imageView = new ImageView(requireContext());
         imageView.setLayoutParams(new LinearLayout.LayoutParams(
@@ -80,10 +76,10 @@ public class ContactInfoFragment extends Fragment {
         );
         imageParams.setMargins(
                 getResources().getDimensionPixelSize(com.intuit.sdp.R.dimen._10sdp),
-                0,
                 getResources().getDimensionPixelSize(com.intuit.sdp.R.dimen._10sdp),
-                0
-        );
+                getResources().getDimensionPixelSize(com.intuit.sdp.R.dimen._10sdp),
+                getResources().getDimensionPixelSize(com.intuit.sdp.R.dimen._10sdp)
+                );
         imageView.setLayoutParams(imageParams);
 
         imageView.setImageResource(R.drawable.vector_phone);
@@ -94,7 +90,6 @@ public class ContactInfoFragment extends Fragment {
                 LinearLayout.LayoutParams.WRAP_CONTENT,
                 1
         ));
-        textView.setText("123456789");
         textView.setTextColor(Color.parseColor("#2962FF"));
         textView.setTextSize(TypedValue.COMPLEX_UNIT_SP, 18);
 

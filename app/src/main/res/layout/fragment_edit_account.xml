@@ -101,13 +101,13 @@
                         <androidx.appcompat.widget.AppCompatEditText
                             android:id="@+id/userName"
                             android:layout_width="match_parent"
-                            android:layout_height="@dimen/_40sdp"
+                            android:layout_height="wrap_content"
                             android:background="@null"
                             android:ems="10"
                             android:hint="User Name"
                             android:padding="@dimen/_7sdp"
                             android:textColorHint="#757575"
-                            tools:ignore="HardcodedText" />
+                            tools:ignore="HardcodedText,TouchTargetSizeCheck" />
                     </LinearLayout>
 
                     <View
@@ -132,12 +132,13 @@
                         <androidx.appcompat.widget.AppCompatEditText
                             android:id="@+id/deliveryAddress"
                             android:layout_width="match_parent"
-                            android:layout_height="@dimen/_40sdp"
+                            android:layout_height="wrap_content"
                             android:background="@null"
                             android:ems="10"
                             android:hint="@string/select_delivery_address"
                             android:padding="@dimen/_7sdp"
-                            android:textColorHint="#757575" />
+                            android:textColorHint="#757575"
+                            tools:ignore="TouchTargetSizeCheck" />
                     </LinearLayout>
                 </LinearLayout>
             </com.google.android.material.card.MaterialCardView>

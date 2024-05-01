@@ -2,13 +2,11 @@ package com.example.marketplace.Model;
 
 public class Category {
     int id;
-    Integer imageUrl;
-    String  name;
-    String  title;
+    String name;
+    String title;
 
-    public Category(int id, Integer imageUrl, String name, String title) {
+    public Category(int id, String name, String title) {
         this.id = id;
-        this.imageUrl = imageUrl;
         this.name = name;
         this.title = title;
     }
@@ -25,10 +23,6 @@ public class Category {
         return id;
     }
 
-    public Integer getImageUrl() {
-        return imageUrl;
-    }
-
     public String getName() {
         return name;
     }
@@ -39,9 +33,5 @@ public class Category {
 
     public void setId(int id) {
         this.id = id;
-    }
-
-    public void setImageUrl(Integer imageUrl) {
-        this.imageUrl = imageUrl;
     }
 }
