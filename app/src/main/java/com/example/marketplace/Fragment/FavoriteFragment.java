@@ -12,9 +12,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.example.marketplace.Adapter.ProductAdapter;
+import com.example.marketplace.Adapter.ProductGridAdapter;
 import com.example.marketplace.Model.FlowerModel;
-import com.example.marketplace.R;
 import com.example.marketplace.databinding.FragmentFavoriteBinding;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentReference;
@@ -28,7 +27,7 @@ import java.util.Map;
 public class FavoriteFragment extends Fragment {
     private static final String TAG_FAVORITE = "Favorite: ";
     FragmentFavoriteBinding binding;
-    ProductAdapter productAdapter;
+    ProductGridAdapter productAdapter;
     FirebaseAuth mAuth;
     FirebaseFirestore db;
     List<FlowerModel> favoriteList;
@@ -93,7 +92,7 @@ public class FavoriteFragment extends Fragment {
     private void setFavoriteRecycler(List<FlowerModel> favoriteDataList) {
         RecyclerView.LayoutManager layoutManager = new GridLayoutManager(requireContext(), 2);
         binding.favoriteRecycler.setLayoutManager(layoutManager);
-        productAdapter = new ProductAdapter(requireContext(), favoriteDataList, R.layout.product_item);
+        productAdapter = new ProductGridAdapter(requireContext(), favoriteDataList);
         binding.favoriteRecycler.setAdapter(productAdapter);
     }
     private void initGlobalFields() {

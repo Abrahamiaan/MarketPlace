@@ -4,15 +4,16 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    tools:context=".Fragment.FavoriteFragment"
-    android:background="#F1F1F1">
+    tools:context=".Fragment.FavoriteFragment">
 
     <LinearLayout
         android:id="@+id/linearLayoutParent"
         android:layout_width="match_parent"
         android:layout_height="56dp"
-        android:orientation="horizontal"
         android:background="@color/white"
+        android:orientation="horizontal"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
         <TextView
@@ -28,16 +29,28 @@
             app:fontFamily="sans-serif-medium" />
     </LinearLayout>
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/favoriteRecycler"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
-        android:clipToPadding="false"
-        android:scrollbarStyle="outsideOverlay"
-        android:paddingBottom="@dimen/_50sdp"
+    <ScrollView
+        android:id="@+id/scrollview"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="?actionBarSize"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/linearLayoutParent" />
+        app:layout_constraintTop_toBottomOf="@+id/linearLayoutParent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/favoriteRecycler"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:stackFromEnd="false"
+                app:layout_constraintStart_toStartOf="parent"/>
+        </LinearLayout>
+    </ScrollView>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

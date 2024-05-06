@@ -12,9 +12,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.example.marketplace.Adapter.ProductAdapter;
+import com.example.marketplace.Adapter.ProductGridAdapter;
 import com.example.marketplace.Model.FlowerModel;
-import com.example.marketplace.R;
 import com.example.marketplace.databinding.FragmentAdsBinding;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.CollectionReference;
@@ -27,7 +26,7 @@ import java.util.List;
 
 public class AdsFragment extends Fragment {
     private static final String TAG_ADS = "Ads: ";
-    ProductAdapter productAdapter;
+    ProductGridAdapter productAdapter;
     FragmentAdsBinding binding;
     FirebaseAuth mAuth;
     FirebaseFirestore db;
@@ -76,7 +75,7 @@ public class AdsFragment extends Fragment {
     private void setFavoriteRecycler(List<FlowerModel> favoriteDataList) {
         RecyclerView.LayoutManager layoutManager = new GridLayoutManager(requireContext(), 2);
         binding.adsRecycler.setLayoutManager(layoutManager);
-        productAdapter = new ProductAdapter(requireContext(), favoriteDataList, R.layout.product_item);
+        productAdapter = new ProductGridAdapter(requireContext(), favoriteDataList);
         binding.adsRecycler.setAdapter(productAdapter);
     }
     private void initListeners() {

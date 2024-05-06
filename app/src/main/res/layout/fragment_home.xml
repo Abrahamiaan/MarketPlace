@@ -123,50 +123,6 @@
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/textView3" />
 
-                <androidx.cardview.widget.CardView
-                    android:id="@+id/addTst"
-                    android:visibility="gone"
-                    android:layout_width="match_parent"
-                    android:layout_height="@dimen/_150sdp"
-                    android:layout_margin="8dp"
-                    app:cardCornerRadius="@dimen/_20sdp"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/textView3"
-                    android:backgroundTint="#DC4543">
-
-                    <androidx.constraintlayout.widget.ConstraintLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:background="@drawable/union_1">
-
-                        <TextView
-                            android:id="@+id/textView2"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="Free Delivery \n On Flowers"
-                            android:textSize="24sp"
-                            android:textColor="@color/white"
-                            android:textStyle="bold"
-                            android:layout_marginStart="@dimen/_20sdp"
-                            app:layout_constraintBottom_toBottomOf="parent"
-                            app:layout_constraintStart_toStartOf="parent"
-                            app:layout_constraintTop_toTopOf="parent" />
-
-                        <ImageView
-                            android:id="@+id/imageView5"
-                            android:layout_width="@dimen/_180sdp"
-                            android:layout_height="match_parent"
-                            android:src="@drawable/rose_example"
-                            android:paddingEnd="-100dp"
-                            app:layout_constraintBottom_toBottomOf="parent"
-                            app:layout_constraintEnd_toEndOf="parent"
-                            app:layout_constraintTop_toTopOf="parent"
-                            tools:ignore="RtlSymmetry" />
-                    </androidx.constraintlayout.widget.ConstraintLayout>
-                </androidx.cardview.widget.CardView>
-
-
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/categoriesRecycler"
                     android:layout_width="0dp"
@@ -279,9 +235,7 @@
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/textView6" />
-
             </androidx.constraintlayout.widget.ConstraintLayout>
-
         </LinearLayout>
     </androidx.core.widget.NestedScrollView>
 </androidx.constraintlayout.widget.ConstraintLayout>
