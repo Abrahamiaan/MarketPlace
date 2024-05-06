@@ -12,10 +12,13 @@ import android.view.View;
 import android.view.ViewGroup;
 import com.example.marketplace.Adapter.CartAdapter;
 import com.example.marketplace.Model.CartModel;
+import com.example.marketplace.R;
 import com.example.marketplace.databinding.FragmentCartBinding;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
+
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -36,6 +39,8 @@ public class CartFragment extends Fragment {
         binding = FragmentCartBinding.inflate(inflater, container, false);
 
         initGlobalFields();
+        initListeners();
+
         return binding.getRoot();
     }
     private void initGlobalFields() {
@@ -51,6 +56,27 @@ public class CartFragment extends Fragment {
         recyclerView.setAdapter(cartAdapter);
 
         fetchCartItems();
+    }
+
+    private void initListeners() {
+        binding.orderBtn.setOnClickListener(v -> {
+            Bundle args = new Bundle();
+            args.putString("subTotal", String.valueOf(totalSum));
+            // Hardcoded: delivery for 1KM AMD
+            int deliveryFor1Km = 300;
+
+            for (int i = 0; i < cartItems.size(); i++) {
+                args.putSerializable("cart-items" + i, (Serializable) cartItems.get(i));
+            }
+            args.putString("deliveryPrice",  String.valueOf(deliveryFor1Km));
+            ConfirmOrderFragment confirmOrderFragment = new ConfirmOrderFragment();
+            confirmOrderFragment.setArguments(args);
+
+            requireActivity().getSupportFragmentManager().beginTransaction()
+                    .replace(R.id.frame_layout, confirmOrderFragment)
+                    .addToBackStack(null)
+                    .commit();
+        });
     }
     private void fetchCartItems() {
         String currentUserId = mAuth.getCurrentUser().getUid();

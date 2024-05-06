@@ -111,7 +111,7 @@
     <string name="profile">Պրոֆիլ</string>
     <string name="your_name">Ձեր անունը</string>
     <string name="delivery_address">Առաքման հասցե</string>
-    <string name="select_delivery_address">Ավելացրեք առաքման հասցե</string>
+    <string name="select_delivery_address">Ավելացնել առաքման հասցե</string>
     <string name="send_reset_password_email">Ուղարկել նամակ էլ. հասցեին գաղտնաբառը փոփոխելու համար</string>
     <string name="account_type">Հաշվի տեսակը</string>
     <string name="individual">Անհատական</string>
@@ -139,4 +139,8 @@
     <string name="_100_off_special_delivery_in_april">100% զեղչ \nապրիլին \nառաքումների \nհամար</string>
     <string name="plants">Բույսեր</string>
     <string name="special_offer_second">Գնիր 100+ վարդ\nստացիր անվճար \nառաքում</string>
+    <string name="confirm_your_order">Հաստատել Պատվերը</string>
+    <string name="sub_total">Գին</string>
+    <string name="delivery_charge">Առաքում</string>
+    <string name="delivery_to">Առաքում դեպի</string>
 </resources>

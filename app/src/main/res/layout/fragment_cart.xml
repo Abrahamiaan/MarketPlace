@@ -77,6 +77,7 @@
                     android:clipToPadding="true" />
 
                 <TextView
+                    android:visibility="gone"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginVertical="@dimen/_13sdp"
@@ -91,6 +92,7 @@
                     app:cardCornerRadius="@dimen/_10sdp">
 
                     <androidx.constraintlayout.widget.ConstraintLayout
+                        android:visibility="gone"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:background="#55B3B3B3">
@@ -136,8 +138,6 @@
         </androidx.core.widget.NestedScrollView>
     </LinearLayout>
 
-
-
     <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/orderBtn"
         android:layout_width="match_parent"
@@ -148,6 +148,6 @@
         android:textColor="@color/white"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
-
+        app:layout_constraintStart_toStartOf="parent"
+        tools:ignore="TextContrastCheck" />
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -97,7 +97,7 @@
     <string name="your_cart_is_empty">Your cart is empty</string>
     <string name="my_cart">My Cart</string>
     <string name="order_summary">Order Summary</string>
-    <string name="total">Total</string>
+    <string name="total">Summary</string>
     <string name="order_now">Order Now</string>
     <string name="transactions">Transactions</string>
     <string name="ads">Ads</string>
@@ -142,4 +142,8 @@
     <string name="_100_off_special_delivery_in_april">100% off special \ndelivery in April</string>
     <string name="plants">Plants</string>
     <string name="special_offer_second">Buy 100+ roses \nand get free delivery</string>
+    <string name="confirm_your_order">Confirm Order</string>
+    <string name="sub_total">Total</string>
+    <string name="delivery_charge">Delivery Charge</string>
+    <string name="delivery_to">Delivery to</string>
 </resources>

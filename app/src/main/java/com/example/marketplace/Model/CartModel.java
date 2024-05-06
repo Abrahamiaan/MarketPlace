@@ -1,6 +1,8 @@
 package com.example.marketplace.Model;
 
-public class CartModel {
+import java.io.Serializable;
+
+public class CartModel implements Serializable {
     String ownerId;
     ProductModel productModel;
     int count;
