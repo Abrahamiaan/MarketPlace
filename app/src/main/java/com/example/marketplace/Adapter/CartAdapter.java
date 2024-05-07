@@ -65,7 +65,7 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.CartViewHolder
 
         holder.countPlus.setOnClickListener(v -> {
             int newCount = Integer.parseInt(holder.countOfProduct.getText().toString()) + 1;
-            int availableCount = item.getProductModel().getAvailableCount();
+            int availableCount = item.getProductModel().getMinimumPurchaseCount();
 
             if (newCount <= availableCount) {
                 item.setCount(newCount);
@@ -77,11 +77,14 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.CartViewHolder
 
         holder.countMinus.setOnClickListener(v -> {
             int newCount = Integer.parseInt(holder.countOfProduct.getText().toString()) - 1;
-            if (newCount >= item.getProductModel().getMinimumPurchaseCount()) {
+
+            if (newCount > 0) {
                 item.setCount(newCount);
                 holder.countOfProduct.setText(String.valueOf(newCount));
                 holder.totalPrice.setText(String.valueOf(price * newCount));
                 cartFragment.updateTotalSum();
+            } else if (newCount == 0) {
+                cartFragment.removeFromCart(position);
             }
         });
 

@@ -56,7 +56,6 @@ public class CartFragment extends Fragment {
 
         fetchCartItems();
     }
-
     private void initListeners() {
         binding.orderBtn.setOnClickListener(v -> {
             Bundle args = new Bundle();
@@ -92,11 +91,11 @@ public class CartFragment extends Fragment {
                             binding.nestedScrollView.setVisibility(View.VISIBLE);
                         }
                         if (cartItems.isEmpty()) {
-                            binding.cartIsEmptyTxt.setVisibility(View.VISIBLE);
+                            binding.cartIsEmpty.setVisibility(View.VISIBLE);
                             binding.progressView.setVisibility(View.GONE);
                             binding.orderBtn.setVisibility(View.GONE);
                         } else {
-                            binding.cartIsEmptyTxt.setVisibility(View.GONE);
+                            binding.cartIsEmpty.setVisibility(View.GONE);
                             mergeDuplicateItems();
                         }
                     } else {
@@ -106,8 +105,18 @@ public class CartFragment extends Fragment {
     }
     public void removeFromCart(int position) {
         CartModel cM = cartItems.get(position);
+
+        cartItems.remove(position);
+        cartAdapter.notifyItemRemoved(position);
+        cartAdapter.notifyItemRangeChanged(position, cartItems.size());
+
         String prodId = cM.getProductModel().getProductId();
         String ownerId = cM.getOwnerId();
+
+        if (cartItems.isEmpty()) {
+            binding.cartIsEmpty.setVisibility(View.VISIBLE);
+            binding.orderBtn.setVisibility(View.GONE);
+        }
 
         db.collection("CartItems")
                 .whereEqualTo("ownerId", ownerId)
@@ -118,18 +127,8 @@ public class CartFragment extends Fragment {
                         for (QueryDocumentSnapshot document : task.getResult()) {
                             db.collection("CartItems").document(document.getId())
                                     .delete()
-                                    .addOnSuccessListener(aVoid -> {
-                                        cartItems.remove(position);
-                                        cartAdapter.notifyItemRemoved(position);
-                                        updateTotalSum();
-
-                                        if (cartItems.isEmpty()) {
-                                            binding.cartIsEmptyTxt.setVisibility(View.VISIBLE);
-                                            binding.orderBtn.setVisibility(View.GONE);
-                                        }
-                                    })
-                                    .addOnFailureListener(e ->
-                                            Log.e("RemoveFromCart", "Error removing document", e));
+                                    .addOnSuccessListener(aVoid -> updateTotalSum())
+                                    .addOnFailureListener(e -> Log.e("RemoveFromCart", "Error removing document", e));
                         }
                     } else {
                         Log.e("RemoveFromCart", "Error getting documents: ", task.getException());
@@ -144,7 +143,7 @@ public class CartFragment extends Fragment {
             if (mergedItems.containsKey(productId)) {
                 CartModel existingItem = mergedItems.get(productId);
                 int currentCount = existingItem.getCount() + item.getCount();
-                int max = item.getProductModel().getAvailableCount();
+                int max = item.getProductModel().getMinimumPurchaseCount();
                 existingItem.setCount(Math.min(currentCount, max));
             } else {
                 mergedItems.put(productId, item);

@@ -150,7 +150,7 @@ public class ConfirmOrderFragment extends Fragment {
         for (int i = 0; i < cartItems.size(); i++) {
             ProductModel productModel = cartItems.get(i).getProductModel();
             order.setOrderId(db.collection("Orders").document().getId());
-            order.setProduct(cartItems.get(i).getProductModel());
+            order.setProduct(cartItems.get(i));
             order.setTotalPrice(cartItems.get(i).getCount() * productModel.getPrice());
             uploadOrder(order);
         }

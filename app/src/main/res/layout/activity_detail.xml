@@ -287,6 +287,12 @@
                         android:textAlignment="center"
                         android:textSize="15sp"
                         tools:ignore="HardcodedText,TouchTargetSizeCheck,TextContrastCheck,TextSizeCheck" />
+
+                    <TextView
+                        android:id="@+id/totalCount"
+                        android:layout_width="wrap_content"
+                        android:layout_height="@dimen/_20sdp"
+                        android:textColor="@color/black"/>
                 </LinearLayout>
             </RelativeLayout>
 

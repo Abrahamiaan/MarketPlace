@@ -5,7 +5,7 @@ import java.util.Date;
 public class OrderModel {
     private String orderId;
     private String userId;
-    private ProductModel product;
+    private CartModel product;
     private Date orderDate;
     private double totalPrice;
     private double longitude;
@@ -31,11 +31,11 @@ public class OrderModel {
         this.userId = userId;
     }
 
-    public ProductModel getProduct() {
+    public CartModel getProduct() {
         return product;
     }
 
-    public void setProduct(ProductModel product) {
+    public void setProduct(CartModel product) {
         this.product = product;
     }
 

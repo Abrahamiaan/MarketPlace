@@ -124,8 +124,8 @@
     <string name="my_ads">My Ads</string>
     <string name="you_haven_t_ads_yet">You haven\'t ads yet</string>
     <string name="quantity">Quantity</string>
-    <string name="available_count">Available count</string>
-    <string name="min_purchase_count">Min purchase count</string>
+    <string name="available_count">In one (qty.)</string>
+    <string name="min_purchase_count">Available (qty.)</string>
     <string name="phone_number">Phone number</string>
     <string name="add_phone_number">Add Phone Number</string>
     <string name="clear_all">Clear All</string>
@@ -148,4 +148,5 @@
     <string name="delivery_to">Delivery to</string>
     <string name="go_to_home">Go To Home</string>
     <string name="you_must_select_delivery_address">You must select delivery address</string>
+    <string name="item_added_to_cart_successfully">Product added to cart successfully</string>
 </resources>

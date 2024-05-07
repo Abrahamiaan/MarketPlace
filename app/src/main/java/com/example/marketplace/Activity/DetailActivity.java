@@ -57,6 +57,8 @@ public class DetailActivity extends AppCompatActivity implements OnMapReadyCallb
     int countOfProductItem = 1;
     FlowerModel flowerModel;
     CartModel cartModel;
+    int inOne = 0;
+    int availableCount = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -71,6 +73,11 @@ public class DetailActivity extends AppCompatActivity implements OnMapReadyCallb
         initListeners();
         checkIfFavorite();
     }
+
+    private static String getTotalCountFormatted(int count) {
+        return " (" + count + ")";
+    }
+
 
     private void addToFavorites(FlowerModel flowerModel) {
         String productId = flowerModel.getProductId();
@@ -130,11 +137,16 @@ public class DetailActivity extends AppCompatActivity implements OnMapReadyCallb
     }
     private void initProduct() {
         if (flowerModel != null) {
+            inOne = flowerModel.getAvailableCount();
+            availableCount = flowerModel.getMinimumPurchaseCount();
+
             binding.titleTxt.setText(flowerModel.getTitle());
             binding.sellerTxt.setText(flowerModel.getSeller());
             binding.priceTxt.setText(String.format("%s ֏", flowerModel.getPrice()));
             binding.description.setText(flowerModel.getDetails());
-            binding.countTxt.setText(String.valueOf(flowerModel.getMinimumPurchaseCount()));
+
+            binding.countTxt.setText(String.valueOf(0));
+            binding.totalCount.setText(getTotalCountFormatted(0));
 
             List<String> colors = flowerModel.getColors();
             if (colors == null || colors.isEmpty()) {
@@ -189,11 +201,17 @@ public class DetailActivity extends AppCompatActivity implements OnMapReadyCallb
                 String text = v.getText().toString();
                 try {
                     int count = Integer.parseInt(text);
-                    if (count < flowerModel.getMinimumPurchaseCount() ) {
-                        v.setText(String.valueOf(flowerModel.getMinimumPurchaseCount()));
-                    } else if (count > flowerModel.getAvailableCount()) {
-                        v.setText(String.valueOf(flowerModel.getAvailableCount()));
+                    if (count < 0) {
+                        v.setText(String.valueOf(0));
+                        binding.totalCount.setText(getTotalCountFormatted(0));
+                    } else if (count >= availableCount) {
+                        v.setText(String.valueOf(availableCount));
+                        binding.totalCount.setText(getTotalCountFormatted(availableCount * inOne));
+                    } else {
+                        v.setText(String.valueOf(count));
+                        binding.totalCount.setText(getTotalCountFormatted(count * inOne));
                     }
+
                     if (binding.countTxt.hasFocus()) {
                         binding.countTxt.clearFocus();
                         InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
@@ -222,8 +240,6 @@ public class DetailActivity extends AppCompatActivity implements OnMapReadyCallb
         });
 
         binding.countPlus.setOnClickListener(v -> {
-            int min = flowerModel.getMinimumPurchaseCount();
-            int max = flowerModel.getAvailableCount();
             if (binding.countTxt.hasFocus()) {
                 binding.countTxt.clearFocus();
                 InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
@@ -231,19 +247,13 @@ public class DetailActivity extends AppCompatActivity implements OnMapReadyCallb
             }
 
             countOfProductItem = Integer.parseInt(String.valueOf(binding.countTxt.getText()));
-            if (countOfProductItem < min) {
-                binding.countTxt.setText(String.valueOf(min));
-            } else if (countOfProductItem + 1 < max) {
+            if (countOfProductItem + 1 <= availableCount) {
                 binding.countTxt.setText(String.valueOf(++countOfProductItem));
-            } else {
-                binding.countTxt.setText(String.valueOf(max));
+                binding.totalCount.setText(getTotalCountFormatted(countOfProductItem * inOne));
             }
         });
 
         binding.countMinus.setOnClickListener(v -> {
-            int min = flowerModel.getMinimumPurchaseCount();
-            int max = flowerModel.getAvailableCount();
-
             if (binding.countTxt.hasFocus()) {
                 binding.countTxt.clearFocus();
                 InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
@@ -251,13 +261,9 @@ public class DetailActivity extends AppCompatActivity implements OnMapReadyCallb
             }
 
             countOfProductItem = Integer.parseInt(String.valueOf(binding.countTxt.getText()));
-            System.out.println(countOfProductItem);
-            if (countOfProductItem > max) {
-                binding.countTxt.setText(String.valueOf(max));
-            } else if (countOfProductItem - 1 > min) {
+            if (countOfProductItem - 1 >= 0) {
                 binding.countTxt.setText(String.valueOf(--countOfProductItem));
-            } else {
-                binding.countTxt.setText(String.valueOf(min));
+                binding.totalCount.setText(getTotalCountFormatted(countOfProductItem * inOne));
             }
         });
     }
@@ -281,22 +287,19 @@ public class DetailActivity extends AppCompatActivity implements OnMapReadyCallb
         mapFragment.getMapAsync(this);
     }
     private void addToCart(CartModel cartModel) {
-        int min = cartModel.getProductModel().getMinimumPurchaseCount();
-        int max = cartModel.getProductModel().getAvailableCount();
-
-        if (cartModel.getCount() > max) {
-            cartModel.setCount(max);
-            Toast.makeText(this, "Available count is " + max, Toast.LENGTH_SHORT).show();
-        } else if (cartModel.getCount() < min) {
-            cartModel.setCount(min);
-            Toast.makeText(this, "Minimum purchase count is " + min, Toast.LENGTH_SHORT).show();
+        if (cartModel.getCount() > availableCount) {
+            cartModel.setCount(availableCount);
+            Toast.makeText(this, "Available count is " + availableCount, Toast.LENGTH_SHORT).show();
+        } else if (cartModel.getCount() < 0) {
+            cartModel.setCount(0);
+            Toast.makeText(this, "Minimum purchase count is " + 0, Toast.LENGTH_SHORT).show();
         }
 
         db.collection("CartItems")
                 .add(cartModel)
                 .addOnCompleteListener(task -> {
                     if (task.isSuccessful()) {
-                        Toast.makeText(this, "Item added to cart successfully", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(this, getString(R.string.item_added_to_cart_successfully), Toast.LENGTH_SHORT).show();
                     } else {
                         Exception e = task.getException();
                         if (e != null) {
