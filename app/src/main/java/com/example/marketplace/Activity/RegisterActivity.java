@@ -76,9 +76,10 @@ public class RegisterActivity extends AppCompatActivity {
         mAuth.signInWithCredential(credential)
                 .addOnCompleteListener(this, task -> {
                     if (task.isSuccessful()) {
-                        Intent intent = new Intent(RegisterActivity.this, MainActivity.class);
-                        startActivity(intent);
-                        finish();
+                        FirebaseUser firebaseUser = mAuth.getCurrentUser();
+                        if (firebaseUser != null) {
+                            saveUserMetadata(firebaseUser, false);
+                        }
                     } else {
                         Log.w("GOOGLE: ", "signInWithCredential:failure", task.getException());
                     }
@@ -97,7 +98,6 @@ public class RegisterActivity extends AppCompatActivity {
         });
     }
     private void signUp(String email, String password) {
-
         if (binding.progressBar.getVisibility() == View.GONE)
             binding.progressBar.setVisibility(View.VISIBLE);
 
@@ -106,7 +106,7 @@ public class RegisterActivity extends AppCompatActivity {
                     if (task.isSuccessful()) {
                         FirebaseUser firebaseUser = mAuth.getCurrentUser();
                         if (firebaseUser != null) {
-                            saveUserMetadata(firebaseUser);
+                            saveUserMetadata(firebaseUser, true);
                         }
                     } else {
                         Exception exception = task.getException();
@@ -136,7 +136,7 @@ public class RegisterActivity extends AppCompatActivity {
                 });
     }
 
-    private void saveUserMetadata(FirebaseUser firebaseUser) {
+    private void saveUserMetadata(FirebaseUser firebaseUser, boolean includeNaming) {
         FirebaseMessaging.getInstance().getToken()
                 .addOnCompleteListener(task -> {
                     if (task.isSuccessful() && task.getResult() != null) {
@@ -150,7 +150,13 @@ public class RegisterActivity extends AppCompatActivity {
                                 .set(userMetadata, SetOptions.merge())
                                 .addOnSuccessListener(aVoid -> {
                                     Log.d("Save Metadata", "User metadata saved successfully");
-                                    changeDisplayName(firebaseUser);
+                                    if (includeNaming) {
+                                        changeDisplayName(firebaseUser);
+                                    } else {
+                                        Intent intent = new Intent(RegisterActivity.this, MainActivity.class);
+                                        startActivity(intent);
+                                        finish();
+                                    }
                                     if (binding.progressBar.getVisibility() == View.VISIBLE)
                                         binding.progressBar.setVisibility(View.GONE);
                                 })

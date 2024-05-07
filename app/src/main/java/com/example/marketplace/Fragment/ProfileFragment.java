@@ -165,6 +165,10 @@ public class ProfileFragment extends Fragment {
                         isAdmin = task.getResult().getBoolean("isAdmin");
                         binding.adminParent.setVisibility(isAdmin ? View.VISIBLE : View.GONE);
                     }
+                })
+                .addOnFailureListener(aVoid -> {
+                    isAdmin = false;
+                    binding.adminParent.setVisibility(View.GONE);
                 });
     }
 }
