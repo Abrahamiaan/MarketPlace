@@ -62,7 +62,9 @@ public class MainActivity extends AppCompatActivity {
     public void onBackPressed() {
         super.onBackPressed();
         if (binding.navigationBar.getVisibility() == View.GONE) {
-            binding.navigationBar.setVisibility(View.VISIBLE);
+            if (getSupportFragmentManager().getBackStackEntryCount() == 0) {
+                binding.navigationBar.setVisibility(View.VISIBLE);
+            }
         }
     }
     private void initGlobalFields() {

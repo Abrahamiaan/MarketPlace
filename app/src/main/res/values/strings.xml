@@ -146,4 +146,6 @@
     <string name="sub_total">Total</string>
     <string name="delivery_charge">Delivery Charge</string>
     <string name="delivery_to">Delivery to</string>
+    <string name="go_to_home">Go To Home</string>
+    <string name="you_must_select_delivery_address">You must select delivery address</string>
 </resources>

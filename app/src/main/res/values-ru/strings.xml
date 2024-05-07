@@ -147,4 +147,6 @@
     <string name="sub_total">Сумма</string>
     <string name="delivery_charge">Доставка</string>
     <string name="delivery_to">Доставка до</string>
+    <string name="go_to_home">Главное меню</string>
+    <string name="you_must_select_delivery_address">Вам необходимо выбрать адрес доставки</string>
 </resources>

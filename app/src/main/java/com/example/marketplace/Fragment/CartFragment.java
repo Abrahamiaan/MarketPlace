@@ -18,7 +18,6 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -62,11 +61,10 @@ public class CartFragment extends Fragment {
         binding.orderBtn.setOnClickListener(v -> {
             Bundle args = new Bundle();
             args.putString("subTotal", String.valueOf(totalSum));
-            // Hardcoded: delivery for 1KM AMD
-            int deliveryFor1Km = 300;
+            int deliveryFor1Km = 100;
 
             for (int i = 0; i < cartItems.size(); i++) {
-                args.putSerializable("cart-items" + i, (Serializable) cartItems.get(i));
+                args.putSerializable("cart-items" + i, cartItems.get(i));
             }
             args.putString("deliveryPrice",  String.valueOf(deliveryFor1Km));
             ConfirmOrderFragment confirmOrderFragment = new ConfirmOrderFragment();
