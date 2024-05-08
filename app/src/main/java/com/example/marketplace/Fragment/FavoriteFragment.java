@@ -46,6 +46,7 @@ public class FavoriteFragment extends Fragment {
 
     private void fetchUserFavorites() {
         String userId = mAuth.getCurrentUser().getUid();
+        binding.progressBar.setVisibility(View.VISIBLE);
 
         DocumentReference userFavoritesDocument = db.collection("Favorites").document(userId);
 
@@ -56,13 +57,20 @@ public class FavoriteFragment extends Fragment {
                         if (documentSnapshot != null && documentSnapshot.exists()) {
                             Map<String, Object> productIds = documentSnapshot.getData();
                             if (productIds != null) {
-                                fetchProducts(new ArrayList<>(productIds.keySet()));
+                                if (productIds.size() == 0) {
+                                    binding.notFavourites.setVisibility(View.VISIBLE);
+                                } else {
+                                    fetchProducts(new ArrayList<>(productIds.keySet()));
+                                }
                             }
+                            binding.progressBar.setVisibility(View.GONE);
                         } else {
                             Log.e(TAG_FAVORITE, "User favorites document does not exist");
+                            binding.progressBar.setVisibility(View.GONE);
                         }
                     } else {
                         Log.e(TAG_FAVORITE, "Error fetching user favorites", task.getException());
+                        binding.progressBar.setVisibility(View.GONE);
                     }
                 });
     }

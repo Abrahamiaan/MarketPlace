@@ -85,11 +85,14 @@ public class CartFragment extends Fragment {
                     if (task.isSuccessful()) {
                         for (QueryDocumentSnapshot document : task.getResult()) {
                             CartModel cartModel = document.toObject(CartModel.class);
+                            int max = cartModel.getProductModel().getMinimumPurchaseCount();
+                            cartModel.setCount(Math.min(cartModel.getCount(), max));
                             cartItems.add(cartModel);
                             cartAdapter.notifyItemInserted(cartItems.size());
                             binding.progressView.setVisibility(View.GONE);
                             binding.nestedScrollView.setVisibility(View.VISIBLE);
                         }
+
                         if (cartItems.isEmpty()) {
                             binding.cartIsEmpty.setVisibility(View.VISIBLE);
                             binding.progressView.setVisibility(View.GONE);

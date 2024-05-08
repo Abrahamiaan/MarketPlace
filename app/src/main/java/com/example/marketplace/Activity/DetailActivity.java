@@ -45,6 +45,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
+
 public class DetailActivity extends AppCompatActivity implements OnMapReadyCallback {
     private static final String TAG_FAVORITE = "Favorite: ";
     private static final int MAP_ZOOM = 15;
@@ -55,7 +56,7 @@ public class DetailActivity extends AppCompatActivity implements OnMapReadyCallb
     private boolean isFavorite = false;
     private int drawableRes;
     int countOfProductItem = 1;
-    FlowerModel flowerModel;
+    FlowerModel productModel;
     CartModel cartModel;
     int inOne = 0;
     int availableCount = 0;
@@ -110,7 +111,7 @@ public class DetailActivity extends AppCompatActivity implements OnMapReadyCallb
                 .addOnFailureListener(e -> Log.e(TAG_FAVORITE, "Failed to remove from favorites"));
     }
     private void checkIfFavorite() {
-        String productId = flowerModel.getProductId();
+        String productId = productModel.getProductId();
         String userId = currentUser.getUid();
 
         DocumentReference userFavoritesDocument = db.collection("Favorites").document(userId);
@@ -136,24 +137,24 @@ public class DetailActivity extends AppCompatActivity implements OnMapReadyCallb
                 });
     }
     private void initProduct() {
-        if (flowerModel != null) {
-            inOne = flowerModel.getAvailableCount();
-            availableCount = flowerModel.getMinimumPurchaseCount();
+        if (productModel != null) {
+            inOne = productModel.getAvailableCount();
+            availableCount = productModel.getMinimumPurchaseCount();
 
-            binding.titleTxt.setText(flowerModel.getTitle());
-            binding.sellerTxt.setText(flowerModel.getSeller());
-            binding.priceTxt.setText(String.format("%s ֏", flowerModel.getPrice()));
-            binding.description.setText(flowerModel.getDetails());
+            binding.titleTxt.setText(productModel.getTitle());
+            binding.sellerTxt.setText(productModel.getSeller());
+            binding.priceTxt.setText(String.format("%s ֏", productModel.getPrice()));
+            binding.description.setText(productModel.getDetails());
 
             binding.countTxt.setText(String.valueOf(0));
             binding.totalCount.setText(getTotalCountFormatted(0));
 
-            List<String> colors = flowerModel.getColors();
+            List<String> colors = productModel.getColors();
             if (colors == null || colors.isEmpty()) {
                 binding.colorInit.setVisibility(View.GONE);
             }
 
-            List<Double> lengths = flowerModel.getLengths();
+            List<Double> lengths = productModel.getLengths();
             if (lengths == null || lengths.isEmpty()) {
                 binding.lengthInit.setVisibility(View.GONE);
             }
@@ -174,7 +175,7 @@ public class DetailActivity extends AppCompatActivity implements OnMapReadyCallb
             });
 
             Glide.with(this)
-                    .load(flowerModel.getPhoto())
+                    .load(productModel.getPhoto())
                     .into(new CustomTarget<Drawable>() {
                         @Override
                         public void onResourceReady(@NonNull Drawable resource, @Nullable Transition<? super Drawable> transition) {
@@ -192,7 +193,7 @@ public class DetailActivity extends AppCompatActivity implements OnMapReadyCallb
     }
     private void initListeners() {
         binding.addToCardBtn.setOnClickListener(v -> {
-            cartModel = new CartModel(flowerModel, Integer.parseInt(binding.countTxt.getText().toString()), currentUser.getUid());
+            cartModel = new CartModel(productModel, Integer.parseInt(binding.countTxt.getText().toString()), currentUser.getUid());
             addToCart(cartModel);
         });
         binding.countTxt.setOnEditorActionListener((v, actionId, event) -> {
@@ -228,14 +229,14 @@ public class DetailActivity extends AppCompatActivity implements OnMapReadyCallb
         binding.toBack.setOnClickListener(v-> onBackPressed());
         binding.favoriteImg.setOnClickListener(v -> {
             if (!isFavorite)
-                addToFavorites(flowerModel);
+                addToFavorites(productModel);
             else
-                removeFromFavorites(flowerModel);
+                removeFromFavorites(productModel);
         });
         binding.sellerReviewLayout.setOnClickListener(v -> {
             Intent intent = new Intent(DetailActivity.this, ReviewActivity.class);
-            intent.putExtra("subject", flowerModel.getSeller());
-            intent.putExtra("subjectId",flowerModel.getSellerId());
+            intent.putExtra("subject", productModel.getSeller());
+            intent.putExtra("subjectId", productModel.getSellerId());
             startActivity(intent);
         });
 
@@ -266,15 +267,36 @@ public class DetailActivity extends AppCompatActivity implements OnMapReadyCallb
                 binding.totalCount.setText(getTotalCountFormatted(countOfProductItem * inOne));
             }
         });
+
+        initSnapshotListeners();
+    }
+
+    private void initSnapshotListeners() {
+        db.collection("Products")
+                .document(productModel.getProductId())
+                .addSnapshotListener((snapshot, e) -> {
+                    if (e != null) {
+                        Log.w("snapshot product", "Listen failed.", e);
+                        return;
+                    }
+
+                    if (snapshot != null && snapshot.exists()) {
+                        productModel = snapshot.toObject(FlowerModel.class);
+                        inOne = productModel.getAvailableCount();
+                        availableCount = productModel.getMinimumPurchaseCount();
+                    } else {
+                        Log.d("snapshot product", "Current data: null");
+                    }
+                });
     }
     private void initGlobalFields() {
-        flowerModel = (FlowerModel) getIntent().getSerializableExtra("object");
+        productModel = (FlowerModel) getIntent().getSerializableExtra("object");
         mAuth = FirebaseAuth.getInstance();
         db = FirebaseFirestore.getInstance();
         currentUser = mAuth.getCurrentUser();
 
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map);
-        boolean sellerIsCurrent = flowerModel.getSellerId().equals(currentUser.getUid());
+        boolean sellerIsCurrent = productModel.getSellerId().equals(currentUser.getUid());
 
         if (sellerIsCurrent) {
             binding.addToCardBtn.setVisibility(View.GONE);
@@ -295,8 +317,10 @@ public class DetailActivity extends AppCompatActivity implements OnMapReadyCallb
             Toast.makeText(this, "Minimum purchase count is " + 0, Toast.LENGTH_SHORT).show();
         }
 
+        cartModel.setCartId(db.collection("CartItems").document().getId());
         db.collection("CartItems")
-                .add(cartModel)
+                .document(cartModel.getCartId())
+                .set(cartModel)
                 .addOnCompleteListener(task -> {
                     if (task.isSuccessful()) {
                         Toast.makeText(this, getString(R.string.item_added_to_cart_successfully), Toast.LENGTH_SHORT).show();
@@ -308,9 +332,10 @@ public class DetailActivity extends AppCompatActivity implements OnMapReadyCallb
                     }
                 });
     }
+
     @Override
     public void onMapReady(@NonNull GoogleMap map) {
-        LatLng currentLocation = new LatLng(flowerModel.getLatitude(), flowerModel.getLongitude());
+        LatLng currentLocation = new LatLng(productModel.getLatitude(), productModel.getLongitude());
         map.moveCamera(CameraUpdateFactory.newLatLng(currentLocation));
         map.addMarker(new MarkerOptions().position(currentLocation));
         map.animateCamera(CameraUpdateFactory.newLatLngZoom(currentLocation, MAP_ZOOM));

@@ -10,6 +10,7 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -25,6 +26,7 @@ import com.example.marketplace.databinding.FragmentConfirmOrderBinding;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -124,6 +126,22 @@ public class ConfirmOrderFragment extends Fragment {
         });
     }
 
+    private void clearCart() {
+        for (int i = 0; i < cartItems.size(); i++) {
+            db.collection("CartItems")
+                    .document(cartItems.get(i).getCartId())
+                    .delete()
+                    .addOnCompleteListener(task -> {
+                        if (task.isSuccessful()) {
+                            Log.d("RemoveFromCart", "Removed From Cart Successfully");
+                        } else {
+                            Log.e("RemoveFromCart", "Error getting documents: ", task.getException());
+                        }
+                    })
+                    .addOnFailureListener(aVoid -> Log.e("RemoveFromCart", "Failure"));
+        }
+    }
+
     public void updateTotalSum() {
         int subTotalSum = 0;
         int deliveryCharge = 1;
@@ -154,6 +172,9 @@ public class ConfirmOrderFragment extends Fragment {
             order.setTotalPrice(cartItems.get(i).getCount() * productModel.getPrice());
             uploadOrder(order);
         }
+
+        updateProductAvailability();
+        clearCart();
         Intent intent = new Intent(requireActivity(), CongratulationsActivity.class);
         startActivity(intent);
         requireActivity().finish();
@@ -162,7 +183,72 @@ public class ConfirmOrderFragment extends Fragment {
     private void uploadOrder(OrderModel orderModel) {
         db.collection("Orders")
                 .document(orderModel.getOrderId())
-                .set(orderModel);
+                .set(orderModel)
+                .addOnCompleteListener(task -> {
+                    if (task.isSuccessful()) {
+                        Log.d("UploadOrder", "Order uploaded successfully");
+                    } else {
+                        Log.e("UploadOrder", "Failed to upload order", task.getException());
+                    }
+                })
+                .addOnFailureListener(e -> Log.e("UploadOrder", "Failed to upload order", e));
+
+    }
+
+    private void updateProductAvailability() {
+        for (int i = 0; i < cartItems.size(); i++) {
+            ProductModel product = cartItems.get(i).getProductModel();
+            int newAvailableCount = product.getMinimumPurchaseCount() - cartItems.get(i).getCount();
+            if (newAvailableCount <= 0) {
+                db.collection("Products")
+                        .document(product.getProductId())
+                        .delete()
+                        .addOnCompleteListener(task -> {
+                            if (task.isSuccessful()) {
+                                Log.d("UpdateAvailability", "Product removed successfully: " + product.getProductId());
+                            } else {
+                                Log.e("UpdateAvailability", "Failed to remove product: " + product.getProductId(), task.getException());
+                            }
+                        })
+                        .addOnFailureListener(e -> Log.e("UpdateAvailability", "Failed to remove product: " + product.getProductId(), e));
+            } else {
+                product.setMinimumPurchaseCount(newAvailableCount);
+                db.collection("Products")
+                        .document(product.getProductId())
+                        .set(product)
+                        .addOnCompleteListener(task -> {
+                            if (task.isSuccessful()) {
+                                Log.d("UpdateAvailability", "Availability Count Updated Successfully.");
+                            } else {
+                                Log.e("UpdateAvailability", "Failed to update availability count", task.getException());
+                            }
+                        })
+                        .addOnFailureListener(e -> Log.e("UpdateAvailability", "Failed to update availability count", e));
+
+                db.collection("CartItems")
+                        .whereEqualTo("productModel.productId", product.getProductId())
+                        .get()
+                        .addOnSuccessListener(queryDocumentSnapshots -> {
+                            for (QueryDocumentSnapshot document : queryDocumentSnapshots) {
+                                CartModel cartItem = document.toObject(CartModel.class);
+                                cartItem.setProductModel(product);
+                                db.collection("CartItems")
+                                        .document(document.getId())
+                                        .set(cartItem)
+                                        .addOnCompleteListener(updateTask -> {
+                                            if (updateTask.isSuccessful()) {
+                                                Log.d("UpdateCartItems", "Cart Item Updated Successfully.");
+                                            } else {
+                                                Log.e("UpdateCartItems", "Failed to update cart item", updateTask.getException());
+                                            }
+                                        })
+                                        .addOnFailureListener(e -> Log.e("UpdateCartItems", "Failed to update cart item", e));
+                            }
+                        })
+                        .addOnFailureListener(e -> Log.e("UpdateCartItems", "Failed to retrieve cart items for product: " + product.getProductId(), e));
+
+            }
+        }
     }
 
     public static double calculateDistance(double lat1, double lon1, double lat2, double lon2) {

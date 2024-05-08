@@ -3,6 +3,7 @@ package com.example.marketplace.Model;
 import java.io.Serializable;
 
 public class CartModel implements Serializable {
+    String cartId;
     String ownerId;
     ProductModel productModel;
     int count;
@@ -14,6 +15,14 @@ public class CartModel implements Serializable {
     }
 
     public CartModel() {}
+
+    public String getCartId() {
+        return cartId;
+    }
+
+    public void setCartId(String cartId) {
+        this.cartId = cartId;
+    }
 
     public String getOwnerId() {
         return ownerId;
