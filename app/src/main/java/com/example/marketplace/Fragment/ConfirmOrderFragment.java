@@ -161,7 +161,7 @@ public class ConfirmOrderFragment extends Fragment {
 
     private void createOrders() {
         OrderModel order = new OrderModel();
-        order.setUserId(currentUser.getUid());
+        order.setOwnerId(currentUser.getUid());
         order.setLatitude(latitude);
         order.setLongitude(longitude);
 

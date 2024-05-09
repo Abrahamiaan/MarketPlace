@@ -517,6 +517,42 @@
                     android:src="@drawable/vector_more1"
                     tools:ignore="ContentDescription" />
             </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/linear_orders"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/actionBarSize"
+                android:layout_marginTop="10dp"
+                android:orientation="horizontal">
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:background="@drawable/profile_item_bg"
+                    android:backgroundTint="@color/black"
+                    android:src="@drawable/vector_admin"
+                    app:tint="@color/white"
+                    tools:ignore="ContentDescription" />
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginStart="20dp"
+                    android:layout_weight="1"
+                    android:text="Orders"
+                    android:textColor="@color/black"
+                    android:textSize="20sp"
+                    android:textStyle="normal" />
+
+                <ImageView
+                    android:layout_width="20dp"
+                    android:layout_height="@dimen/actionBarSize"
+                    android:layout_gravity="center_vertical"
+                    android:src="@drawable/vector_more1"
+                    tools:ignore="ContentDescription" />
+            </LinearLayout>
         </LinearLayout>
 
         <androidx.constraintlayout.widget.Guideline

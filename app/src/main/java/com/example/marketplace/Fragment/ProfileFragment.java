@@ -24,6 +24,7 @@ import com.bumptech.glide.request.target.CustomTarget;
 import com.bumptech.glide.request.transition.Transition;
 import com.example.marketplace.Activity.SplashActivity;
 import com.example.marketplace.Admin.ConfirmationActivity;
+import com.example.marketplace.Admin.OrdersActivity;
 import com.example.marketplace.R;
 import com.example.marketplace.databinding.FragmentProfileBinding;
 import com.google.firebase.auth.FirebaseAuth;
@@ -155,6 +156,10 @@ public class ProfileFragment extends Fragment {
             Intent intent = new Intent(requireContext(), ConfirmationActivity.class);
             startActivity(intent);
         });
+        binding.linearOrders.setOnClickListener(v -> {
+            Intent intent = new Intent(requireContext(), OrdersActivity.class);
+            startActivity(intent);
+        });
     }
     private void fetchUserMetaData() {
         db.collection("UserMetaData")
@@ -162,8 +167,10 @@ public class ProfileFragment extends Fragment {
                 .get()
                 .addOnCompleteListener(task -> {
                     if (task.isSuccessful()) {
-                        isAdmin = task.getResult().getBoolean("isAdmin");
-                        binding.adminParent.setVisibility(isAdmin ? View.VISIBLE : View.GONE);
+                        if (task.getResult() != null) {
+                            isAdmin = task.getResult().getBoolean("isAdmin");
+                            binding.adminParent.setVisibility(isAdmin ? View.VISIBLE : View.GONE);
+                        }
                     }
                 })
                 .addOnFailureListener(aVoid -> {

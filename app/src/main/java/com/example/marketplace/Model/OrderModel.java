@@ -4,15 +4,43 @@ import java.util.Date;
 
 public class OrderModel {
     private String orderId;
-    private String userId;
+    private String ownerId;
+    private String assignedDriverId;
     private CartModel product;
     private Date orderDate;
     private double totalPrice;
     private double longitude;
     private double latitude;
+    private Date deliveredAt;
 
     public OrderModel() {
         this.orderDate = new Date();
+        deliveredAt = null;
+        assignedDriverId = "";
+    }
+
+    public String getAssignedDriverId() {
+        return assignedDriverId;
+    }
+
+    public void setAssignedDriverId(String assignedDriverId) {
+        this.assignedDriverId = assignedDriverId;
+    }
+
+    public Date getDeliveredAt() {
+        return deliveredAt;
+    }
+
+    public void setDeliveredAt(Date deliveredAt) {
+        this.deliveredAt = deliveredAt;
+    }
+
+    public Date isDelivered() {
+        return deliveredAt;
+    }
+
+    public void setDelivered(Date delivered) {
+        this.deliveredAt = delivered;
     }
 
     public String getOrderId() {
@@ -23,12 +51,12 @@ public class OrderModel {
         this.orderId = orderId;
     }
 
-    public String getUserId() {
-        return userId;
+    public String getOwnerId() {
+        return ownerId;
     }
 
-    public void setUserId(String userId) {
-        this.userId = userId;
+    public void setOwnerId(String ownerId) {
+        this.ownerId = ownerId;
     }
 
     public CartModel getProduct() {
