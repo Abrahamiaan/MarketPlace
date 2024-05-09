@@ -55,6 +55,7 @@ public class AssignedOrdersActivity extends AppCompatActivity {
     }
 
     private void fetchDataFromFirestore() {
+        binding.progressBar.setVisibility(View.VISIBLE);
         db.collection("Orders")
                 .whereEqualTo("assignedDriverId", mAuth.getCurrentUser().getUid())
                 .addSnapshotListener((value, error) -> {

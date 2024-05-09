@@ -52,6 +52,7 @@ public class OrdersActivity extends AppCompatActivity {
     }
 
     private void fetchDataFromFirestore() {
+        binding.progressBar.setVisibility(View.VISIBLE);
         db.collection("Orders")
                 .addSnapshotListener((value, error) -> {
                     if (error != null) {
