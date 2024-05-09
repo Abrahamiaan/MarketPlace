@@ -10,23 +10,25 @@ import android.view.View;
 
 import com.example.marketplace.Adapter.OrderAdapter;
 import com.example.marketplace.Model.OrderModel;
-import com.example.marketplace.databinding.ActivityOrdersBinding;
+import com.example.marketplace.databinding.ActivityAssignedOrdersBinding;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class OrdersActivity extends AppCompatActivity {
-    ActivityOrdersBinding binding;
+public class AssignedOrdersActivity extends AppCompatActivity {
+    ActivityAssignedOrdersBinding binding;
     FirebaseFirestore db;
+    FirebaseAuth mAuth;
     List<OrderModel> orders;
     OrderAdapter orderAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        binding = ActivityOrdersBinding.inflate(getLayoutInflater());
+        binding = ActivityAssignedOrdersBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
         initGlobalFields();
@@ -34,6 +36,7 @@ public class OrdersActivity extends AppCompatActivity {
 
     private void initGlobalFields() {
         db = FirebaseFirestore.getInstance();
+        mAuth = FirebaseAuth.getInstance();
         orders = new ArrayList<>();
         setupRecycler();
         fetchDataFromFirestore();
@@ -47,12 +50,13 @@ public class OrdersActivity extends AppCompatActivity {
     private void setupRecycler() {
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
         binding.orderRecycler.setLayoutManager(layoutManager);
-        orderAdapter = new OrderAdapter(this, orders, OrdersActivity.this);
+        orderAdapter = new OrderAdapter(this, orders, AssignedOrdersActivity.this);
         binding.orderRecycler.setAdapter(orderAdapter);
     }
 
     private void fetchDataFromFirestore() {
         db.collection("Orders")
+                .whereEqualTo("assignedDriverId", mAuth.getCurrentUser().getUid())
                 .addSnapshotListener((value, error) -> {
                     if (error != null) {
                         Log.e("Firestore", "Listen failed.", error);
@@ -75,9 +79,10 @@ public class OrdersActivity extends AppCompatActivity {
                     }
                 });
     }
-    public void updateOrder(OrderModel orderModel, String driverId) {
-        orderModel.setAssignedDriverId(driverId);
-        orderModel.setStatus("Assigned");
+
+    public void updateOrder(int position, String status) {
+        OrderModel orderModel = orders.get(position);
+        orderModel.setStatus(status);
         db.collection("Orders").document(orderModel.getOrderId())
                 .set(orderModel)
                 .addOnCompleteListener(task -> {

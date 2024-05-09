@@ -12,11 +12,13 @@ public class OrderModel {
     private double longitude;
     private double latitude;
     private Date deliveredAt;
+    private String status;
 
     public OrderModel() {
         this.orderDate = new Date();
         deliveredAt = null;
         assignedDriverId = "";
+        status = "Not Assigned";
     }
 
     public String getAssignedDriverId() {
@@ -35,12 +37,12 @@ public class OrderModel {
         this.deliveredAt = deliveredAt;
     }
 
-    public Date isDelivered() {
-        return deliveredAt;
+    public String getStatus() {
+        return status;
     }
 
-    public void setDelivered(Date delivered) {
-        this.deliveredAt = delivered;
+    public void setStatus(String status) {
+        this.status = status;
     }
 
     public String getOrderId() {

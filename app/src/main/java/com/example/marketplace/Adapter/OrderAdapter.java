@@ -6,8 +6,10 @@ import android.location.Address;
 import android.location.Geocoder;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.MenuInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.PopupMenu;
 import android.widget.RadioGroup;
 import android.widget.TextView;
 
@@ -15,6 +17,7 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.widget.AppCompatButton;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.marketplace.Admin.AssignedOrdersActivity;
 import com.example.marketplace.Admin.OrdersActivity;
 import com.example.marketplace.Model.OrderModel;
 import com.example.marketplace.Model.ProductModel;
@@ -30,10 +33,22 @@ public class OrderAdapter extends RecyclerView.Adapter<OrderAdapter.OrdersViewHo
     Context context;
     List<OrderModel> orderItems;
     OrdersActivity ordersActivity;
+    AssignedOrdersActivity assignedOrdersActivity;
+    int mode;
+
     public OrderAdapter(Context context, List<OrderModel> orderItems, OrdersActivity activity) {
         this.context = context;
         this.orderItems = orderItems;
         this.ordersActivity = activity;
+        mode = 1;
+    }
+
+    public OrderAdapter(Context context, List<OrderModel> orderItems,
+                        AssignedOrdersActivity assignedOrdersActivity) {
+        this.context = context;
+        this.orderItems = orderItems;
+        this.assignedOrdersActivity = assignedOrdersActivity;
+        mode = 2;
     }
 
     @NonNull
@@ -50,7 +65,7 @@ public class OrderAdapter extends RecyclerView.Adapter<OrderAdapter.OrdersViewHo
         SimpleDateFormat dateFormat = new SimpleDateFormat("MMMM d, HH:mm", Locale.getDefault());
         String orderedAt = dateFormat.format(item.getOrderDate());
         if (item.getAssignedDriverId() != null && !(item.getAssignedDriverId().isEmpty())) {
-            holder.assignStatus.setText("Assigned");
+            holder.assignStatus.setText(item.getStatus());
         }
 
         holder.orderedAt.setText(orderedAt);
@@ -61,11 +76,36 @@ public class OrderAdapter extends RecyclerView.Adapter<OrderAdapter.OrdersViewHo
             holder.fromTxt.setText(from);
             holder.toTxt.setText(to);
         }
-        holder.assignStatus.setOnClickListener(v -> {
-            if (item.getAssignedDriverId() == null || item.getAssignedDriverId().isEmpty()) {
-                initListener(holder, item);
+        if (mode == 1) {
+            holder.assignStatus.setOnClickListener(v -> {
+                if (item.getAssignedDriverId() == null ||
+                        item.getAssignedDriverId().isEmpty()) {
+                    initListener(holder, item);
+                }
+            });
+        } else if (mode == 2) {
+            holder.assignStatus.setOnClickListener(v -> showPopup(v, position));
+        }
+    }
+
+    public void showPopup(View v, int position) {
+        PopupMenu popup = new PopupMenu(context, v);
+        MenuInflater inflater = popup.getMenuInflater();
+        inflater.inflate(R.menu.driver_status_menu, popup.getMenu());
+
+        popup.setOnMenuItemClickListener(item -> {
+            int itemId = item.getItemId();
+            if (itemId == R.id.delivered) {
+                assignedOrdersActivity.updateOrder(position, "Delivered");
+                return true;
+            } else if (itemId == R.id.onTheWay) {
+                assignedOrdersActivity.updateOrder(position, "On The Way");
+                return true;
             }
+            return false;
         });
+
+        popup.show();
     }
 
     private void initListener(OrderAdapter.OrdersViewHolder holder, OrderModel orderModel) {
@@ -82,14 +122,14 @@ public class OrderAdapter extends RecyclerView.Adapter<OrderAdapter.OrdersViewHo
 
         radioGroup.setOnCheckedChangeListener((group, checkedId) -> {
             if (checkedId == R.id.button1) {
-                holder.assignStatus.setText("Assigned");
-                ordersActivity.updateOrder(orderModel, "1");
+                holder.assignStatus.setText(context.getString(R.string.assigned));
+                ordersActivity.updateOrder(orderModel, "aXhCss3DSogAOwy59GKQKC2HrF73");
             } else if (checkedId == R.id.button2) {
-                holder.assignStatus.setText("Assigned");
-                ordersActivity.updateOrder(orderModel, "2");
+                holder.assignStatus.setText(context.getString(R.string.assigned));
+                ordersActivity.updateOrder(orderModel, "nrM0ll8Q4zYvVuaW54UXqbw1KI02");
             } else if (checkedId == R.id.button3) {
-                holder.assignStatus.setText("Assigned");
-                ordersActivity.updateOrder(orderModel, "3");
+                holder.assignStatus.setText(context.getString(R.string.assigned));
+                ordersActivity.updateOrder(orderModel, "xB0ztOZ3vFQZANd3kct8yq6BeA53");
             }
             dialog.dismiss();
         });

@@ -149,4 +149,14 @@
     <string name="go_to_home">Go To Home</string>
     <string name="you_must_select_delivery_address">You must select delivery address</string>
     <string name="item_added_to_cart_successfully">Product added to cart successfully</string>
+    <string name="on_the_way">On The Way</string>
+    <string name="delivered">Delivered</string>
+    <string name="assign_to_me">Assign To Me</string>
+    <string name="driver">Driver</string>
+    <string name="my_orders">Assign To Me</string>
+    <string name="orders">Orders</string>
+    <string name="assigned">Assigned</string>
+    <string name="driver_1">Driver 1</string>
+    <string name="driver_2">Driver 2</string>
+    <string name="driver_3">Driver 3</string>
 </resources>

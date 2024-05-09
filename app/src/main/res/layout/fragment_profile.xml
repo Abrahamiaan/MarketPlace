@@ -463,8 +463,8 @@
 
         <LinearLayout
             android:id="@+id/adminParent"
-            android:layout_width="0dp"
             android:visibility="gone"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:orientation="vertical"
             app:layout_constraintEnd_toEndOf="@id/guideline2"
@@ -541,7 +541,7 @@
                     android:layout_gravity="center_vertical"
                     android:layout_marginStart="20dp"
                     android:layout_weight="1"
-                    android:text="Orders"
+                    android:text="@string/orders"
                     android:textColor="@color/black"
                     android:textSize="20sp"
                     android:textStyle="normal" />
@@ -553,6 +553,65 @@
                     android:src="@drawable/vector_more1"
                     tools:ignore="ContentDescription" />
             </LinearLayout>
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/driverParent"
+            android:visibility="gone"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintEnd_toEndOf="@id/guideline2"
+            app:layout_constraintStart_toStartOf="@id/guideline1"
+            app:layout_constraintTop_toBottomOf="@+id/adminParent">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:text="@string/driver"
+                android:textColor="@color/black"
+                android:textSize="25sp"
+                android:textStyle="bold"
+                app:layout_constraintStart_toStartOf="@id/guideline1"
+                app:layout_constraintTop_toBottomOf="@id/linear_regional" />
+
+            <LinearLayout
+                android:id="@+id/linear_assigned_to"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/actionBarSize"
+                android:layout_marginTop="10dp"
+                android:orientation="horizontal">
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:background="@drawable/profile_item_bg"
+                    android:backgroundTint="@color/black"
+                    android:src="@drawable/vector_admin"
+                    app:tint="@color/white"
+                    tools:ignore="ContentDescription" />
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginStart="20dp"
+                    android:layout_weight="1"
+                    android:text="@string/my_orders"
+                    android:textColor="@color/black"
+                    android:textSize="20sp"
+                    android:textStyle="normal" />
+
+                <ImageView
+                    android:layout_width="20dp"
+                    android:layout_height="@dimen/actionBarSize"
+                    android:layout_gravity="center_vertical"
+                    android:src="@drawable/vector_more1"
+                    tools:ignore="ContentDescription" />
+            </LinearLayout>
+
         </LinearLayout>
 
         <androidx.constraintlayout.widget.Guideline
@@ -568,6 +627,5 @@
             android:layout_height="wrap_content"
             android:orientation="vertical"
             app:layout_constraintGuide_percent="0.96" />
-
     </androidx.constraintlayout.widget.ConstraintLayout>
 </androidx.core.widget.NestedScrollView>

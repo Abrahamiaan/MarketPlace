@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".Admin.OrdersActivity">
+    tools:context=".Admin.AssignedOrdersActivity">
 
     <LinearLayout
         android:id="@+id/linearLayoutParent"
@@ -30,7 +30,7 @@
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:gravity="center"
-            android:text="@string/orders"
+            android:text="@string/assign_to_me"
             android:textAppearance="@style/TextAppearance.AppCompat.Subhead"
             android:layout_marginEnd="?attr/actionBarSize"
             android:textColor="@color/pink"

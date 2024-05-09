@@ -150,4 +150,14 @@
     <string name="go_to_home">Главное меню</string>
     <string name="you_must_select_delivery_address">Вам необходимо выбрать адрес доставки</string>
     <string name="item_added_to_cart_successfully">Товар успешно добавлен в корзину</string>
+    <string name="on_the_way">В пути</string>
+    <string name="delivered">Доставлено</string>
+    <string name="assign_to_me">Назначено мне</string>
+    <string name="driver">Водитель</string>
+    <string name="my_orders">Назначено мне</string>
+    <string name="orders">Заказы</string>
+    <string name="assigned">Assigned</string>
+    <string name="driver_1">Водитель 1</string>
+    <string name="driver_2">Водитель 2</string>
+    <string name="driver_3">Водитель 3</string>
 </resources>

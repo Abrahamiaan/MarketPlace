@@ -23,6 +23,7 @@ import com.bumptech.glide.load.resource.bitmap.CircleCrop;
 import com.bumptech.glide.request.target.CustomTarget;
 import com.bumptech.glide.request.transition.Transition;
 import com.example.marketplace.Activity.SplashActivity;
+import com.example.marketplace.Admin.AssignedOrdersActivity;
 import com.example.marketplace.Admin.ConfirmationActivity;
 import com.example.marketplace.Admin.OrdersActivity;
 import com.example.marketplace.R;
@@ -32,6 +33,9 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.FirebaseFirestore;
 
 
+import java.util.Arrays;
+import java.util.List;
+
 import ir.androidexception.andexalertdialog.AndExAlertDialog;
 
 public class ProfileFragment extends Fragment {
@@ -39,7 +43,8 @@ public class ProfileFragment extends Fragment {
     FirebaseAuth mAuth;
     FirebaseUser currentUser;
     FirebaseFirestore db;
-    boolean isAdmin;
+    boolean isAdmin = false;
+    List<String> hardcodedDrivers = Arrays.asList("aXhCss3DSogAOwy59GKQKC2HrF73", "nrM0ll8Q4zYvVuaW54UXqbw1KI02", "xB0ztOZ3vFQZANd3kct8yq6BeA53");
 
 
     public ProfileFragment() { }
@@ -160,6 +165,10 @@ public class ProfileFragment extends Fragment {
             Intent intent = new Intent(requireContext(), OrdersActivity.class);
             startActivity(intent);
         });
+        binding.driverParent.setOnClickListener(v -> {
+            Intent intent = new Intent(requireContext(), AssignedOrdersActivity.class);
+            startActivity(intent);
+        });
     }
     private void fetchUserMetaData() {
         db.collection("UserMetaData")
@@ -169,7 +178,9 @@ public class ProfileFragment extends Fragment {
                     if (task.isSuccessful()) {
                         if (task.getResult() != null) {
                             isAdmin = task.getResult().getBoolean("isAdmin");
+
                             binding.adminParent.setVisibility(isAdmin ? View.VISIBLE : View.GONE);
+                            binding.driverParent.setVisibility(hardcodedDrivers.contains(currentUser.getUid()) ? View.VISIBLE : View.GONE);
                         }
                     }
                 })

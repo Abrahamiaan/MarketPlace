@@ -146,4 +146,14 @@
     <string name="go_to_home">Գնալ գլխավոր էջ</string>
     <string name="you_must_select_delivery_address">Դուք պետք է ընտրեք ապրանքի առաքման հասցեն</string>
     <string name="item_added_to_cart_successfully">Ապրանքը ավելացվեց զամբյուղում</string>
+    <string name="on_the_way">Ճանապարհին</string>
+    <string name="delivered">Առաքված</string>
+    <string name="assign_to_me">Հանձնարարված Ինձ</string>
+    <string name="driver">Վարորդ</string>
+    <string name="my_orders">Իմ Պատվերները</string>
+    <string name="orders">Պատվերներ</string>
+    <string name="assigned">Հանձնարարված</string>
+    <string name="driver_1">Վարորդ 1</string>
+    <string name="driver_2">Վարորդ 2</string>
+    <string name="driver_3">Վարորդ 3</string>
 </resources>

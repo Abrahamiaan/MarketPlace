@@ -122,7 +122,6 @@ public class ConfirmationActivity extends AppCompatActivity {
                     }
                 })
                 .addOnFailureListener(e -> Log.e("Confirmation", "Error removing product: " + e.getMessage(), e));
-
     }
     public void showPopup(View v, int position) {
         PopupMenu popup = new PopupMenu(this, v);
@@ -143,5 +142,4 @@ public class ConfirmationActivity extends AppCompatActivity {
 
         popup.show();
     }
-
 }
