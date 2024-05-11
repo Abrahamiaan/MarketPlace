@@ -2,8 +2,10 @@ package com.example.marketplace.Adapter;
 
 import android.app.AlertDialog;
 import android.content.Context;
+import android.content.Intent;
 import android.location.Address;
 import android.location.Geocoder;
+import android.net.Uri;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MenuInflater;
@@ -22,6 +24,7 @@ import com.example.marketplace.Admin.OrdersActivity;
 import com.example.marketplace.Model.OrderModel;
 import com.example.marketplace.Model.ProductModel;
 import com.example.marketplace.R;
+import com.google.android.gms.maps.model.LatLng;
 
 
 import java.io.IOException;
@@ -66,6 +69,15 @@ public class OrderAdapter extends RecyclerView.Adapter<OrderAdapter.OrdersViewHo
         String orderedAt = dateFormat.format(item.getOrderDate());
         holder.assignStatus.setText(item.getStatus());
 
+        if (mode == 2) {
+            holder.itemView.setOnClickListener(v -> {
+                LatLng uwCoordinate = new LatLng(40.739027, 44.8338131);
+                LatLng destination = new LatLng(item.getLatitude(), item.getLongitude());
+                LatLng stopCoordinate = new LatLng(item.getProduct().getProductModel().getLatitude(),
+                        item.getProduct().getProductModel().getLongitude());
+                openMapWithDirections(uwCoordinate, stopCoordinate, destination);
+            });
+        }
 
         holder.orderedAt.setText(orderedAt);
         holder.shortName.setText(productModel.getTitle());
@@ -85,6 +97,27 @@ public class OrderAdapter extends RecyclerView.Adapter<OrderAdapter.OrdersViewHo
         } else if (mode == 2) {
             holder.assignStatus.setOnClickListener(v -> showPopup(v, position));
         }
+    }
+
+    public void openMapWithDirections(LatLng currentLocation, LatLng stopLatLng, LatLng destination) {
+        double destinationLatitude = destination.latitude;
+        double destinationLongitude = destination.longitude;
+
+        double stopLatitude = stopLatLng.latitude;
+        double stopLongitude = stopLatLng.longitude;
+
+        double currentLatitude = currentLocation.latitude;
+        double currentLongitude = currentLocation.longitude;
+
+        String destinationStr = destinationLatitude + "," + destinationLongitude;
+        String stopStr = stopLatitude + "," + stopLongitude;
+        String currentLocationStr = currentLatitude + "," + currentLongitude;
+
+        String uriStr = "https://www.google.com/maps/dir/" + currentLocationStr + "/" + stopStr + "/" + destinationStr;
+
+        Intent intent = new Intent(android.content.Intent.ACTION_VIEW, Uri.parse(uriStr));
+        intent.setClassName("com.google.android.apps.maps", "com.google.android.maps.MapsActivity");
+        context.startActivity(intent);
     }
 
     public void showPopup(View v, int position) {

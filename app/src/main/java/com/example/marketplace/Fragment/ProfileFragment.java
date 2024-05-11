@@ -180,7 +180,7 @@ public class ProfileFragment extends Fragment {
                             isAdmin = task.getResult().getBoolean("isAdmin");
 
                             binding.adminParent.setVisibility(isAdmin ? View.VISIBLE : View.GONE);
-                            binding.driverParent.setVisibility(hardcodedDrivers.contains(currentUser.getDisplayName()) ? View.VISIBLE : View.GONE);
+                            binding.driverParent.setVisibility(hardcodedDrivers.contains(currentUser.getUid()) ? View.VISIBLE : View.GONE);
                         }
                     }
                 })
