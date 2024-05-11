@@ -27,7 +27,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:textSize="20sp" />
+                android:textSize="@dimen/_14sdp" />
 
             <androidx.appcompat.widget.AppCompatButton
                 android:id="@+id/orderStatus"
@@ -64,6 +64,7 @@
                 <TextView
                     android:id="@+id/toText"
                     android:paddingHorizontal="@dimen/_5sdp"
+                    android:textSize="@dimen/_12sdp"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content" />
             </LinearLayout>
@@ -86,6 +87,7 @@
                 <TextView
                     android:id="@+id/fromText"
                     android:paddingHorizontal="@dimen/_5sdp"
+                    android:textSize="@dimen/_12sdp"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"/>
             </LinearLayout>
@@ -97,12 +99,13 @@
 
             <TextView
                 android:id="@+id/orderedAt"
-                android:layout_width="0dp"
-                android:paddingTop="@dimen/_10sdp"
-                android:layout_height="wrap_content"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
                 android:layout_gravity="center_vertical"
                 android:layout_weight="0.25"
-                android:textSize="12sp" />
+                android:paddingTop="@dimen/_5sdp"
+                android:textSize="@dimen/_8sdp" />
+
         </LinearLayout>
     </LinearLayout>
 </androidx.cardview.widget.CardView>

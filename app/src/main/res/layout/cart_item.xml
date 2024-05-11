@@ -30,7 +30,7 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
             android:textColor="@color/black"
-            android:textSize="18sp"
+            android:textSize="@dimen/_13sdp"
             android:textStyle="bold"
             app:layout_constraintStart_toEndOf="@id/photoProduct"
             app:layout_constraintTop_toTopOf="@id/photoProduct" />
@@ -41,7 +41,7 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
             android:textColor="@color/pink"
-            android:textSize="18sp"
+            android:textSize="@dimen/_15sdp"
             app:layout_constraintBottom_toBottomOf="@id/photoProduct"
             app:layout_constraintStart_toEndOf="@id/photoProduct" />
 
@@ -51,7 +51,7 @@
             android:layout_height="wrap_content"
             android:layout_marginEnd="16dp"
             android:textColor="@color/pink"
-            android:textSize="18sp"
+            android:textSize="@dimen/_15sdp"
             android:textStyle="bold"
             app:layout_constraintBottom_toBottomOf="@+id/titleTxt"
             app:layout_constraintEnd_toEndOf="parent"
@@ -85,7 +85,7 @@
                 android:layout_marginEnd="12dp"
                 android:text="0"
                 android:textColor="@color/black"
-                android:textSize="20sp"
+                android:textSize="@dimen/_15sdp"
                 android:textStyle="bold"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toStartOf="@+id/countPlus"

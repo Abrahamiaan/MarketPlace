@@ -49,9 +49,9 @@
             android:textStyle="bold"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="20dp"
+            android:layout_marginTop="@dimen/_18sdp"
             android:text="@string/email_address"
-            android:textSize="20sp"
+            android:textSize="@dimen/_15sdp"
             android:layout_marginHorizontal="@dimen/_10sdp"/>
 
         <LinearLayout
@@ -92,7 +92,7 @@
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
                         android:layout_weight="1"
-                        android:textSize="18sp"
+                        android:textSize="@dimen/_14sdp"
                         android:textColor="#2962FF" />
                 </LinearLayout>
             </com.google.android.material.card.MaterialCardView>
@@ -103,9 +103,9 @@
             android:textStyle="bold"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="20dp"
+            android:layout_marginTop="@dimen/_18sdp"
             android:text="@string/phone_number"
-            android:textSize="20sp"
+            android:textSize="@dimen/_15sdp"
             android:layout_marginHorizontal="@dimen/_10sdp"/>
 
         <LinearLayout
@@ -148,7 +148,7 @@
                         android:layout_gravity="center"
                         android:layout_weight="1"
                         android:textColor="#2962FF"
-                        android:textSize="18sp"
+                        android:textSize="@dimen/_14sdp"
                         android:text="@string/add_phone_number"/>
                 </LinearLayout>
             </com.google.android.material.card.MaterialCardView>

@@ -106,7 +106,7 @@
                     android:layout_weight="1"
                     android:text="@string/sub_total"
                     android:textColor="@color/white"
-                    android:textSize="16sp"
+                    android:textSize="@dimen/_15sdp"
                     android:textStyle="bold" />
 
                 <TextView
@@ -116,7 +116,7 @@
                     android:layout_weight="1"
                     android:textAlignment="textEnd"
                     android:textColor="@color/white"
-                    android:textSize="16sp"
+                    android:textSize="@dimen/_15sdp"
                     android:textStyle="bold" />
             </LinearLayout>
 
@@ -131,7 +131,7 @@
                     android:layout_weight="1"
                     android:text="@string/delivery_charge"
                     android:textColor="@color/white"
-                    android:textSize="16sp"
+                    android:textSize="@dimen/_15sdp"
                     android:textStyle="bold" />
 
                 <TextView
@@ -141,7 +141,7 @@
                     android:layout_weight="1"
                     android:textAlignment="textEnd"
                     android:textColor="@color/white"
-                    android:textSize="16sp"
+                    android:textSize="@dimen/_15sdp"
                     android:textStyle="bold" />
             </LinearLayout>
 
@@ -157,7 +157,7 @@
                     android:layout_weight="1"
                     android:text="@string/total"
                     android:textColor="@color/white"
-                    android:textSize="20sp"
+                    android:textSize="@dimen/_17sdp"
                     android:textStyle="bold" />
 
                 <TextView
@@ -168,7 +168,7 @@
                     android:text=""
                     android:textAlignment="textEnd"
                     android:textColor="@color/white"
-                    android:textSize="20sp"
+                    android:textSize="@dimen/_17sdp"
                     android:textStyle="bold" />
             </LinearLayout>
         </LinearLayout>
