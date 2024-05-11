@@ -159,4 +159,7 @@
     <string name="driver_1">Driver 1</string>
     <string name="driver_2">Driver 2</string>
     <string name="driver_3">Driver 3</string>
+    <string name="your_review">Your Review</string>
+    <string name="please_share_your_opinion_nabout_the_product">Please share your opinion\nabout the product</string>
+    <string name="send_review">Send review</string>
 </resources>

@@ -34,8 +34,7 @@ public class ReviewAdapter extends RecyclerView.Adapter<ReviewAdapter.ReviewView
     public void onBindViewHolder(@NonNull ReviewViewHolder holder, int position) {
         ReviewModel currentReview = reviewList.get(position);
 
-        holder.reviewer.setText(currentReview.getReviewerName());
-        holder.review.setText(currentReview.getComment());
+        holder.review.setText(currentReview.getReviewTxt());
         holder.ratingBar.setRating(currentReview.getRating());
         SimpleDateFormat dateFormat = new SimpleDateFormat("MMM dd, yyyy", Locale.US);
         String formattedDate = dateFormat.format(currentReview.getCreatedAt());

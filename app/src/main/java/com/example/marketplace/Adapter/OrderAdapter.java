@@ -64,9 +64,8 @@ public class OrderAdapter extends RecyclerView.Adapter<OrderAdapter.OrdersViewHo
         ProductModel productModel = orderItems.get(position).getProduct().getProductModel();
         SimpleDateFormat dateFormat = new SimpleDateFormat("MMMM d, HH:mm", Locale.getDefault());
         String orderedAt = dateFormat.format(item.getOrderDate());
-        if (item.getAssignedDriverId() != null && !(item.getAssignedDriverId().isEmpty())) {
-            holder.assignStatus.setText(item.getStatus());
-        }
+        holder.assignStatus.setText(item.getStatus());
+
 
         holder.orderedAt.setText(orderedAt);
         holder.shortName.setText(productModel.getTitle());

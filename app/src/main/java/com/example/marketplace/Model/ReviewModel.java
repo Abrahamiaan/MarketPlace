@@ -4,16 +4,12 @@ import java.util.Date;
 
 public class ReviewModel {
     private String reviewerId;
-    private String reviewerName;
-    private String subjectId;
-    private String subjectName;
-    private float rating;
-    private String comment;
+    private String productId;
+    private String reviewTxt;
+    private int rating;
     private Date createdAt;
 
-    public ReviewModel() {
-
-    }
+    public ReviewModel() { }
 
     public String getReviewerId() {
         return reviewerId;
@@ -23,44 +19,28 @@ public class ReviewModel {
         this.reviewerId = reviewerId;
     }
 
-    public String getReviewerName() {
-        return reviewerName;
+    public String getProductId() {
+        return productId;
     }
 
-    public void setReviewerName(String reviewerName) {
-        this.reviewerName = reviewerName;
+    public void setProductId(String productId) {
+        this.productId = productId;
     }
 
-    public String getSubjectId() {
-        return subjectId;
+    public String getReviewTxt() {
+        return reviewTxt;
     }
 
-    public void setSubjectId(String subjectId) {
-        this.subjectId = subjectId;
+    public void setReviewTxt(String reviewTxt) {
+        this.reviewTxt = reviewTxt;
     }
 
-    public String getSubjectName() {
-        return subjectName;
-    }
-
-    public void setSubjectName(String subjectName) {
-        this.subjectName = subjectName;
-    }
-
-    public float getRating() {
+    public int getRating() {
         return rating;
     }
 
-    public void setRating(float rating) {
+    public void setRating(int rating) {
         this.rating = rating;
-    }
-
-    public String getComment() {
-        return comment;
-    }
-
-    public void setComment(String comment) {
-        this.comment = comment;
     }
 
     public Date getCreatedAt() {

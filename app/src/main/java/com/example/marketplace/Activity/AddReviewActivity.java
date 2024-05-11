@@ -17,7 +17,6 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import java.util.Date;
 
 public class AddReviewActivity extends AppCompatActivity {
-    static final String TAG = "ADD REVIEW: ";
     ActivityAddReviewBinding binding;
     FirebaseFirestore db;
     FirebaseAuth mAuth;
@@ -36,33 +35,33 @@ public class AddReviewActivity extends AppCompatActivity {
     }
 
     private void saveReview() {
-        String comment = binding.review.getText().toString();
-        float rating = binding.rating.getRating();
+        String reviewTxt = binding.review.getText().toString();
         String reviewerId = currentUser.getUid();
         String reviewerName = currentUser.getDisplayName();
         String subjectId = currentIntent.getStringExtra("subjectId");
         String subjectName = currentIntent.getStringExtra("subject");
+        int rating = (int) binding.rating.getRating();
 
-        ReviewModel review = new ReviewModel();
-        review.setReviewerId(reviewerId);
-        review.setReviewerName(reviewerName);
-        review.setRating(rating);
-        review.setSubjectId(subjectId);
-        review.setSubjectName(subjectName);
-        review.setComment(comment);
-        review.setCreatedAt(new Date());
+        ReviewModel reviewModel = new ReviewModel();
+        reviewModel.setReviewerId(reviewerId);
+        reviewModel.setRating(rating);
+        reviewModel.setReviewTxt(reviewerName);
+        reviewModel.setCreatedAt(new Date());
 
-        db.collection("Reviews").add(review)
-                .addOnSuccessListener(documentReference -> Log.d(TAG, "Review added with ID: " + documentReference.getId()))
-                .addOnFailureListener(e -> Log.e(TAG, "Error adding review", e));
+        db.collection("Reviews")
+                .add(reviewModel)
+                .addOnSuccessListener(documentReference -> Log.d("ADD REVIEW", "Review added with ID: " + documentReference.getId()))
+                .addOnFailureListener(e -> Log.e("ADD REVIEW", "Error adding review", e));
     }
+
     private void initGlobalFields() {
         currentIntent = getIntent();
         db = FirebaseFirestore.getInstance();
         mAuth = FirebaseAuth.getInstance();
         currentUser = mAuth.getCurrentUser();
     }
+
     private void initClickListeners() {
-        binding.button.setOnClickListener(v -> saveReview());
+        binding.sendReview.setOnClickListener(v -> saveReview());
     }
 }
