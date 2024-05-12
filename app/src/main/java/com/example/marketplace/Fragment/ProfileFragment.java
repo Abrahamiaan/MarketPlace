@@ -78,6 +78,7 @@ public class ProfileFragment extends Fragment {
                 .OnNegativeClicked(v -> {})
                 .build();
     }
+
     private void initGlobalFields() {
         mAuth = FirebaseAuth.getInstance();
         currentUser = mAuth.getCurrentUser();
@@ -172,6 +173,7 @@ public class ProfileFragment extends Fragment {
             startActivity(intent);
         });
     }
+
     private void fetchUserMetaData() {
         db.collection("UserMetaData")
                 .document(currentUser.getUid())
@@ -180,6 +182,7 @@ public class ProfileFragment extends Fragment {
                     if (task.isSuccessful()) {
                         if (task.getResult() != null) {
                             isAdmin = task.getResult().getBoolean("isAdmin");
+                            System.out.println(isAdmin);
 
                             binding.adminParent.setVisibility(isAdmin ? View.VISIBLE : View.GONE);
                             binding.driverParent.setVisibility(hardcodedDrivers.contains(currentUser.getUid()) ? View.VISIBLE : View.GONE);

@@ -27,7 +27,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class NotificationFragment extends Fragment {
-
     FragmentNotificationBinding binding;
     NotificationAdapter notificationAdapter;
     List<NotificationModel> notificationList;
@@ -40,7 +39,6 @@ public class NotificationFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         binding = FragmentNotificationBinding.inflate(inflater, container, false);
-
 
         initGlobalFields();
         initListeners();
@@ -56,7 +54,7 @@ public class NotificationFragment extends Fragment {
         notificationHelper = new NotificationHelper(getContext());
 
         binding.notificationRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
-        notificationAdapter = new NotificationAdapter(notificationList, this);
+        notificationAdapter = new NotificationAdapter(requireContext(), notificationList, this);
         binding.notificationRecyclerView.setAdapter(notificationAdapter);
 
         fetchNotificationsFromFirebase();
@@ -101,35 +99,20 @@ public class NotificationFragment extends Fragment {
                 .addOnCompleteListener(task -> {
                     if (task.isSuccessful()) {
                         for (QueryDocumentSnapshot document : task.getResult()) {
-                            db.collection("Notifications").document(document.getId())
-                                    .update("read", true)
-                                    .addOnSuccessListener(aVoid -> Log.d("Mark As Read", "Document successfully updated"))
-                                    .addOnFailureListener(e -> Log.e("Mark As Read", "Error updating document", e));
+                            NotificationModel notificationModel = document.toObject(NotificationModel.class);
+                            if (!notificationModel.getType().contains("REVIEW")) {
+                                db.collection("Notifications").document(document.getId())
+                                        .update("read", true)
+                                        .addOnSuccessListener(aVoid -> Log.d("Mark As Read", "Document successfully updated"))
+                                        .addOnFailureListener(e -> Log.e("Mark As Read", "Error updating document", e));
+                            }
                         }
                     } else {
                         Log.e("Mark As Read", "Error getting documents: ", task.getException());
                     }
                 });
     }
-    public void markAsRead(String ownerId, String notificationId) {
-        db.collection("Notifications")
-                .whereEqualTo("ownerId", ownerId)
-                //.whereEqualTo("notificationId", notificationModel.getNotificationId())
-                .whereEqualTo("notificationId", notificationId)
-                .get()
-                .addOnCompleteListener(task -> {
-                    if (task.isSuccessful()) {
-                        for (QueryDocumentSnapshot document : task.getResult()) {
-                            db.collection("Notifications").document(document.getId())
-                                    .update("read", true)
-                                    .addOnSuccessListener(aVoid -> Log.d("Mark As Read", "Document successfully updated"))
-                                    .addOnFailureListener(e -> Log.e("Mark As Read", "Error updating document", e));
-                        }
-                    } else {
-                        Log.e("Mark As Read", "Error getting documents: ", task.getException());
-                    }
-                });
-    }
+
     private void fetchNotificationsFromFirebase() {
         binding.progressBar.setVisibility(View.VISIBLE);
         db.collection("Notifications")

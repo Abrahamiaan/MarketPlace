@@ -68,6 +68,7 @@ public class OrdersActivity extends AppCompatActivity {
                     for (QueryDocumentSnapshot document : value) {
                         OrderModel orderModel = document.toObject(OrderModel.class);
                         orders.add(orderModel);
+                        orders.sort((o1, o2) -> o2.getOrderDate().compareTo(o1.getOrderDate()));
                     }
 
                     orderAdapter.notifyItemRangeChanged(0, orders.size());

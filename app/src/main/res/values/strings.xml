@@ -164,4 +164,8 @@
     <string name="send_review">Send review</string>
     <string name="not_assigned">Not Assigned</string>
     <string name="select_driver">Select Driver</string>
+    <string name="rating_and_reviews">Rating and reviews</string>
+    <string name="the_user_has_not_received_any_reviews_yet" translatable="false">The user has not received any reviews yet</string>
+    <string name="reviews">reviews</string>
+    <string name="you_must_write_review_and_add_rating">You must write review and add rating</string>
 </resources>

@@ -3,8 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    tools:context=".Activity.AddReviewActivity">
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <com.google.android.material.bottomsheet.BottomSheetDragHandleView
         android:layout_width="match_parent"
@@ -37,7 +36,6 @@
                 android:lines="10"
                 android:textColor="@color/black"
                 tools:ignore="TextContrastCheck" />
-
         </com.google.android.material.textfield.TextInputLayout>
     </androidx.cardview.widget.CardView>
 
@@ -69,6 +67,7 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/reviewTxtCard"
         android:layout_marginHorizontal="@dimen/_20sdp"
+        android:layout_marginBottom="@dimen/_20sdp"
         android:background="@drawable/btn_background"
         android:text="@string/send_review"
         android:textColor="@color/white"

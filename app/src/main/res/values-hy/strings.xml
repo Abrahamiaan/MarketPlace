@@ -157,8 +157,12 @@
     <string name="driver_2">Վարորդ 2</string>
     <string name="driver_3">Վարորդ 3</string>
     <string name="your_review">Քո կարծիքը</string>
-    <string name="please_share_your_opinion_nabout_the_product">Կիսվեք մեզ հետ ապրանքի մասին/nձեր կարծիքով </string>
-    <string name="send_review">Թողնել կարծիքը</string>
+    <string name="please_share_your_opinion_nabout_the_product">Կիսվեք մեզ հետ ապրանքի մասին\nձեր կարծիքով </string>
+    <string name="send_review">Թողնել կարծիք</string>
     <string name="not_assigned">Չհանձնարարված</string>
     <string name="select_driver">Ընտրեք Վարորդին</string>
+    <string name="rating_and_reviews">Մեկնաբանություններ</string>
+    <string name="the_user_has_not_received_any_reviews_yet">The user has not received any reviews yet</string>
+    <string name="reviews">մեկնաբանություն</string>
+    <string name="you_must_write_review_and_add_rating">Դուք պետք է գրեք մեկնաբանություն և ավելացնեք գնահատական</string>
 </resources>

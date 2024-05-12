@@ -4,16 +4,15 @@
     android:layout_height="wrap_content"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     app:cardCornerRadius="@dimen/_8sdp"
-    android:layout_marginBottom="30dp"
+    android:layout_marginBottom="@dimen/_10sdp"
     android:elevation="4dp">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:layout_marginHorizontal="30dp"
-        android:layout_marginBottom="30dp"
-        android:layout_marginTop="10dp">
+        android:layout_marginHorizontal="@dimen/_10sdp"
+        android:layout_marginVertical="@dimen/_10sdp">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -23,18 +22,16 @@
                 android:id="@+id/reviewer"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Vlad Abrahamian"
-                android:textSize="20sp"
+                android:textSize="@dimen/_16sdp"
                 android:layout_weight="1"/>
 
             <TextView
                 android:id="@+id/createDate"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Janruary 12, 2020"
-                android:textSize="12sp"
-                android:layout_weight="0.25"
-                android:layout_gravity="center_vertical"/>
+                android:textSize="@dimen/_9sdp"
+                android:layout_weight="0.15"
+                android:gravity="end" />
         </LinearLayout>
 
         <RatingBar
@@ -42,21 +39,15 @@
             style="@style/Widget.AppCompat.RatingBar.Small"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="0dp"
-            android:layout_marginEnd="100dp"
-            android:backgroundTint="#0f9d58"
             android:numStars="5"
-            android:progressTint="#8f9d58"
-            android:rating="0"
+            android:progressTint="#FFE234"
             android:stepSize="1" />
 
         <TextView
             android:id="@+id/reviewTxt"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:paddingTop="10dp"
-            android:text="@string/example_descript"
-            android:textSize="15sp" />
+            android:paddingTop="@dimen/_10sdp"
+            android:textSize="@dimen/_11sdp" />
     </LinearLayout>
-
 </androidx.cardview.widget.CardView>

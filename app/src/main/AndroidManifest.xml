@@ -43,9 +43,6 @@
             android:name=".Activity.VerifyActivity"
             android:exported="false" />
         <activity
-            android:name=".Activity.AddReviewActivity"
-            android:exported="false" />
-        <activity
             android:name=".Activity.ReviewActivity"
             android:exported="false" />
         <activity

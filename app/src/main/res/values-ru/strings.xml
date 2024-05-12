@@ -165,4 +165,7 @@
     <string name="send_review">Send review</string>
     <string name="not_assigned">Не Назначено</string>
     <string name="select_driver">Выберитe</string>
+    <string name="rating_and_reviews">Рейтинг и отзывы</string>
+    <string name="reviews">отзыв</string>
+    <string name="you_must_write_review_and_add_rating">Вы должны написать отзыв и добавить оценку</string>
 </resources>

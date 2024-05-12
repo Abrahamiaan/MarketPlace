@@ -21,11 +21,12 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.marketplace.Admin.AssignedOrdersActivity;
 import com.example.marketplace.Admin.OrdersActivity;
+import com.example.marketplace.Model.NotificationModel;
 import com.example.marketplace.Model.OrderModel;
 import com.example.marketplace.Model.ProductModel;
 import com.example.marketplace.R;
+import com.example.marketplace.Utils.NotificationHelper;
 import com.google.android.gms.maps.model.LatLng;
-
 
 import java.io.IOException;
 import java.text.SimpleDateFormat;
@@ -37,6 +38,7 @@ public class OrderAdapter extends RecyclerView.Adapter<OrderAdapter.OrdersViewHo
     List<OrderModel> orderItems;
     OrdersActivity ordersActivity;
     AssignedOrdersActivity assignedOrdersActivity;
+    NotificationHelper notificationHelper;
     int mode;
 
     public OrderAdapter(Context context, List<OrderModel> orderItems, OrdersActivity activity) {
@@ -110,8 +112,22 @@ public class OrderAdapter extends RecyclerView.Adapter<OrderAdapter.OrdersViewHo
                 }
             });
         } else if (mode == 2) {
-            holder.assignStatus.setOnClickListener(v -> showPopup(v, position));
+            if (!holder.assignStatus.getText().toString().equals(context.getString(R.string.delivered))) {
+                holder.assignStatus.setOnClickListener(v -> showPopup(v, position));
+            }
         }
+    }
+
+    private void createNotification(OrderModel orderModel) {
+        String subjectId = orderModel.getProduct().getProductModel().getSellerId();
+        notificationHelper = new NotificationHelper(context);
+        NotificationModel notificationModel = new NotificationModel();
+        notificationModel.setTitle(context.getString(R.string.send_review));
+        notificationModel.setMessage(context.getString(R.string.please_share_your_opinion_nabout_the_product));
+        notificationModel.setType("REVIEW-" + subjectId);
+        notificationModel.setOwnerId(orderModel.getOwnerId());
+
+        notificationHelper.makeNotification(notificationModel);
     }
 
     public void openMapWithDirections(LatLng currentLocation, LatLng stopLatLng, LatLng destination) {
@@ -136,6 +152,7 @@ public class OrderAdapter extends RecyclerView.Adapter<OrderAdapter.OrdersViewHo
     }
 
     public void showPopup(View v, int position) {
+        OrderModel orderModel = orderItems.get(position);
         PopupMenu popup = new PopupMenu(context, v);
         MenuInflater inflater = popup.getMenuInflater();
         inflater.inflate(R.menu.driver_status_menu, popup.getMenu());
@@ -143,6 +160,7 @@ public class OrderAdapter extends RecyclerView.Adapter<OrderAdapter.OrdersViewHo
         popup.setOnMenuItemClickListener(item -> {
             int itemId = item.getItemId();
             if (itemId == R.id.delivered) {
+                createNotification(orderModel);
                 assignedOrdersActivity.updateOrder(position, "Delivered");
                 return true;
             } else if (itemId == R.id.onTheWay) {

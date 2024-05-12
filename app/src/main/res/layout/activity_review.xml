@@ -32,7 +32,7 @@
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:gravity="center"
-            android:text="Rating and reviews"
+            android:text="@string/rating_and_reviews"
             android:layout_marginEnd="?attr/actionBarSize"
             android:textSize="20sp"
             android:textAppearance="@style/TextAppearance.AppCompat.Subhead"
@@ -72,7 +72,6 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="10dp"
-                    android:text="0"
                     android:textColor="#000"
                     android:textSize="30sp"
                     android:textStyle="bold" />
@@ -93,7 +92,8 @@
                         android:layout_marginTop="10dp"
                         android:layout_marginEnd="15dp"
                         android:orientation="horizontal"
-                        android:weightSum="10.0">
+                        android:weightSum="10.0"
+                        tools:ignore="TextSizeCheck">
 
                         <TextView
                             android:layout_width="0dp"
@@ -102,7 +102,8 @@
                             android:text="5"
                             android:textColor="#000"
                             android:textSize="15sp"
-                            android:textStyle="bold" />
+                            android:textStyle="bold"
+                            tools:ignore="HardcodedText" />
 
                         <ImageView
                             android:layout_width="0dp"
@@ -110,6 +111,7 @@
                             android:layout_gravity="center_vertical"
                             android:layout_marginEnd="10dp"
                             android:layout_weight="0.5"
+                            android:importantForAccessibility="no"
                             android:src="@drawable/star_black" />
 
                         <LinearLayout
@@ -125,7 +127,6 @@
                                 android:id="@+id/fiveActive"
                                 android:layout_width="0dp"
                                 android:layout_height="8dp"
-                                android:layout_weight="0"
                                 android:background="@color/pink" />
 
                         </LinearLayout>
@@ -137,7 +138,6 @@
                             android:layout_gravity="center_vertical"
                             android:layout_marginStart="10dp"
                             android:layout_weight="1.5"
-                            android:text="0"
                             android:textColor="#000"
                             android:textSize="15sp"
                             android:textStyle="bold" />
@@ -151,7 +151,8 @@
                         android:layout_marginTop="10dp"
                         android:layout_marginEnd="15dp"
                         android:orientation="horizontal"
-                        android:weightSum="10.0">
+                        android:weightSum="10.0"
+                        tools:ignore="TextSizeCheck">
 
                         <TextView
                             android:layout_width="0dp"
@@ -160,7 +161,8 @@
                             android:text="4"
                             android:textColor="#000"
                             android:textSize="15sp"
-                            android:textStyle="bold" />
+                            android:textStyle="bold"
+                            tools:ignore="HardcodedText" />
 
                         <ImageView
                             android:layout_width="0dp"
@@ -168,6 +170,7 @@
                             android:layout_gravity="center_vertical"
                             android:layout_marginEnd="10dp"
                             android:layout_weight="0.5"
+                            android:importantForAccessibility="no"
                             android:src="@drawable/star_black" />
 
                         <LinearLayout
@@ -183,7 +186,6 @@
                                 android:id="@+id/fourActive"
                                 android:layout_width="0dp"
                                 android:layout_height="8dp"
-                                android:layout_weight="0"
                                 android:background="@color/pink" />
 
                         </LinearLayout>
@@ -195,7 +197,6 @@
                             android:layout_gravity="center_vertical"
                             android:layout_marginStart="10dp"
                             android:layout_weight="1.5"
-                            android:text="0"
                             android:textColor="#000"
                             android:textSize="15sp"
                             android:textStyle="bold" />
@@ -209,7 +210,8 @@
                         android:layout_marginTop="10dp"
                         android:layout_marginEnd="15dp"
                         android:orientation="horizontal"
-                        android:weightSum="10.0">
+                        android:weightSum="10.0"
+                        tools:ignore="TextSizeCheck">
 
                         <TextView
                             android:layout_width="0dp"
@@ -218,7 +220,8 @@
                             android:text="3"
                             android:textColor="#000"
                             android:textSize="15sp"
-                            android:textStyle="bold" />
+                            android:textStyle="bold"
+                            tools:ignore="HardcodedText" />
 
                         <ImageView
                             android:layout_width="0dp"
@@ -226,6 +229,7 @@
                             android:layout_gravity="center_vertical"
                             android:layout_marginEnd="10dp"
                             android:layout_weight="0.5"
+                            android:importantForAccessibility="no"
                             android:src="@drawable/star_black" />
 
                         <LinearLayout
@@ -241,7 +245,6 @@
                                 android:id="@+id/threeActive"
                                 android:layout_width="0dp"
                                 android:layout_height="match_parent"
-                                android:layout_weight="0"
                                 android:background="@color/pink" />
 
                         </LinearLayout>
@@ -253,7 +256,6 @@
                             android:layout_gravity="center_vertical"
                             android:layout_marginStart="10dp"
                             android:layout_weight="1.5"
-                            android:text="0"
                             android:textColor="#000"
                             android:textSize="15sp"
                             android:textStyle="bold" />
@@ -267,16 +269,18 @@
                         android:layout_marginTop="10dp"
                         android:layout_marginEnd="15dp"
                         android:orientation="horizontal"
-                        android:weightSum="10.0">
+                        android:weightSum="10.0"
+                        tools:ignore="TextSizeCheck">
 
                         <TextView
                             android:layout_width="0dp"
-                            android:layout_height="wrap_content"
+                            android:layout_height="match_parent"
                             android:layout_weight="0.6"
                             android:text="2"
                             android:textColor="#000"
                             android:textSize="15sp"
-                            android:textStyle="bold" />
+                            android:textStyle="bold"
+                            tools:ignore="HardcodedText" />
 
                         <ImageView
                             android:layout_width="0dp"
@@ -284,6 +288,7 @@
                             android:layout_gravity="center_vertical"
                             android:layout_marginEnd="10dp"
                             android:layout_weight="0.5"
+                            android:importantForAccessibility="no"
                             android:src="@drawable/star_black" />
 
                         <LinearLayout
@@ -299,7 +304,6 @@
                                 android:id="@+id/secondActive"
                                 android:layout_width="0dp"
                                 android:layout_height="8dp"
-                                android:layout_weight="0"
                                 android:background="@color/pink" />
                         </LinearLayout>
 
@@ -310,7 +314,6 @@
                             android:layout_gravity="center_vertical"
                             android:layout_marginStart="10dp"
                             android:layout_weight="1.5"
-                            android:text="0"
                             android:textColor="#000"
                             android:textSize="15sp"
                             android:textStyle="bold" />
@@ -324,7 +327,8 @@
                         android:layout_marginTop="10dp"
                         android:layout_marginEnd="15dp"
                         android:orientation="horizontal"
-                        android:weightSum="10.0">
+                        android:weightSum="10.0"
+                        tools:ignore="TextSizeCheck">
 
                         <TextView
                             android:layout_width="0dp"
@@ -333,7 +337,8 @@
                             android:text="1"
                             android:textColor="#000"
                             android:textSize="15sp"
-                            android:textStyle="bold" />
+                            android:textStyle="bold"
+                            tools:ignore="HardcodedText" />
 
                         <ImageView
                             android:layout_width="0dp"
@@ -341,6 +346,7 @@
                             android:layout_gravity="center_vertical"
                             android:layout_marginEnd="10dp"
                             android:layout_weight="0.5"
+                            android:importantForAccessibility="no"
                             android:src="@drawable/star_black" />
 
                         <LinearLayout
@@ -356,7 +362,6 @@
                                 android:id="@+id/oneActive"
                                 android:layout_width="0dp"
                                 android:layout_height="8dp"
-                                android:layout_weight="0"
                                 android:background="@color/pink" />
 
                         </LinearLayout>
@@ -368,7 +373,6 @@
                             android:layout_gravity="center_vertical"
                             android:layout_marginStart="10dp"
                             android:layout_weight="1.5"
-                            android:text="0"
                             android:textColor="#000"
                             android:textSize="15sp"
                             android:textStyle="bold" />
@@ -383,7 +387,6 @@
                 android:layout_height="wrap_content"
                 android:layout_marginHorizontal="20dp"
                 android:layout_marginTop="10dp"
-                android:text="0 reviews"
                 android:textSize="20sp"
                 android:textStyle="bold"
                 app:layout_constraintTop_toBottomOf="@+id/relativeLayout2"/>
@@ -392,8 +395,7 @@
                 android:id="@+id/recyclerView"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginHorizontal="30dp"
-                android:layout_marginVertical="20dp"
+                android:layout_margin="@dimen/_15sdp"
                 app:layout_constraintTop_toBottomOf="@+id/textReviewsCount"
                 android:clipToPadding="false"
                 android:scrollbarStyle="outsideOverlay"
@@ -442,18 +444,19 @@
             android:layout_width="@dimen/_200sdp"
             android:layout_height="@dimen/_200sdp"
             android:src="@drawable/not_comments"
-            android:layout_centerHorizontal="true"/>
+            android:layout_centerHorizontal="true"
+            android:importantForAccessibility="no" />
 
         <TextView
+            android:visibility="gone"
             android:id="@+id/textview"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:padding="@dimen/_8sdp"
-            android:text="The user has not received any reviews yet"
+            android:text="@string/the_user_has_not_received_any_reviews_yet"
             android:textAlignment="center"
             android:textSize="@dimen/_20sdp"
             android:textStyle="bold"
             android:layout_below="@+id/imageView3"/>
     </RelativeLayout>
-
 </androidx.constraintlayout.widget.ConstraintLayout>

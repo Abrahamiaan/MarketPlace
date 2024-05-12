@@ -8,22 +8,23 @@ import java.util.Date;
 public class NotificationModel {
     private String notificationId;
     private String message;
-    private  String title;
-    private  String ownerId;
+    private String title;
+    private String ownerId;
     private boolean isRead;
     private String timestamp;
     private String type;
 
-    NotificationModel() {}
+    public NotificationModel() {
+        this.timestamp = getCurrentTimestamp();
+        this.isRead = false;
+    }
     public NotificationModel(String message, String title, String ownerId, String type) {
         this(message, title);
         this.ownerId = ownerId;
         this.type = type;
         this.timestamp = getCurrentTimestamp();
     }
-    public NotificationModel(String message, String title, String ownerId) {
-        this(message, title, ownerId, "INFO");
-    }
+
     private NotificationModel(String message, String title) {
         this.title = title;
         this.message = message;

@@ -167,6 +167,7 @@
                     tools:ignore="RelativeOverlap" />
 
                 <RatingBar
+                    android:visibility="gone"
                     android:id="@+id/ratingBar"
                     style="@style/Widget.AppCompat.RatingBar.Small"
                     android:layout_width="wrap_content"
@@ -184,7 +185,6 @@
                     android:layout_centerVertical="true"
                     android:src="@drawable/vector_more1"
                     android:importantForAccessibility="no" />
-
             </RelativeLayout>
 
             <RelativeLayout

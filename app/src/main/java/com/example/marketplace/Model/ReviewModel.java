@@ -4,8 +4,9 @@ import java.util.Date;
 
 public class ReviewModel {
     private String reviewerId;
-    private String productId;
-    private String reviewTxt;
+    private String reviewerName;
+    private String subjectId;
+    private String comment;
     private int rating;
     private Date createdAt;
 
@@ -15,24 +16,32 @@ public class ReviewModel {
         return reviewerId;
     }
 
+    public String getSubjectId() {
+        return subjectId;
+    }
+
+    public void setSubjectId(String subjectId) {
+        this.subjectId = subjectId;
+    }
+
     public void setReviewerId(String reviewerId) {
         this.reviewerId = reviewerId;
     }
 
-    public String getProductId() {
-        return productId;
+    public String getReviewerName() {
+        return reviewerName;
     }
 
-    public void setProductId(String productId) {
-        this.productId = productId;
+    public void setReviewerName(String reviewerName) {
+        this.reviewerName = reviewerName;
     }
 
-    public String getReviewTxt() {
-        return reviewTxt;
+    public String getComment() {
+        return comment;
     }
 
-    public void setReviewTxt(String reviewTxt) {
-        this.reviewTxt = reviewTxt;
+    public void setComment(String comment) {
+        this.comment = comment;
     }
 
     public int getRating() {

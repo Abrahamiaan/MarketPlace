@@ -1,5 +1,6 @@
 package com.example.marketplace.Adapter;
 
+import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,10 +18,12 @@ import java.util.List;
 import java.util.Locale;
 
 public class ReviewAdapter extends RecyclerView.Adapter<ReviewAdapter.ReviewViewHolder> {
+    Context context;
     List<ReviewModel> reviewList;
 
-    public ReviewAdapter(List<ReviewModel> reviewList) {
+    public ReviewAdapter(Context context, List<ReviewModel> reviewList) {
         this.reviewList = reviewList;
+        this.context = context;
     }
 
     @NonNull
@@ -34,7 +37,8 @@ public class ReviewAdapter extends RecyclerView.Adapter<ReviewAdapter.ReviewView
     public void onBindViewHolder(@NonNull ReviewViewHolder holder, int position) {
         ReviewModel currentReview = reviewList.get(position);
 
-        holder.review.setText(currentReview.getReviewTxt());
+        holder.review.setText(currentReview.getComment());
+        holder.reviewer.setText(currentReview.getReviewerName());
         holder.ratingBar.setRating(currentReview.getRating());
         SimpleDateFormat dateFormat = new SimpleDateFormat("MMM dd, yyyy", Locale.US);
         String formattedDate = dateFormat.format(currentReview.getCreatedAt());
