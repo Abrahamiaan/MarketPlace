@@ -28,15 +28,9 @@ import com.example.marketplace.databinding.FragmentEditAccountBinding;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.UserProfileChangeRequest;
-import com.google.firebase.firestore.DocumentReference;
-import com.google.firebase.firestore.DocumentSnapshot;
-import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.firestore.FirebaseFirestoreException;
-import com.google.firebase.firestore.SetOptions;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
 
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.Map;
 import java.util.Objects;
 
 public class EditAccountFragment extends Fragment {
@@ -44,9 +38,9 @@ public class EditAccountFragment extends Fragment {
     FragmentEditAccountBinding binding;
     FirebaseAuth mAuth;
     FirebaseUser currentUser;
-    FirebaseFirestore db;
     Uri onStartPhotoUri;
     Uri selectedImageUri;
+    StorageReference storageReference;
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
@@ -55,7 +49,6 @@ public class EditAccountFragment extends Fragment {
 
         initGlobalFields();
         initListeners();
-        
 
         return binding.getRoot();
     }
@@ -64,9 +57,9 @@ public class EditAccountFragment extends Fragment {
         setupImageSelection();
         mAuth = FirebaseAuth.getInstance();
         currentUser = mAuth.getCurrentUser();
-        db = FirebaseFirestore.getInstance();
         onStartPhotoUri = currentUser.getPhotoUrl();
-        fetchAddress();
+
+        storageReference = FirebaseStorage.getInstance().getReference();
 
         binding.userName.setText(currentUser.getDisplayName());
         Glide.with(this)
@@ -84,10 +77,7 @@ public class EditAccountFragment extends Fragment {
     }
     private void initListeners() {
         binding.toBack.setOnClickListener(v -> requireActivity().onBackPressed());
-        binding.saveBtn.setOnClickListener(v -> {
-            checkChangesAndSave();
-            requireActivity().onBackPressed();
-        });
+        binding.saveBtn.setOnClickListener(v -> checkChangesAndSave());
         binding.sendResetPassword.setOnClickListener(v -> sendPasswordResetEmail());
         binding.mainLinearProfessional.setOnClickListener(v -> {
             binding.professionalDone.setVisibility(View.VISIBLE);
@@ -126,14 +116,14 @@ public class EditAccountFragment extends Fragment {
         imageSelectionLauncher.launch(intent);
     }
     private void checkChangesAndSave() {
-        checkAndSaveChanges();
+        binding.progressBar2.setVisibility(View.VISIBLE);
         boolean areNameChanges = checkNameChanges();
         if (areNameChanges) {
             changeDisplayName();
         }
 
         if (selectedImageUri != null) {
-            updateProfilePhoto(selectedImageUri);
+            uploadToStorage();
         }
     }
     private void changeDisplayName() {
@@ -178,62 +168,23 @@ public class EditAccountFragment extends Fragment {
                     }
                 });
     }
-    private void checkAndSaveChanges() {
-        DocumentReference documentReference = db.collection("DeliveryAddresses").document(currentUser.getUid());
-        String newAddress = binding.deliveryAddress.getText().toString();
 
-        documentReference.get().addOnCompleteListener(task -> {
-            if (task.isSuccessful()) {
-                DocumentSnapshot document = task.getResult();
-                if (document.exists()) {
-                    String storedAddress = document.getString("address");
-                    if (storedAddress != null && !storedAddress.equals(newAddress)) {
-                        updateAddressInFirebase(newAddress);
-                    }
-                } else {
-                    updateAddressInFirebase(newAddress);
-                }
-            } else {
-                Exception e = task.getException();
-                Log.e("Edit Account: ", Arrays.toString(e.getStackTrace()));
-            }
-        });
+    private void uploadToStorage() {
+        String uuid = currentUser.getUid();
+        storageReference.child("userProfileImg/" + uuid).putFile(selectedImageUri)
+                .addOnSuccessListener(taskSnapshot -> storageReference.child("userProfileImg/" + uuid).getDownloadUrl()
+                        .addOnSuccessListener( downloadUri->   {
+                            Log.d("Driver Photo", "Successfully added,");
+                            updateProfilePhoto(downloadUri);
+                            binding.progressBar2.setVisibility(View.GONE);
+                            requireActivity().onBackPressed();
+                        }))
+                .addOnFailureListener(e -> {
+                    Toast.makeText(requireContext(), getString(R.string.failed_to_upload_photo) + e.getMessage(), Toast.LENGTH_SHORT).show();
+                    binding.progressBar2.setVisibility(View.GONE);
+                    requireActivity().onBackPressed();
+                });
     }
-
-    private void fetchAddress() {
-        DocumentReference docRef = db.collection("DeliveryAddresses").document(currentUser.getUid());
-
-        docRef.get().addOnCompleteListener(task -> {
-            if (task.isSuccessful()) {
-                DocumentSnapshot document = task.getResult();
-                if (document.exists()) {
-                    binding.deliveryAddress.setText(document.getString("address"));
-                }
-            } else {
-                Exception e = task.getException();
-                Log.e("Edit Account: ", Arrays.toString(e.getStackTrace()));
-            }
-        });
-    }
-
-    private void updateAddressInFirebase(String newAddress) {
-    DocumentReference address = db.collection("DeliveryAddresses").document(currentUser.getUid());
-
-    Map<String, Object> addressData = new HashMap<>();
-    addressData.put("address", newAddress);
-    System.out.println(newAddress);
-
-    address.set(addressData, SetOptions.merge())
-            .addOnSuccessListener(aVoid -> Log.d("Edit Account", "Address updated successfully"))
-            .addOnFailureListener(e -> {
-                Log.e("Edit Account", "Error updating address", e);
-                if (e instanceof FirebaseFirestoreException && ((FirebaseFirestoreException) e).getCode() == FirebaseFirestoreException.Code.NOT_FOUND) {
-                    address.set(addressData)
-                            .addOnSuccessListener(aVoid -> Log.d("Edit Account", "Address added successfully"))
-                            .addOnFailureListener(ex -> Log.e("Edit Account", "Error adding address", ex));
-                }
-            });
-}
 
     private boolean checkNameChanges() {
         return !(binding.userName.getText().toString().equals(currentUser.getDisplayName()));

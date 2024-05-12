@@ -67,7 +67,22 @@ public class OrderAdapter extends RecyclerView.Adapter<OrderAdapter.OrdersViewHo
         ProductModel productModel = orderItems.get(position).getProduct().getProductModel();
         SimpleDateFormat dateFormat = new SimpleDateFormat("MMMM d, HH:mm", Locale.getDefault());
         String orderedAt = dateFormat.format(item.getOrderDate());
-        holder.assignStatus.setText(item.getStatus());
+        String status = item.getStatus();
+
+        switch (status) {
+            case "Delivered":
+                holder.assignStatus.setText(context.getString(R.string.delivered));
+                break;
+            case "On The Way":
+                holder.assignStatus.setText(context.getString(R.string.on_the_way));
+                break;
+            case "Assigned":
+                holder.assignStatus.setText(context.getString(R.string.assigned));
+                break;
+            case "Not Assigned":
+                holder.assignStatus.setText(context.getString(R.string.not_assigned));
+                break;
+        }
 
         if (mode == 2) {
             holder.itemView.setOnClickListener(v -> {
@@ -145,7 +160,7 @@ public class OrderAdapter extends RecyclerView.Adapter<OrderAdapter.OrdersViewHo
         LayoutInflater inflater = ordersActivity.getLayoutInflater();
         View dialogView = inflater.inflate(R.layout.select_driver_dialog, null);
         builder.setView(dialogView);
-        builder.setTitle("Select Driver");
+        builder.setTitle(R.string.select_driver);
 
         RadioGroup radioGroup = dialogView.findViewById(R.id.radio_group);
 

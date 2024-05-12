@@ -139,7 +139,7 @@
     <string name="flowers"> Flowers</string>
     <string name="outdoor_plants">Outdoor Plants</string>
     <string name="lilies"> Lilies</string>
-    <string name="_100_off_special_delivery_in_april">100% off special \ndelivery in April</string>
+    <string name="_100_off_special_delivery_in_april">100% off special \ndelivery in June</string>
     <string name="plants">Plants</string>
     <string name="special_offer_second">Buy 100+ roses \nand get free delivery</string>
     <string name="confirm_your_order">Confirm Order</string>
@@ -162,4 +162,6 @@
     <string name="your_review">Your Review</string>
     <string name="please_share_your_opinion_nabout_the_product">Please share your opinion\nabout the product</string>
     <string name="send_review">Send review</string>
+    <string name="not_assigned">Not Assigned</string>
+    <string name="select_driver">Select Driver</string>
 </resources>

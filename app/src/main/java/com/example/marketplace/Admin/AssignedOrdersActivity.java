@@ -1,6 +1,7 @@
 package com.example.marketplace.Admin;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.app.AppCompatDelegate;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -10,6 +11,7 @@ import android.view.View;
 
 import com.example.marketplace.Adapter.OrderAdapter;
 import com.example.marketplace.Model.OrderModel;
+import com.example.marketplace.Utils.LocaleHelper;
 import com.example.marketplace.databinding.ActivityAssignedOrdersBinding;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -28,6 +30,8 @@ public class AssignedOrdersActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
+        LocaleHelper.setAppLanguage(this);
         binding = ActivityAssignedOrdersBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 

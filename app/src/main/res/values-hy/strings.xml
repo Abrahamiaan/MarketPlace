@@ -136,7 +136,7 @@
     <string name="flowers">Ծաղիկներ</string>
     <string name="outdoor_plants">Դրսային բույսեր</string>
     <string name="lilies">Լիլիներ</string>
-    <string name="_100_off_special_delivery_in_april">100% զեղչ \nապրիլին \nառաքումների \nհամար</string>
+    <string name="_100_off_special_delivery_in_april">100% զեղչ \հունիսին \nառաքումների \nհամար</string>
     <string name="plants">Բույսեր</string>
     <string name="special_offer_second">Գնիր 100+ վարդ\nստացիր անվճար \nառաքում</string>
     <string name="confirm_your_order">Հաստատել Պատվերը</string>
@@ -156,4 +156,9 @@
     <string name="driver_1">Վարորդ 1</string>
     <string name="driver_2">Վարորդ 2</string>
     <string name="driver_3">Վարորդ 3</string>
+    <string name="your_review">Քո կարծիքը</string>
+    <string name="please_share_your_opinion_nabout_the_product">Կիսվեք մեզ հետ ապրանքի մասին/nձեր կարծիքով </string>
+    <string name="send_review">Թողնել կարծիքը</string>
+    <string name="not_assigned">Չհանձնարարված</string>
+    <string name="select_driver">Ընտրեք Վարորդին</string>
 </resources>

@@ -82,6 +82,8 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
                 initListeners();
             } else {
                 Toast.makeText(requireContext(), "Location permission denied", Toast.LENGTH_SHORT).show();
+                initListeners();
+                // requireActivity().onBackPressed();
             }
         }
     }

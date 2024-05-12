@@ -48,6 +48,7 @@ public class ProfileFragment extends Fragment {
 
 
     public ProfileFragment() { }
+
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container,
@@ -106,6 +107,7 @@ public class ProfileFragment extends Fragment {
             fetchUserMetaData();
         }
     }
+
     private void initListeners() {
         binding.linearOut.setOnClickListener(v -> showConfirmDialog(getString(R.string.oops), getString(R.string.are_you_sure_you_want_to_log_out)));
         binding.linearLanguage.setOnClickListener(v -> {

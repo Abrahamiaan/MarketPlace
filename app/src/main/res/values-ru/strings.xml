@@ -140,7 +140,7 @@
     <string name="flowers">Цветы</string>
     <string name="outdoor_plants">Уличные растения</string>
     <string name="lilies">Лилии</string>
-    <string name="_100_off_special_delivery_in_april">100% скидка на \nспециальную \nдоставку в апреле</string>
+    <string name="_100_off_special_delivery_in_april">100% скидка на \nспециальную \nдоставку в Июне</string>
     <string name="plants">Растения</string>
     <string name="special_offer_second">Купите более \n100 роз и получите \nбесплатную доставку</string>
     <string name="confirm_your_order">Подтвердить заказ</string>
@@ -156,8 +156,13 @@
     <string name="driver">Водитель</string>
     <string name="my_orders">Назначено мне</string>
     <string name="orders">Заказы</string>
-    <string name="assigned">Assigned</string>
+    <string name="assigned">Назначено</string>
     <string name="driver_1">Водитель 1</string>
     <string name="driver_2">Водитель 2</string>
     <string name="driver_3">Водитель 3</string>
+    <string name="your_review">Your Review</string>
+    <string name="please_share_your_opinion_nabout_the_product">Please share your opinion\nabout the product</string>
+    <string name="send_review">Send review</string>
+    <string name="not_assigned">Не Назначено</string>
+    <string name="select_driver">Выберитe</string>
 </resources>
