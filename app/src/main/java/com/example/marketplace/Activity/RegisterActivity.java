@@ -26,6 +26,7 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.GoogleAuthProvider;
 import com.google.firebase.auth.UserProfileChangeRequest;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.SetOptions;
 import com.google.firebase.messaging.FirebaseMessaging;
@@ -43,7 +44,6 @@ public class RegisterActivity extends AppCompatActivity {
     private FirebaseFirestore db;
     private GoogleSignInClient mGoogleSignInClient;
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -55,6 +55,7 @@ public class RegisterActivity extends AppCompatActivity {
         initGlobalFields();
         initListeners();
     }
+
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -66,10 +67,13 @@ public class RegisterActivity extends AppCompatActivity {
                 Log.d("GOOGLE: ", "firebaseAuthWithGoogle:" + account.getId());
                 firebaseAuthWithGoogle(account.getIdToken());
             } catch (ApiException e) {
+                binding.parentLinear.setVisibility(View.VISIBLE);
+                binding.progressBar.setVisibility(View.GONE);
                 Log.w("GOOGLE", "Google sign in failed", e);
             }
         }
     }
+
     private void firebaseAuthWithGoogle(String idToken) {
         AuthCredential credential = GoogleAuthProvider.getCredential(idToken, null);
 
@@ -85,7 +89,10 @@ public class RegisterActivity extends AppCompatActivity {
                     }
                 });
     }
-    private void SingInWithGoogle() {
+
+    private void singInWithGoogle() {
+        binding.progressBar.setVisibility(View.VISIBLE);
+        binding.parentLinear.setVisibility(View.GONE);
         mGoogleSignInClient.signOut().addOnCompleteListener(this, task -> {
             GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
                     .requestIdToken(getString(R.string.WEB_CLIENT_ID))
@@ -97,6 +104,7 @@ public class RegisterActivity extends AppCompatActivity {
             startActivityForResult(signInIntent, RC_SIGN_IN);
         });
     }
+
     private void signUp(String email, String password) {
         if (binding.progressBar.getVisibility() == View.GONE)
             binding.progressBar.setVisibility(View.VISIBLE);
@@ -115,6 +123,7 @@ public class RegisterActivity extends AppCompatActivity {
                     }
                 });
     }
+
     private void changeDisplayName(FirebaseUser firebaseUser) {
         String username = binding.name.getText().toString();
         UserProfileChangeRequest profileUpdates = new UserProfileChangeRequest.Builder()
@@ -137,32 +146,47 @@ public class RegisterActivity extends AppCompatActivity {
     }
 
     private void saveUserMetadata(FirebaseUser firebaseUser, boolean includeNaming) {
-        FirebaseMessaging.getInstance().getToken()
-                .addOnCompleteListener(task -> {
-                    if (task.isSuccessful() && task.getResult() != null) {
-                        String fcmToken = task.getResult();
+        db.collection("UserMetaData")
+                .document(firebaseUser.getUid())
+                .get()
+                .addOnCompleteListener(task1 -> {
+                    if (task1.isSuccessful()) {
+                        DocumentSnapshot document = task1.getResult();
+                        if (!document.exists()) {
+                            FirebaseMessaging.getInstance().getToken()
+                                    .addOnCompleteListener(task -> {
+                                        if (task.isSuccessful() && task.getResult() != null) {
+                                            String fcmToken = task.getResult();
 
-                        Map<String, Object> userMetadata = new HashMap<>();
-                        userMetadata.put("isAdmin", false);
-                        userMetadata.put("FCMToken", fcmToken);
+                                            Map<String, Object> userMetadata = new HashMap<>();
+                                            userMetadata.put("isAdmin", false);
+                                            userMetadata.put("FCMToken", fcmToken);
 
-                        db.collection("UserMetaData").document(firebaseUser.getUid())
-                                .set(userMetadata, SetOptions.merge())
-                                .addOnSuccessListener(aVoid -> {
-                                    Log.d("Save Metadata", "User metadata saved successfully");
-                                    if (includeNaming) {
-                                        changeDisplayName(firebaseUser);
-                                    } else {
-                                        Intent intent = new Intent(RegisterActivity.this, MainActivity.class);
-                                        startActivity(intent);
-                                        finish();
-                                    }
-                                    if (binding.progressBar.getVisibility() == View.VISIBLE)
-                                        binding.progressBar.setVisibility(View.GONE);
-                                })
-                                .addOnFailureListener(e -> Log.e("Save Metadata", "Error saving user metadata", e));
-                    } else {
-                        Log.e("FCM Token", "Failed to get FCM token", task.getException());
+                                            db.collection("UserMetaData").document(firebaseUser.getUid())
+                                                    .set(userMetadata, SetOptions.merge())
+                                                    .addOnSuccessListener(aVoid -> {
+                                                        Log.d("Save Metadata", "User metadata saved successfully");
+                                                        if (includeNaming) {
+                                                            changeDisplayName(firebaseUser);
+                                                        } else {
+                                                            binding.progressBar.setVisibility(View.GONE);
+                                                            Intent intent = new Intent(RegisterActivity.this, MainActivity.class);
+                                                            startActivity(intent);
+                                                            finish();
+                                                        }
+                                                        binding.progressBar.setVisibility(View.GONE);
+                                                    })
+                                                    .addOnFailureListener(e -> Log.e("Save Metadata", "Error saving user metadata", e));
+                                        } else {
+                                            Log.e("FCM Token", "Failed to get FCM token", task.getException());
+                                        }
+                                    });
+                        } else {
+                            binding.progressBar.setVisibility(View.GONE);
+                            Intent intent = new Intent(RegisterActivity.this, MainActivity.class);
+                            startActivity(intent);
+                            finish();
+                        }
                     }
                 });
     }
@@ -207,6 +231,7 @@ public class RegisterActivity extends AppCompatActivity {
 
         return isValid;
     }
+
     public void showErrorDialog(String title, String message) {
         new AndExAlertDialog.Builder(this)
                 .setTitle(title)
@@ -218,8 +243,9 @@ public class RegisterActivity extends AppCompatActivity {
                 })
                 .build();
     }
+
     private void initListeners() {
-        binding.withGoogle.setOnClickListener(v -> SingInWithGoogle());
+        binding.withGoogle.setOnClickListener(v -> singInWithGoogle());
         binding.signUpBtn.setOnClickListener(v -> {
             String email = binding.email.getText().toString().trim();
             String password = binding.password.getText().toString();
@@ -286,7 +312,10 @@ public class RegisterActivity extends AppCompatActivity {
                 }
             }
         });
+
+        // binding.withFb.setOnClickListener(v -> continueAsGuest());
     }
+
     private void  initGlobalFields() {
         mAuth = FirebaseAuth.getInstance();
         db = FirebaseFirestore.getInstance();

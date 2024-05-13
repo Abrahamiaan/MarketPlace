@@ -6,6 +6,7 @@ import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.util.Log;
+import android.view.View;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.app.AppCompatDelegate;
@@ -22,10 +23,8 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthCredential;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException;
-import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.GoogleAuthProvider;
 import ir.androidexception.andexalertdialog.AndExAlertDialog;
-
 
 public class LoginActivity extends AppCompatActivity {
     ActivityLoginBinding binding;
@@ -66,6 +65,7 @@ public class LoginActivity extends AppCompatActivity {
         mAuth.signInWithEmailAndPassword(email, password)
                 .addOnCompleteListener(this, task -> {
                     if (task.isSuccessful()) {
+                        binding.progressBar3.setVisibility(View.GONE);
                         Intent intent = new Intent(LoginActivity.this, MainActivity.class);
                         startActivity(intent);
                         finish();
@@ -92,6 +92,8 @@ public class LoginActivity extends AppCompatActivity {
                 firebaseAuthWithGoogle(account.getIdToken());
             } catch (ApiException e) {
                 Log.w("GOOGLE", "Google sign in failed", e);
+                binding.parentLinear.setVisibility(View.VISIBLE);
+                binding.progressBar3.setVisibility(View.GONE);
             }
         }
     }
@@ -101,10 +103,6 @@ public class LoginActivity extends AppCompatActivity {
         mAuth.signInWithCredential(credential)
                 .addOnCompleteListener(this, task -> {
                     if (task.isSuccessful()) {
-                        FirebaseUser user = mAuth.getCurrentUser();
-                        assert user != null;
-                        System.out.println(user.getEmail());
-
                         Intent intent = new Intent(LoginActivity.this, MainActivity.class);
                         startActivity(intent);
                         finish();
@@ -113,7 +111,9 @@ public class LoginActivity extends AppCompatActivity {
                     }
                 });
     }
-    public void SingInWithGoogle() {
+    public void singInWithGoogle() {
+        binding.progressBar3.setVisibility(View.VISIBLE);
+        binding.parentLinear.setVisibility(View.GONE);
         mGoogleSignInClient.signOut().addOnCompleteListener(this, task -> {
             GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
                     .requestIdToken(getString(R.string.WEB_CLIENT_ID))
@@ -131,9 +131,7 @@ public class LoginActivity extends AppCompatActivity {
                 .setMessage(message)
                 .setPositiveBtnText("OK")
                 .setCancelableOnTouchOutside(true)
-                .OnPositiveClicked(input -> {
-
-                })
+                .OnPositiveClicked(input -> {})
                 .build();
     }
     private void initListeners() {
@@ -142,7 +140,7 @@ public class LoginActivity extends AppCompatActivity {
             Intent intent = new Intent(LoginActivity.this, RegisterActivity.class);
             startActivity(intent);
         });
-        binding.withGoogle.setOnClickListener(v-> SingInWithGoogle());
+        binding.withGoogle.setOnClickListener(v-> singInWithGoogle());
         binding.toForgotPassword.setOnClickListener(v -> {
             Intent intent = new Intent(LoginActivity.this, ForgotPasswordActivity.class);
             startActivity(intent);
@@ -183,6 +181,8 @@ public class LoginActivity extends AppCompatActivity {
                 }
             }
         });
+
+        // binding.withFb.setOnClickListener(v -> continueAsGuest());
     }
     private void initGlobalFields() {
         mAuth = FirebaseAuth.getInstance();

@@ -6,49 +6,58 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent" >
 
-
     <LinearLayout
-        android:id="@+id/crtAccount_layout"
+        android:id="@+id/parentLinear"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:orientation="horizontal"
+        android:orientation="vertical"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
-        <TextView
-            android:layout_width="0dp"
+        <LinearLayout
+            android:id="@+id/crtAccount_layout"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:gravity="center"
-            android:text="@string/welcome_back"
-            android:textAlignment="center"
-            android:textSize="30sp"
-            android:textStyle="bold" />
-    </LinearLayout>
+            android:layout_marginTop="16dp"
+            android:orientation="horizontal"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
 
-    <LinearLayout
-        android:id="@+id/vertical_layout"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="@dimen/_30sdp"
-        android:layout_marginEnd="@dimen/_30sdp"        android:layout_marginTop="30dp"
-        android:orientation="vertical"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/crtAccount_layout">
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:text="@string/welcome_back"
+                android:textAlignment="center"
+                android:textSize="30sp"
+                android:textStyle="bold" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/vertical_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/_30sdp"
+            android:layout_marginTop="30dp"
+            android:layout_marginEnd="@dimen/_30sdp"
+            android:orientation="vertical"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/crtAccount_layout">
 
 
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/textInputEmail"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                app:boxStrokeErrorColor="@android:color/holo_red_dark"
                 app:boxStrokeColor="#6C68684F"
-                app:hintTextColor="@color/grey"
+                app:boxStrokeErrorColor="@android:color/holo_red_dark"
                 app:boxStrokeWidth="1dp"
-                app:errorEnabled="true">
+                app:errorEnabled="true"
+                app:hintTextColor="@color/grey">
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/email"
@@ -64,19 +73,18 @@
             </com.google.android.material.textfield.TextInputLayout>
 
 
-
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/textInputPassword"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
-                app:boxStrokeErrorColor="@android:color/holo_red_dark"
-                app:hintTextColor="@color/grey"
                 app:boxStrokeColor="#6C68684F"
+                app:boxStrokeErrorColor="@android:color/holo_red_dark"
                 app:boxStrokeWidth="1dp"
                 app:errorEnabled="true"
-                app:passwordToggleTint="#6C68684F"
-                app:passwordToggleEnabled="true">
+                app:hintTextColor="@color/grey"
+                app:passwordToggleEnabled="true"
+                app:passwordToggleTint="#6C68684F">
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/password"
@@ -90,107 +98,117 @@
                     tools:ignore="TextContrastCheck" />
             </com.google.android.material.textfield.TextInputLayout>
 
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="15dp"
+                android:orientation="horizontal">
+
+                <androidx.appcompat.widget.AppCompatButton
+                    android:id="@+id/signInBtn"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/btn_background"
+                    android:text="@string/sign_in"
+                    android:textColor="@color/white"
+                    android:textSize="18sp"
+                    tools:ignore="TextContrastCheck" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginTop="10dp"
+                android:orientation="horizontal">
+
+                <androidx.appcompat.widget.AppCompatButton
+                    android:id="@+id/with_google"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="5dp"
+                    android:layout_marginTop="10dp"
+                    android:layout_weight="1"
+                    android:background="@drawable/btn_background"
+                    android:backgroundTint="@color/white"
+                    android:clickable="true"
+                    android:drawableStart="@drawable/vector_google"
+                    android:importantForAccessibility="no"
+                    android:paddingHorizontal="16dp"
+                    android:text="Google"
+                    android:textColor="@color/black"
+                    tools:ignore="HardcodedText" />
+
+                <androidx.appcompat.widget.AppCompatButton
+                    android:id="@+id/with_fb"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="5dp"
+                    android:layout_marginTop="10dp"
+                    android:layout_weight="1"
+                    android:background="@drawable/btn_background"
+                    android:backgroundTint="#1877F2"
+                    android:clickable="true"
+                    android:importantForAccessibility="no"
+                    android:text="Continue as Guest"
+                    android:textColor="@color/white"
+                    tools:ignore="HardcodedText,TextContrastCheck" />
+            </LinearLayout>
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/linear_to_register"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="15dp"
+            android:orientation="horizontal"
+            app:layout_constraintTop_toBottomOf="@+id/vertical_layout">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="end"
+                android:text="@string/does_not_have_an_account" />
+
+            <TextView
+                android:id="@+id/toRegister"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:clickable="true"
+                android:text="@string/register"
+                android:textColor="#D81B60"
+                tools:ignore="TouchTargetSizeCheck" />
+        </LinearLayout>
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="15dp"
-            android:orientation="horizontal">
+            android:orientation="horizontal"
+            app:layout_constraintTop_toBottomOf="@+id/linear_to_register">
 
-            <androidx.appcompat.widget.AppCompatButton
-                android:id="@+id/signInBtn"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="@drawable/btn_background"
-                android:text="@string/sign_in"
-                android:textColor="@color/white"
-                android:textSize="18sp"
-                tools:ignore="TextContrastCheck" />
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_marginTop="10dp"
-            android:orientation="horizontal">
-
-            <androidx.appcompat.widget.AppCompatButton
-                android:id="@+id/with_google"
+            <TextView
+                android:id="@+id/toForgotPassword"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:layout_marginTop="10dp"
-                android:background="@drawable/btn_background"
-                android:backgroundTint="@color/white"
                 android:clickable="true"
-                android:layout_marginHorizontal="5dp"
-                android:drawableStart="@drawable/vector_google"
-                android:importantForAccessibility="no"
-                android:paddingHorizontal="16dp"
-                android:text="Google"
-                android:textColor="@color/black"
-                tools:ignore="HardcodedText" />
-
-            <androidx.appcompat.widget.AppCompatButton
-                android:id="@+id/with_fb"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginHorizontal="5dp"
-                android:layout_marginTop="10dp"
-                android:layout_weight="1"
-                android:background="@drawable/btn_background"
-                android:backgroundTint="#1877F2"
-                android:clickable="true"
-                android:drawableStart="@drawable/vector_fb"
-                android:importantForAccessibility="no"
-                android:paddingHorizontal="16dp"
-                android:text="Facebook"
-                android:textColor="@color/white"
-                tools:ignore="HardcodedText,TextContrastCheck" />
+                android:gravity="center_horizontal"
+                android:text="@string/forgot_your_password"
+                android:textColor="#D81B60"
+                tools:ignore="TouchTargetSizeCheck" />
         </LinearLayout>
     </LinearLayout>
 
-    <LinearLayout
-        android:id="@+id/linear_to_register"
-        app:layout_constraintTop_toBottomOf="@+id/vertical_layout"
-        android:layout_width="match_parent"
+    <ProgressBar
+        android:id="@+id/progressBar3"
+        style="?android:attr/progressBarStyle"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="15dp"
-        android:orientation="horizontal">
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:gravity="end"
-            android:text="@string/does_not_have_an_account" />
-
-        <TextView
-            android:id="@+id/toRegister"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:clickable="true"
-            android:text="@string/register"
-            android:textColor="#D81B60"
-            tools:ignore="TouchTargetSizeCheck" />
-    </LinearLayout>
-
-    <LinearLayout
-        app:layout_constraintTop_toBottomOf="@+id/linear_to_register"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="15dp"
-        android:orientation="horizontal">
-
-        <TextView
-            android:id="@+id/toForgotPassword"
-            android:layout_width="0dp"
-            android:gravity="center_horizontal"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:clickable="true"
-            android:text="@string/forgot_your_password"
-            android:textColor="#D81B60"
-            tools:ignore="TouchTargetSizeCheck" />
-    </LinearLayout>
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:visibility="gone"/>
 </androidx.constraintlayout.widget.ConstraintLayout>
