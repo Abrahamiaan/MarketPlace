@@ -66,6 +66,7 @@ public class FavoriteFragment extends Fragment {
                             binding.progressBar.setVisibility(View.GONE);
                         } else {
                             Log.e(TAG_FAVORITE, "User favorites document does not exist");
+                            binding.notFavourites.setVisibility(View.VISIBLE);
                             binding.progressBar.setVisibility(View.GONE);
                         }
                     } else {
@@ -94,9 +95,11 @@ public class FavoriteFragment extends Fragment {
                                 Log.e(TAG_FAVORITE, "Error fetching product document with ID " + productId, task.getException());
                             }
                         });
+                if (favoriteList.isEmpty()) { binding.notFavourites.setVisibility(View.VISIBLE);  }
             }
         }
     }
+
     private void setFavoriteRecycler(List<FlowerModel> favoriteDataList) {
         RecyclerView.LayoutManager layoutManager = new GridLayoutManager(requireContext(), 2);
         binding.favoriteRecycler.setLayoutManager(layoutManager);

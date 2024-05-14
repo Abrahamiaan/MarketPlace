@@ -3,16 +3,21 @@ package com.example.marketplace.Utils;
 import android.content.Context;
 import android.util.Log;
 
+import androidx.annotation.NonNull;
+
 import com.example.marketplace.Model.NotificationModel;
 import com.example.marketplace.R;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
-import com.squareup.okhttp.MediaType;
-import com.squareup.okhttp.OkHttpClient;
-import com.squareup.okhttp.Request;
-import com.squareup.okhttp.RequestBody;
-import com.squareup.okhttp.Response;
+import okhttp3.Callback;
+import okhttp3.OkHttpClient;
+
+import okhttp3.Call;
+import okhttp3.MediaType;
+import okhttp3.Request;
+import okhttp3.RequestBody;
+import okhttp3.Response;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -90,20 +95,26 @@ public class NotificationHelper {
             RequestBody rBody = RequestBody.create(mediaType, whole0bj.toString());
             Request request = new Request.Builder().url("https://fcm.googleapis.com/fcm/send")
                     .post(rBody)
-                    .addHeader("Authorization", "key=" + R.string.FCM_SERVER_KEY)
+                    .addHeader("Authorization", "Bearer " + R.string.FCM_SERVER_KEY)
                     .addHeader("Content-Type", "application/json")
                     .build();
 
-            try {
-                Response response = client.newCall(request).execute();
-                if (response != null && response.body() != null) {
-                    String responseBody = response.body().string();
-                    System.out.println("Response: " + responseBody);
+            client.newCall(request).enqueue(new Callback() {
+                @Override
+                public void onResponse(@NonNull Call call, @NonNull Response response) throws IOException {
+                    if (!response.isSuccessful()) {
+                        throw new IOException("Unexpected code " + response);
+                    } else {
+                        String responseData = response.body().string();
+                        System.out.println("Response from FCM: " + responseData);
+                    }
                 }
-            } catch (IOException e) {
-                Log.e("Send Notification", e.getMessage());
-                e.getStackTrace();
-            }
+
+                @Override
+                public void onFailure(@NonNull Call call, @NonNull IOException e) {
+                    e.printStackTrace();
+                }
+            });
         }).start();
     }
 }

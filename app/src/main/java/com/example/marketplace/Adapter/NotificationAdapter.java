@@ -1,5 +1,6 @@
 package com.example.marketplace.Adapter;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -63,7 +64,7 @@ public class NotificationAdapter extends RecyclerView.Adapter<NotificationAdapte
         FirebaseAuth mAuth = FirebaseAuth.getInstance();
         FirebaseUser currentUser = mAuth.getCurrentUser();
         BottomSheetDialog bottomSheetDialog = new BottomSheetDialog(context);
-        View v = LayoutInflater.from(context).inflate(R.layout.bottom_sheet_add_review, null);
+        @SuppressLint("InflateParams") View v = LayoutInflater.from(context).inflate(R.layout.bottom_sheet_add_review, null);
         bottomSheetDialog.setContentView(v);
         bottomSheetDialog.show();
 
@@ -104,7 +105,6 @@ public class NotificationAdapter extends RecyclerView.Adapter<NotificationAdapte
     }
 
     public void markAsRead(NotificationModel notificationModel) {
-        notificationModel.setRead(true);
         FirebaseFirestore db = FirebaseFirestore.getInstance();
         db.collection("Notifications")
                 .document(notificationModel.getNotificationId())

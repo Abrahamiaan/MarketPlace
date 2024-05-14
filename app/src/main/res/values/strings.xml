@@ -160,7 +160,8 @@
     <string name="driver_2">Driver 2</string>
     <string name="driver_3">Driver 3</string>
     <string name="your_review">Your Review</string>
-    <string name="please_share_your_opinion_nabout_the_product">Please share your opinion\nabout the product</string>
+    <string name="please_share_your_opinion_nabout_the_product">Please share your opinion \nabout the product</string>
+    <string name="please_share_your_opinion_nabout_the_product2">Please share your opinion about the product</string>
     <string name="send_review">Send review</string>
     <string name="not_assigned">Not Assigned</string>
     <string name="select_driver">Select Driver</string>

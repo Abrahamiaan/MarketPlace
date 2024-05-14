@@ -123,7 +123,7 @@ public class OrderAdapter extends RecyclerView.Adapter<OrderAdapter.OrdersViewHo
         notificationHelper = new NotificationHelper(context);
         NotificationModel notificationModel = new NotificationModel();
         notificationModel.setTitle(context.getString(R.string.send_review));
-        notificationModel.setMessage(context.getString(R.string.please_share_your_opinion_nabout_the_product));
+        notificationModel.setMessage(context.getString(R.string.please_share_your_opinion_nabout_the_product2));
         notificationModel.setType("REVIEW-" + subjectId);
         notificationModel.setOwnerId(orderModel.getOwnerId());
 
