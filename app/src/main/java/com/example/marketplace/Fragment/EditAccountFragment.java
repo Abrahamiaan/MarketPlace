@@ -136,6 +136,8 @@ public class EditAccountFragment extends Fragment {
                 .addOnCompleteListener(updateProfileTask -> {
                     if (updateProfileTask.isSuccessful()) {
                         Log.d("Edit Account: ", "Update Profile Successfully");
+                        binding.progressBar2.setVisibility(View.GONE);
+                        requireActivity().onBackPressed();
                     } else {
                         Exception updateProfileException = updateProfileTask.getException();
                         Log.e("Update Profile Failed", Objects.requireNonNull(updateProfileException).getMessage());
