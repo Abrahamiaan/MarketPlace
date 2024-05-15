@@ -57,7 +57,8 @@
                 android:minWidth="?attr/actionBarSize"
                 android:text="@string/save"
                 android:textColor="#2962FF"
-                android:textSize="14sp" />
+                android:textSize="@dimen/_13sdp"
+                tools:ignore="TextSizeCheck" />
         </LinearLayout>
 
         <TextView
@@ -67,8 +68,9 @@
             android:layout_marginTop="20dp"
             android:text="@string/profile"
             android:textColor="@color/black"
-            android:textSize="20sp"
-            android:textStyle="bold" />
+            android:textSize="@dimen/_16sdp"
+            android:textStyle="bold"
+            tools:ignore="TextSizeCheck" />
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -108,10 +110,11 @@
                             android:layout_height="wrap_content"
                             android:background="@null"
                             android:ems="10"
-                            android:hint="User Name"
-                            android:padding="@dimen/_7sdp"
+                            android:hint="Display Name"
+                            android:padding="@dimen/_5sdp"
                             android:textColorHint="#757575"
-                            tools:ignore="HardcodedText,TouchTargetSizeCheck" />
+                            android:textSize="@dimen/_13sdp"
+                            tools:ignore="HardcodedText,TouchTargetSizeCheck,TextSizeCheck" />
                     </LinearLayout>
 
                     <View
@@ -179,7 +182,9 @@
                         android:layout_gravity="center"
                         android:layout_weight="1"
                         android:text="@string/upload"
-                        android:textColor="#2962FF" />
+                        android:textColor="#2962FF"
+                        android:textSize="@dimen/_12sdp"
+                        tools:ignore="TextSizeCheck" />
                 </LinearLayout>
             </com.google.android.material.card.MaterialCardView>
 
@@ -205,7 +210,9 @@
                         android:layout_margin="@dimen/_10sdp"
                         android:layout_weight="1"
                         android:text="@string/send_reset_password_email"
-                        android:textColor="#2962FF" />
+                        android:textColor="#2962FF"
+                        android:textSize="@dimen/_12sdp"
+                        tools:ignore="TextSizeCheck" />
                 </LinearLayout>
             </com.google.android.material.card.MaterialCardView>
         </LinearLayout>

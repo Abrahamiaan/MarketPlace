@@ -124,6 +124,7 @@ public class NotificationFragment extends Fragment {
                             NotificationModel notification = document.toObject(NotificationModel.class);
                             notificationList.add(notification);
                             notificationAdapter.notifyItemInserted(notificationList.size());
+                            notificationList.sort((o1, o2) -> Boolean.compare(o1.isRead(), o2.isRead()));
                         }
 
                         boolean show = notificationList.isEmpty();
