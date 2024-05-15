@@ -43,7 +43,7 @@
         android:id="@+id/scrollView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginBottom="@dimen/_80sdp"
+        android:layout_marginBottom="@dimen/_65sdp"
         android:layout_marginTop="@dimen/actionBarSize"
         app:layout_constraintTop_toBottomOf="@+id/linearLayout">
 
@@ -59,7 +59,7 @@
                 <ImageView
                     android:id="@+id/productImg"
                     android:layout_width="match_parent"
-                    android:layout_height="@dimen/_285sdp"
+                    android:layout_height="@dimen/_250sdp"
                     android:scaleType="centerCrop"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
@@ -78,6 +78,7 @@
                     tools:ignore="ContentDescription" />
 
                 <LinearLayout
+                     android:visibility="gone"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="horizontal"
@@ -138,7 +139,7 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:textSize="20sp"
+                    android:textSize="@dimen/_16sdp"
                     android:textStyle="bold" />
 
                 <TextView
@@ -162,7 +163,7 @@
                     android:id="@+id/sellerTxt"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:textSize="20sp"
+                    android:textSize="@dimen/_16sdp"
                     android:textStyle="bold"
                     tools:ignore="RelativeOverlap" />
 
@@ -207,7 +208,7 @@
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:text="@string/product_details"
-                        android:textSize="20sp"
+                        android:textSize="@dimen/_16sdp"
                         android:textStyle="bold" />
 
                 </LinearLayout>
@@ -219,7 +220,7 @@
                     android:layout_marginTop="@dimen/_5sdp"
                     android:layout_below="@id/productDetailLayout"
                     android:text="@string/verify_account"
-                    android:textSize="18sp"
+                    android:textSize="@dimen/_14sdp"
                     android:visibility="visible"/>
             </RelativeLayout>
 
@@ -241,7 +242,7 @@
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:text="@string/quantity"
-                        android:textSize="20sp"
+                        android:textSize="@dimen/_16sdp"
                         android:textStyle="bold" />
                 </LinearLayout>
 
@@ -260,7 +261,7 @@
                         android:background="@drawable/outline_btn_bg"
                         android:text="-"
                         android:textAlignment="center"
-                        android:textSize="15sp"
+                        android:textSize="@dimen/_12sdp"
                         tools:ignore="HardcodedText,TouchTargetSizeCheck,TextSizeCheck" />
 
                     <androidx.appcompat.widget.AppCompatEditText
@@ -275,7 +276,7 @@
                         android:paddingHorizontal="@dimen/_7sdp"
                         android:singleLine="true"
                         android:textAlignment="center"
-                        android:textSize="15sp"
+                        android:textSize="@dimen/_12sdp"
                         tools:ignore="TouchTargetSizeCheck,SpeakableTextPresentCheck" />
 
                     <androidx.appcompat.widget.AppCompatButton
@@ -285,7 +286,7 @@
                         android:background="@drawable/outline_btn_bg"
                         android:text="+"
                         android:textAlignment="center"
-                        android:textSize="15sp"
+                        android:textSize="@dimen/_12sdp"
                         tools:ignore="HardcodedText,TouchTargetSizeCheck,TextContrastCheck,TextSizeCheck" />
 
                     <TextView
@@ -309,7 +310,7 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:text="@string/location"
-                    android:textSize="20sp"
+                    android:textSize="@dimen/_16sdp"
                     android:textStyle="bold" />
 
             </LinearLayout>
@@ -342,9 +343,8 @@
     <View
         android:id="@+id/view2"
         android:layout_width="match_parent"
-        android:layout_height="80dp"
+        android:layout_height="@dimen/_50sdp"
         android:layout_marginHorizontal="16dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
-
 </androidx.constraintlayout.widget.ConstraintLayout>

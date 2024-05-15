@@ -169,4 +169,10 @@
     <string name="the_user_has_not_received_any_reviews_yet" translatable="false">The user has not received any reviews yet</string>
     <string name="reviews">reviews</string>
     <string name="you_must_write_review_and_add_rating">You must write review and add rating</string>
+    <string name="price_highest_to_low">Price: highest to low</string>
+    <string name="newly_listed">Newly listed</string>
+    <string name="price_lowest_to_high">Price: lowest to high</string>
+    <string name="best_match">Best Match</string>
+    <string name="sort">Sort</string>
+    <string name="select">Select</string>
 </resources>

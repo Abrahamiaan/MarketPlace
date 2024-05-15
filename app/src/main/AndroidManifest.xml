@@ -37,9 +37,6 @@
             android:name=".Admin.ConfirmationActivity"
             android:exported="false" />
         <activity
-            android:name=".Admin.AdminThreeActivity"
-            android:exported="false" />
-        <activity
             android:name=".Activity.VerifyActivity"
             android:exported="false" />
         <activity

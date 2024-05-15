@@ -2,13 +2,13 @@ package com.example.marketplace.Fragment;
 
 import android.content.SharedPreferences;
 import android.graphics.drawable.Drawable;
-import android.graphics.drawable.GradientDrawable;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import androidx.annotation.NonNull;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.constraintlayout.widget.ConstraintSet;
 import androidx.core.content.ContextCompat;
@@ -21,14 +21,13 @@ import com.example.marketplace.databinding.FragmentLanguageBinding;
 import java.util.Locale;
 
 public class LanguageFragment extends Fragment {
-
     private static final String SELECTED_LANGUAGE = "Selected-Language";
     FragmentLanguageBinding binding;
     ConstraintLayout parentLayout;
 
     public LanguageFragment() {}
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         binding = FragmentLanguageBinding.inflate(inflater, container, false);
 
@@ -66,36 +65,42 @@ public class LanguageFragment extends Fragment {
                 break;
             case "en":
                 binding.engLinear.setBackground(selectedBg);
-                if (currentLg.equals("hy")) {
-                    updateConstraints(R.id.eng_linear, R.id.linearLayoutParent);
-                    updateConstraints(R.id.arm_linear, R.id.eng_linear);
-                    updateConstraints(R.id.rus_linear, R.id.arm_linear);
-                }
-                else if(currentLg.equals("ru")) {
-                    updateConstraints(R.id.eng_linear, R.id.linearLayoutParent);
-                    updateConstraints(R.id.rus_linear, R.id.eng_linear);
-                    updateConstraints(R.id.arm_linear, R.id.rus_linear);
-                } else if (currentLg.equals("en")) {
-                    updateConstraints(R.id.eng_linear, R.id.linearLayoutParent);
-                    updateConstraints(R.id.arm_linear, R.id.eng_linear);
-                    updateConstraints(R.id.rus_linear, R.id.arm_linear);
+                switch (currentLg) {
+                    case "hy":
+                        updateConstraints(R.id.eng_linear, R.id.linearLayoutParent);
+                        updateConstraints(R.id.arm_linear, R.id.eng_linear);
+                        updateConstraints(R.id.rus_linear, R.id.arm_linear);
+                        break;
+                    case "ru":
+                        updateConstraints(R.id.eng_linear, R.id.linearLayoutParent);
+                        updateConstraints(R.id.rus_linear, R.id.eng_linear);
+                        updateConstraints(R.id.arm_linear, R.id.rus_linear);
+                        break;
+                    case "en":
+                        updateConstraints(R.id.eng_linear, R.id.linearLayoutParent);
+                        updateConstraints(R.id.arm_linear, R.id.eng_linear);
+                        updateConstraints(R.id.rus_linear, R.id.arm_linear);
+                        break;
                 }
                 break;
             case "ru":
                 binding.rusLinear.setBackground(selectedBg);
-                if (currentLg.equals("en")) {
-                    updateConstraints(R.id.rus_linear, R.id.linearLayoutParent);
-                    updateConstraints(R.id.eng_linear, R.id.rus_linear);
-                    updateConstraints(R.id.arm_linear, R.id.eng_linear);
-                }
-                else if(currentLg.equals("hy")) {
-                    updateConstraints(R.id.rus_linear, R.id.linearLayoutParent);
-                    updateConstraints(R.id.arm_linear, R.id.rus_linear);
-                    updateConstraints(R.id.eng_linear, R.id.arm_linear);
-                } else if (currentLg.equals("ru")) {
-                    updateConstraints(R.id.rus_linear, R.id.linearLayoutParent);
-                    updateConstraints(R.id.eng_linear, R.id.rus_linear);
-                    updateConstraints(R.id.arm_linear, R.id.eng_linear);
+                switch (currentLg) {
+                    case "en":
+                        updateConstraints(R.id.rus_linear, R.id.linearLayoutParent);
+                        updateConstraints(R.id.eng_linear, R.id.rus_linear);
+                        updateConstraints(R.id.arm_linear, R.id.eng_linear);
+                        break;
+                    case "hy":
+                        updateConstraints(R.id.rus_linear, R.id.linearLayoutParent);
+                        updateConstraints(R.id.arm_linear, R.id.rus_linear);
+                        updateConstraints(R.id.eng_linear, R.id.arm_linear);
+                        break;
+                    case "ru":
+                        updateConstraints(R.id.rus_linear, R.id.linearLayoutParent);
+                        updateConstraints(R.id.eng_linear, R.id.rus_linear);
+                        updateConstraints(R.id.arm_linear, R.id.eng_linear);
+                        break;
                 }
                 break;
         }

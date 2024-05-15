@@ -55,9 +55,9 @@
 
     <ImageView
         android:id="@+id/notFavourites"
-        android:layout_width="wrap_content"
+        android:layout_width="@dimen/_200sdp"
+        android:layout_height="@dimen/_200sdp"
         android:visibility="gone"
-        android:layout_height="wrap_content"
         android:src="@drawable/not_favourites"
         app:layout_constraintBottom_toBottomOf="@+id/scrollview"
         app:layout_constraintEnd_toEndOf="parent"

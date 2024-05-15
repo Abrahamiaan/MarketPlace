@@ -95,7 +95,6 @@ public class FavoriteFragment extends Fragment {
                                 Log.e(TAG_FAVORITE, "Error fetching product document with ID " + productId, task.getException());
                             }
                         });
-                if (favoriteList.isEmpty()) { binding.notFavourites.setVisibility(View.VISIBLE);  }
             }
         }
     }

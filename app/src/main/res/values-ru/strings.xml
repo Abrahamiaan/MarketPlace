@@ -169,4 +169,10 @@
     <string name="rating_and_reviews">Рейтинг и отзывы</string>
     <string name="reviews">отзыв</string>
     <string name="you_must_write_review_and_add_rating">Вы должны написать отзыв и добавить оценку</string>
+    <string name="price_highest_to_low">Цена: от максимальной к минимальной</string>
+    <string name="newly_listed">По дате</string>
+    <string name="price_lowest_to_high">Цена: от минимальной до максимальной</string>
+    <string name="best_match">Наилучшее совпадение</string>
+    <string name="sort">Сортировать</string>
+    <string name="select">Выбрать</string>
 </resources>

@@ -42,33 +42,33 @@
                     android:layout_gravity="center"
                     android:scaleType="centerInside"
                     android:src="@drawable/vector_back"
-                    app:tint="@color/black" />
+                    app:tint="@color/black"
+                    android:importantForAccessibility="no" />
             </FrameLayout>
 
             <androidx.appcompat.widget.AppCompatEditText
                 android:id="@+id/searchBar"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_toLeftOf="@+id/inputBtnsContainerFl"
-                android:layout_toStartOf="@+id/inputBtnsContainerFl"
-                android:layout_toRightOf="@+id/leftContainerFl"
-                android:layout_toEndOf="@+id/leftContainerFl"
-                android:layout_marginLeft="16dp"
                 android:layout_marginStart="16dp"
-                android:layout_marginRight="16dp"
+                android:layout_marginLeft="16dp"
                 android:layout_marginEnd="16dp"
-                android:gravity="start|center"
-                android:textSize="15sp"
-                android:inputType="textNoSuggestions"
-                android:imeOptions="actionSearch|flagNoExtractUi"
-                android:minLines="1"
-                android:maxLines="1"
-                android:lines="1"
-                android:textStyle="bold"
+                android:layout_marginRight="16dp"
+                android:layout_toStartOf="@+id/inputBtnsContainerFl"
+                android:layout_toEndOf="@+id/leftContainerFl"
                 android:background="@null"
+                android:gravity="start|center"
+                android:hint="@string/search"
+                android:imeOptions="actionSearch|flagNoExtractUi"
+                android:importantForAutofill="no"
+                android:inputType="textNoSuggestions"
+                android:lines="1"
+                android:maxLines="1"
+                android:minLines="1"
                 android:textColor="#FF212121"
-                android:hint="Search"
-                android:importantForAutofill="no" />
+                android:textSize="15sp"
+                android:textStyle="bold"
+                tools:ignore="TextContrastCheck" />
 
             <FrameLayout
                 android:id="@+id/inputBtnsContainerFl"
@@ -84,7 +84,8 @@
                     android:layout_gravity="center"
                     android:scaleType="centerInside"
                     android:background="?attr/selectableItemBackgroundBorderless"
-                    android:src="@drawable/vector_close"/>
+                    android:src="@drawable/vector_close"
+                    android:importantForAccessibility="no" />
             </FrameLayout>
 
         </RelativeLayout>

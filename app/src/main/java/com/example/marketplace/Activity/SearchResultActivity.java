@@ -8,22 +8,18 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.annotation.SuppressLint;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.RadioButton;
 
-import com.example.marketplace.Adapter.ProductAdapter;
+import com.example.marketplace.Adapter.ProductGridAdapter;
 import com.example.marketplace.Model.FlowerModel;
 import com.example.marketplace.R;
 import com.example.marketplace.Utils.LocaleHelper;
 import com.example.marketplace.Utils.SortHelper;
 import com.example.marketplace.databinding.ActivitySearchResultBinding;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
-import com.google.firebase.firestore.CollectionReference;
-import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.firestore.Query;
-import com.google.firebase.firestore.QuerySnapshot;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -33,13 +29,11 @@ public class SearchResultActivity extends AppCompatActivity {
         Grid,
         List,
     }
-    final static String TAG = "Search Result: ";
     ActivitySearchResultBinding binding;
     FirebaseFirestore db;
-    CollectionReference productsCollection;
     List<FlowerModel> flowersList;
     List<FlowerModel> flowersListCopy;
-    ProductAdapter productAdapter;
+    ProductGridAdapter productAdapter;
     RadioButton bestMatch;
     RadioButton lowToHigh;
     RadioButton highToLow;
@@ -63,63 +57,53 @@ public class SearchResultActivity extends AppCompatActivity {
     }
 
     private void searchByTitle() {
+        binding.progressBar.setVisibility(View.VISIBLE);
         String query = getIntent().getStringExtra("query");
         binding.searchQuery.setText(query);
 
-        Query titleQuery = productsCollection
-                .orderBy("title")
-                .startAt(query)
-                .endAt(query +'\uf8ff' );
-
-        titleQuery.get()
+        db.collection("Products")
+                .get()
                 .addOnCompleteListener(task -> {
                     if (task.isSuccessful()) {
-                        QuerySnapshot querySnapshot = task.getResult();
-                        if (querySnapshot != null && !querySnapshot.isEmpty()) {
-                            for (DocumentSnapshot document : querySnapshot.getDocuments()) {
-                                FlowerModel flowerModel =  document.toObject(FlowerModel.class);
+                        for (QueryDocumentSnapshot document : task.getResult()) {
+                            FlowerModel flowerModel = document.toObject(FlowerModel.class);
+                            if (flowerModel.getTitle().toLowerCase().contains(query.toLowerCase())
+                                    || flowerModel.getCategory().toLowerCase().contains(query.toLowerCase())) {
                                 flowersList.add(flowerModel);
                                 productAdapter.notifyItemInserted(flowersList.size());
                             }
+                        }
 
-                            binding.progressBar.setVisibility(View.GONE);
-                            binding.notMatches.setVisibility(View.GONE);
-                            binding.recyclerView.setVisibility(View.VISIBLE);
+                        binding.progressBar.setVisibility(View.GONE);
+                        if (flowersList.isEmpty()) {
+                            binding.notMatches.setVisibility(View.VISIBLE);
+                        } else {
                             flowersListCopy = new ArrayList<>();
                             flowersListCopy.addAll(flowersList);
                         }
-                        else {
-                            binding.progressBar.setVisibility(View.GONE);
-                            binding.notMatches.setVisibility(View.VISIBLE);
-                            binding.recyclerView.setVisibility(View.GONE);
-                        }
-                    } else {
-                        Exception exception = task.getException();
-                        if (exception != null) {
-                            Log.e(TAG, exception.getMessage());
-                        }
+                    }
+                    else {
+                        binding.progressBar.setVisibility(View.GONE);
+                        binding.notMatches.setVisibility(View.VISIBLE);
                     }
                 });
     }
     private void initRecycler(ViewMode view) {
         RecyclerView recyclerView = binding.recyclerView;
 
-        int layoutResId = 0;
         if (view == ViewMode.Grid) {
-            layoutResId = R.layout.product_item;
             GridLayoutManager gridLayoutManager = new GridLayoutManager(this, 2);
             recyclerView.setLayoutManager(gridLayoutManager);
             binding.gridViewIcon.setColorFilter(R.color.pink);
             binding.gridViewIcon.setColorFilter(R.color.grey);
         } else if (view == ViewMode.List) {
-            layoutResId = R.layout.product_list_item;
             LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
             recyclerView.setLayoutManager(linearLayoutManager);
             binding.gridViewIcon.setColorFilter(R.color.grey);
             binding.listViewIcon.setColorFilter(R.color.pink);
         }
 
-        productAdapter = new ProductAdapter(this, flowersList, layoutResId);
+        productAdapter = new ProductGridAdapter(this, flowersList);
         recyclerView.setAdapter(productAdapter);
     }
     private void setRadioButtonListener(RadioButton radioButton, Runnable action) {
@@ -154,7 +138,7 @@ public class SearchResultActivity extends AppCompatActivity {
             });
 
             setRadioButtonListener(newlyListed, () -> {
-                flowersList.sort(SortHelper.sortByListedDate);
+                flowersList.sort((o1, o2) -> o2.getListedTime().compareTo(o1.getListedTime()));
                 productAdapter.notifyItemRangeChanged(0, flowersList.size());
             });
 
@@ -167,7 +151,6 @@ public class SearchResultActivity extends AppCompatActivity {
     }
     private void initGlobalFields() {
         db = FirebaseFirestore.getInstance();
-        productsCollection = db.collection("Products");
         flowersList = new ArrayList<>();
     }
     private void initListeners() {

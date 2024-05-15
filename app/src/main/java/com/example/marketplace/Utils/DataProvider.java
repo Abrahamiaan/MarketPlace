@@ -11,7 +11,7 @@ import java.util.List;
 public class DataProvider implements Serializable {
     private static DataProvider instance;
     private List<String> recentQueries;
-    private SharedPreferences sharedPreferences;
+    private final SharedPreferences sharedPreferences;
 
     private static final String PREF_NAME = "MyPreferences";
     private static final String RECENT_QUERIES_KEY = "RECENT_QUERIES";

@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/mainCard"
     android:layout_width="match_parent"
-    android:layout_height="@dimen/_150sdp"
+    android:layout_height="@dimen/_140sdp"
     app:cardCornerRadius="@dimen/_15sdp"
     android:layout_marginHorizontal="@dimen/_8sdp"
     app:layout_constraintEnd_toEndOf="parent"

@@ -37,6 +37,7 @@
             android:textAppearance="@style/TextAppearance.AppCompat.Subhead"
             android:textColor="@color/pink"
             android:textStyle="bold"
+            android:textSize="@dimen/_13sdp"
             app:fontFamily="sans-serif-medium"
             tools:ignore="RtlHardcoded" />
 
@@ -54,7 +55,7 @@
     <LinearLayout
         android:id="@+id/sortFilterLayout"
         android:layout_width="match_parent"
-        android:layout_height="@dimen/_40sdp"
+        android:layout_height="@dimen/_30sdp"
         android:orientation="horizontal"
         android:layout_below="@+id/linearLayout"
         android:baselineAligned="false">
@@ -76,7 +77,8 @@
                 android:layout_marginStart="@dimen/_20sdp"
                 android:paddingEnd="@dimen/_10sdp"
                 android:src="@drawable/vector_filter"
-                tools:ignore="RtlSymmetry" />
+                tools:ignore="RtlSymmetry"
+                android:importantForAccessibility="no" />
 
             <TextView
                 android:id="@+id/textView5"
@@ -90,9 +92,10 @@
         <RelativeLayout
             android:id="@+id/sortLayout"
             android:layout_width="0dp"
+            android:layout_height="match_parent"
             android:layout_weight="0.25"
             android:clickable="true"
-            android:layout_height="match_parent">
+            tools:ignore="TouchTargetSizeCheck">
 
             <ImageView
                 android:id="@+id/sortImg"
@@ -101,7 +104,8 @@
                 android:layout_alignParentStart="true"
                 android:layout_centerInParent="true"
                 android:layout_marginStart="@dimen/_20sdp"
-                android:paddingEnd="@dimen/_10sdp"
+                android:importantForAccessibility="no"
+                android:paddingHorizontal="@dimen/_10sdp"
                 android:src="@drawable/vector_sortby" />
 
             <TextView
@@ -123,7 +127,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentEnd="true"
-                android:layout_centerInParent="true">
+                android:layout_centerInParent="true"
+                tools:ignore="UselessParent">
 
                 <ImageView
                     android:visibility="gone"
@@ -161,6 +166,7 @@
         android:background="#FF657786"/>
 
     <ProgressBar
+        android:visibility="gone"
         android:id="@+id/progressBar"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -181,14 +187,12 @@
         android:overScrollMode="never"
         android:scrollbars="none"/>
 
-    <TextView
+    <ImageView
         android:id="@+id/notMatches"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:visibility="gone"
+        android:layout_width="@dimen/_200sdp"
+        android:layout_height="@dimen/_200sdp"
         android:layout_centerInParent="true"
-        android:text="@string/no_exact_matches_found"
-        android:textSize="20sp"
-        android:textStyle="bold"
-        android:visibility="gone" />
-
+        android:src="@drawable/not_found"
+        android:importantForAccessibility="no" />
 </RelativeLayout>

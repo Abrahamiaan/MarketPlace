@@ -166,4 +166,10 @@
     <string name="the_user_has_not_received_any_reviews_yet">The user has not received any reviews yet</string>
     <string name="reviews">մեկնաբանություն</string>
     <string name="you_must_write_review_and_add_rating">Դուք պետք է գրեք մեկնաբանություն և ավելացնեք գնահատական</string>
+    <string name="price_highest_to_low">Գին: Բարձրից քիչ</string>
+    <string name="newly_listed">Ըստ ամսաթվի</string>
+    <string name="price_lowest_to_high">Գին: Քչից բարձր</string>
+    <string name="best_match">Լավագույն համընկնում</string>
+    <string name="sort">Դասավորել</string>
+    <string name="select">Ընտրել</string>
 </resources>

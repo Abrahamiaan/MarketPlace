@@ -11,7 +11,6 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.marketplace.Activity.SearchResultActivity;
-import com.example.marketplace.Fragment.SearchFragment;
 import com.example.marketplace.R;
 import com.example.marketplace.Utils.DataProvider;
 

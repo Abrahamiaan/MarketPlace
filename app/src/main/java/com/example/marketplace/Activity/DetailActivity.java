@@ -312,9 +312,9 @@ public class DetailActivity extends AppCompatActivity implements OnMapReadyCallb
         if (cartModel.getCount() > availableCount) {
             cartModel.setCount(availableCount);
             Toast.makeText(this, "Available count is " + availableCount, Toast.LENGTH_SHORT).show();
-        } else if (cartModel.getCount() < 0) {
+        } else if (cartModel.getCount() <= 0) {
             cartModel.setCount(0);
-            Toast.makeText(this, "Minimum purchase count is " + 0, Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "Minimum purchase count is " + 1, Toast.LENGTH_SHORT).show();
         }
 
         cartModel.setCartId(db.collection("CartItems").document().getId());
