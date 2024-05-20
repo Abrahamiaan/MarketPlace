@@ -191,6 +191,21 @@ public class RegisterActivity extends AppCompatActivity {
                 });
     }
 
+    private void continueAsGuest() {
+        binding.progressBar.setVisibility(View.VISIBLE);
+        String email = "sictst1@gmail.com";
+        String password = "Samsung2023";
+        mAuth.signInWithEmailAndPassword(email, password)
+                .addOnCompleteListener(this, task -> {
+                    if (task.isSuccessful()) {
+                        binding.progressBar.setVisibility(View.GONE);
+                        Intent intent = new Intent(RegisterActivity.this, MainActivity.class);
+                        startActivity(intent);
+                        finish();
+                    }
+                });
+    }
+
     private boolean validateInput() {
         String email = binding.email.getText().toString().trim();
         String password = binding.password.getText().toString();
@@ -313,7 +328,7 @@ public class RegisterActivity extends AppCompatActivity {
             }
         });
 
-        // binding.withFb.setOnClickListener(v -> continueAsGuest());
+        binding.withFb.setOnClickListener(v -> continueAsGuest());
     }
 
     private void  initGlobalFields() {

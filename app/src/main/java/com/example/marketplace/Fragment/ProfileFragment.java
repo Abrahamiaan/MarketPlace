@@ -185,7 +185,12 @@ public class ProfileFragment extends Fragment {
                             System.out.println(isAdmin);
 
                             binding.adminParent.setVisibility(isAdmin ? View.VISIBLE : View.GONE);
-                            binding.driverParent.setVisibility(hardcodedDrivers.contains(currentUser.getUid()) ? View.VISIBLE : View.GONE);
+                            if (task.getResult().contains("isDriver")) {
+                                boolean isDriver = task.getResult().getBoolean("isDriver");
+                                binding.driverParent.setVisibility(isDriver ? View.VISIBLE : View.GONE);
+                            } else {
+                                binding.driverParent.setVisibility(hardcodedDrivers.contains(currentUser.getUid()) ? View.VISIBLE : View.GONE);
+                            }
                         }
                     }
                 })

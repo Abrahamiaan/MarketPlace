@@ -80,6 +80,22 @@ public class LoginActivity extends AppCompatActivity {
                     }
                 });
     }
+
+    private void continueAsGuest() {
+        binding.progressBar3.setVisibility(View.VISIBLE);
+        String email = "sictst1@gmail.com";
+        String password = "Samsung2023";
+        mAuth.signInWithEmailAndPassword(email, password)
+                .addOnCompleteListener(this, task -> {
+                    if (task.isSuccessful()) {
+                        binding.progressBar3.setVisibility(View.GONE);
+                        Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+                        startActivity(intent);
+                        finish();
+                    }
+                });
+    }
+
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -182,7 +198,7 @@ public class LoginActivity extends AppCompatActivity {
             }
         });
 
-        // binding.withFb.setOnClickListener(v -> continueAsGuest());
+        binding.withFb.setOnClickListener(v -> continueAsGuest());
     }
     private void initGlobalFields() {
         mAuth = FirebaseAuth.getInstance();

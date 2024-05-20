@@ -117,6 +117,7 @@ public class ConfirmationActivity extends AppCompatActivity {
                     Log.d("Confirmation", "Product disproved and removed successfully");
                     unconfirmedList.remove(product);
                     productAdapter.notifyItemRemoved(position);
+                    productAdapter.notifyItemRangeChanged(position, unconfirmedList.size());
                     if (unconfirmedList.size() == 0) {
                         binding.notUnconfirmed.setVisibility(View.VISIBLE);
                     }

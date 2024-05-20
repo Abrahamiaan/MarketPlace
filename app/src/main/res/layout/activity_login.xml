@@ -140,7 +140,6 @@
 
                 <androidx.appcompat.widget.AppCompatButton
                     android:id="@+id/with_fb"
-                    android:visibility="gone"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginHorizontal="5dp"
@@ -150,7 +149,7 @@
                     android:backgroundTint="#1877F2"
                     android:clickable="true"
                     android:importantForAccessibility="no"
-                    android:text="Continue as Guest"
+                    android:text="Test Mode"
                     android:textColor="@color/white"
                     tools:ignore="HardcodedText,TextContrastCheck" />
             </LinearLayout>

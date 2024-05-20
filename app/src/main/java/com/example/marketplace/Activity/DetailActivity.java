@@ -45,7 +45,6 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
-
 public class DetailActivity extends AppCompatActivity implements OnMapReadyCallback {
     private static final String TAG_FAVORITE = "Favorite: ";
     private static final int MAP_ZOOM = 15;
@@ -312,9 +311,11 @@ public class DetailActivity extends AppCompatActivity implements OnMapReadyCallb
         if (cartModel.getCount() > availableCount) {
             cartModel.setCount(availableCount);
             Toast.makeText(this, "Available count is " + availableCount, Toast.LENGTH_SHORT).show();
+            return;
         } else if (cartModel.getCount() <= 0) {
             cartModel.setCount(0);
-            Toast.makeText(this, "Minimum purchase count is " + 1, Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, getString(R.string.minimum_purchase_count_is) + 1, Toast.LENGTH_SHORT).show();
+            return;
         }
 
         cartModel.setCartId(db.collection("CartItems").document().getId());

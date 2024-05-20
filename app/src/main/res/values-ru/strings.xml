@@ -175,4 +175,5 @@
     <string name="best_match">Наилучшее совпадение</string>
     <string name="sort">Сортировать</string>
     <string name="select">Выбрать</string>
+    <string name="minimum_purchase_count_is">"Минимальное количество покупок -"</string>
 </resources>

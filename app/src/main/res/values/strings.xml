@@ -175,4 +175,5 @@
     <string name="best_match">Best Match</string>
     <string name="sort">Sort</string>
     <string name="select">Select</string>
+    <string name="minimum_purchase_count_is">"Minimum purchase count is "</string>
 </resources>
