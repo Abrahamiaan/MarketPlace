@@ -35,11 +35,11 @@ public class SpecialOffersAdapter extends RecyclerView.Adapter<SpecialOffersAdap
 
     @Override
     public void onBindViewHolder(@NonNull SpecialOffersViewHolder holder, int position) {
-        SpecialOffer fkCategory = categoryList.get(position);
-        holder.secondaryImg.setImageResource(fkCategory.getImgUrl());
-        holder.specialText.setText(fkCategory.getTitle());
-        holder.unionConstraint.setBackgroundResource(fkCategory.getUnionsUrl());
-        holder.mainCard.setCardBackgroundColor(context.getColor(fkCategory.getBgColor()));
+        SpecialOffer specialOffer = categoryList.get(position);
+        holder.secondaryImg.setImageResource(specialOffer.getImgUrl());
+        holder.specialText.setText(specialOffer.getTitle());
+        holder.unionConstraint.setBackgroundResource(specialOffer.getUnionsUrl());
+        holder.mainCard.setCardBackgroundColor(context.getColor(specialOffer.getBgColor()));
     }
 
     @Override
